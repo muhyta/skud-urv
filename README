@@ -1,5 +1,3 @@
-This file was created by JetBrains PhpStorm 5.0.4 for binding GitHub repository
-
 RELEASE NOTE:
 Программа использует базу данных "Системы Сопровождения Проектной Деятельности"(ССПД) и выгрузку Excel файлов из "Системы Контроля и Учета Доступа (в помещения)"(СКУД) для отображения расхождений.
 Доступна форма добавления/редактирования пользователей "ССПД"/"СКУД".
@@ -13,3 +11,5 @@ INSTALL:
 VERSION CHANGES (1.0):
 - создан репозиторий на github.com;
 - вынесены все основные данные подключений в отдельный файл config.php;
+
+Created by JetBrains PhpStorm 5.0.4 - http://www.jetbrains.com/
