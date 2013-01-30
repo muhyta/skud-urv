@@ -8,6 +8,9 @@ INSTALL:
 - Rename file "config_.php" to "config.php";
 - Fill in all your credentials in "config.php";
 
+VERSION CHANGES (1.0.1):
+- выделение цветом значения времени нахождения на работе по СКУД при импорте, если значение меньше 10 и больше 700 (странные значения, требующие внимания при импорте)
+
 VERSION CHANGES (1.0):
 - создан репозиторий на github.com;
 - вынесены все основные данные подключений в отдельный файл config.php;
