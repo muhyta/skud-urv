@@ -64,7 +64,7 @@ $objReader = PHPExcel_IOFactory::createReader($inputFileType);
 $html = str_ireplace("%filename%","Loading ".$inputFileName,$html);
 $objReader->setReadFilter($filterSubset);
 $objPHPExcel = $objReader->load($inputFileName);
-$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+$sd = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 $day_start = array();
 $day_end = array();
 $in_work_time_minutes = array();
@@ -75,14 +75,14 @@ $flag = array();
 $otdel = array();
 $post = array();
 
-for ($i=5; $i <= sizeof($sheetData); $i++) {
-	$firma=iconv('UTF-8','CP1251',$sheetData[$i]['E']);	// firma
-	$fio=iconv('UTF-8','CP1251',$sheetData[$i]['A']);	// fio
-	$otdel[$fio]=iconv('UTF-8','CP1251',$sheetData[$i]['D']);	// otdel
+for ($i=5; $i <= sizeof($sd); $i++) {
+	$firma=iconv('UTF-8','CP1251',$sd[$i]['E']);	// firma
+	$fio=iconv('UTF-8','CP1251',$sd[$i]['A']);	// fio
+	$otdel[$fio]=iconv('UTF-8','CP1251',$sd[$i]['D']);	// otdel
 	if ( ( substr_count($firma,iconv('UTF-8','CP1251',$footer)) > 0 || substr_count($firma,"Временный пропуск") > 0 ) && substr_count($otdel[$fio],"Рабоч") == 0 ) {
-		$post[$fio]=iconv('UTF-8','CP1251',$sheetData[$i]['B']);	// post
-		$date_time=iconv('UTF-8','CP1251',$sheetData[$i]['F']);	// date_time
-		$action=iconv('UTF-8','CP1251',$sheetData[$i]['I']);	// in_out action where
+		$post[$fio]=iconv('UTF-8','CP1251',$sd[$i]['B']);	// post
+		$date_time=iconv('UTF-8','CP1251',$sd[$i]['F']);	// date_time
+		$action=iconv('UTF-8','CP1251',$sd[$i]['I']);	// in_out action where
 		if ( !isset($in_work_date[$fio]) ) $in_work_date[$fio] = date('d.m.Y',strtotime($date_time))." 00:00:00";//date('d.m.Y',strtotime(substr($date_time,6,2)."-".substr($date_time,0,2)."-".substr($date_time,3,2)))." 00:00:00";
 		if ( (strtotime($date_time) - strtotime($in_work_date[$fio])) >= 46800 && (strtotime($date_time) - strtotime($in_work_date[$fio])) <= 50400 && !isset($flag[$fio]) ) {
 			$day_end[$fio] = date('d.m.Y',strtotime($date_time)). " 13:00:00";//date('d.m.Y',strtotime(substr($date_time,6,2)."-".substr($date_time,0,2)."-".substr($date_time,3,2)))." 13:00:00";
@@ -217,89 +217,89 @@ $objReader = PHPExcel_IOFactory::createReader($inputFileType);
 $html = str_ireplace("%filename%","Loading ".$inputFileName,$html);
 $objReader->setReadFilter($filterSubset);
 $objPHPExcel = $objReader->load($inputFileName);
-$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
-for ($i=5; $i <= sizeof($sheetData); $i++) {
-	$sheetData[$i]['D']=iconv('UTF-8','CP1251',$sheetData[$i]['D']);
-	$sheetData[$i]['E']=iconv('UTF-8','CP1251',$sheetData[$i]['E']);
-	if (($sheetData[$i]['E'] == iconv('UTF-8','CP1251',$footer) or $sheetData[$i]['E'] == "Временный пропуск") and $sheetData[$i]['D'] != "Рабочие") {
-		$sheetData[$i]['A']=iconv('UTF-8','CP1251',$sheetData[$i]['A']);
-		$sheetData[$i]['B']=iconv('UTF-8','CP1251',$sheetData[$i]['B']);
-		$sheetData[$i]['F']=iconv('UTF-8','CP1251',$sheetData[$i]['F']); 
-		$sheetData[$i]['G']=iconv('UTF-8','CP1251',$sheetData[$i]['G']); $sheetData[$i]['G']=date('d.m.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." ".$sheetData[$i]['G']. ":00";
-		$sheetData[$i]['J']=iconv('UTF-8','CP1251',$sheetData[$i]['J']); $sheetData[$i]['J']=date('d.m.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." ".$sheetData[$i]['J']. ":00";
-		$sheetData[$i]['K']=iconv('UTF-8','CP1251',$sheetData[$i]['K']); //$sheetData[$i]['K']=date('d.m.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." ".$sheetData[$i]['K']. ":00";
-		$sheetData[$i]['M']=iconv('UTF-8','CP1251',$sheetData[$i]['M']); $sheetData[$i]['M']=date('d.m.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." ".$sheetData[$i]['M']. ":00";
-		$sheetData[$i]['N']=iconv('UTF-8','CP1251',$sheetData[$i]['N']); $sheetData[$i]['N']=date('d.m.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." ".$sheetData[$i]['N']. ":00";
-		$sheetData[$i]['O']=iconv('UTF-8','CP1251',$sheetData[$i]['O']); $sheetData[$i]['O']=date('d.m.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." ".$sheetData[$i]['O']. ":00";
-		$sheetData[$i]['P']=iconv('UTF-8','CP1251',$sheetData[$i]['P']);
-		$sheetData[$i]['Q']=iconv('UTF-8','CP1251',$sheetData[$i]['Q']);
-		$in_work_date = date('d.m.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." 00:00:00";
-		$day_start = date('d.m.Y',strtotime($in_work_date))." ".$sheetData[$i]['P']. ":00";
-		$day_end = date('d.m.Y',strtotime($in_work_date))." ".$sheetData[$i]['Q']. ":00";
-		if ((((substr_count($sheetData[$i]['P'],"Нет") == 0) and (substr_count($sheetData[$i]['Q'],"Нет") == 0)) or ((substr_count($sheetData[$i]['P'],"Нет") != 0)  and (substr_count($sheetData[$i]['Q'],"Нет") == 0)) or ((substr_count($sheetData[$i]['P'],"Нет") == 0)  and (substr_count($sheetData[$i]['Q'],"Нет") != 0)))
-		and (((substr_count($sheetData[$i]['P'],"-") == 0)   and (substr_count($sheetData[$i]['Q'],"-") == 0))   or ((substr_count($sheetData[$i]['P'],"-") != 0)    and (substr_count($sheetData[$i]['Q'],"-") == 0))   or ((substr_count($sheetData[$i]['P'],"-") == 0)    and (substr_count($sheetData[$i]['Q'],"-") != 0)))) {
+$sd = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+for ($i=5; $i <= sizeof($sd); $i++) {
+	$sd[$i]['D']=iconv('UTF-8','CP1251',$sd[$i]['D']);
+	$sd[$i]['E']=iconv('UTF-8','CP1251',$sd[$i]['E']);
+	if (( substr_count($sd[$i]['E'],iconv('UTF-8','CP1251',$footer)) > 0 || substr_count($sd[$i]['E'],"Временный пропуск") > 0 ) && substr_count($sd[$i]['D'],"Рабоч") == 0) { //($sd[$i]['E'] == iconv('UTF-8','CP1251',$footer) or $sd[$i]['E'] == "Временный пропуск") and $sd[$i]['D'] != "Рабочие") {
+		$sd[$i]['A']=iconv('UTF-8','CP1251',$sd[$i]['A']);
+		$sd[$i]['B']=iconv('UTF-8','CP1251',$sd[$i]['B']);
+		$sd[$i]['F']=iconv('UTF-8','CP1251',$sd[$i]['F']); 
+		$sd[$i]['G']=iconv('UTF-8','CP1251',$sd[$i]['G']); $sd[$i]['G']=date('d.m.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." ".$sd[$i]['G']. ":00";
+		$sd[$i]['J']=iconv('UTF-8','CP1251',$sd[$i]['J']); $sd[$i]['J']=date('d.m.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." ".$sd[$i]['J']. ":00";
+		$sd[$i]['K']=iconv('UTF-8','CP1251',$sd[$i]['K']); //$sd[$i]['K']=date('d.m.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." ".$sd[$i]['K']. ":00";
+		$sd[$i]['M']=iconv('UTF-8','CP1251',$sd[$i]['M']); $sd[$i]['M']=date('d.m.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." ".$sd[$i]['M']. ":00";
+		$sd[$i]['N']=iconv('UTF-8','CP1251',$sd[$i]['N']); $sd[$i]['N']=date('d.m.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." ".$sd[$i]['N']. ":00";
+		$sd[$i]['O']=iconv('UTF-8','CP1251',$sd[$i]['O']); $sd[$i]['O']=date('d.m.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." ".$sd[$i]['O']. ":00";
+		$sd[$i]['P']=iconv('UTF-8','CP1251',$sd[$i]['P']);
+		$sd[$i]['Q']=iconv('UTF-8','CP1251',$sd[$i]['Q']);
+		$in_work_date = date('d.m.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." 00:00:00";
+		$day_start = date('d.m.Y',strtotime($in_work_date))." ".$sd[$i]['P']. ":00";
+		$day_end = date('d.m.Y',strtotime($in_work_date))." ".$sd[$i]['Q']. ":00";
+		if ((((substr_count($sd[$i]['P'],"Нет") == 0) and (substr_count($sd[$i]['Q'],"Нет") == 0)) or ((substr_count($sd[$i]['P'],"Нет") != 0)  and (substr_count($sd[$i]['Q'],"Нет") == 0)) or ((substr_count($sd[$i]['P'],"Нет") == 0)  and (substr_count($sd[$i]['Q'],"Нет") != 0)))
+		and (((substr_count($sd[$i]['P'],"-") == 0)   and (substr_count($sd[$i]['Q'],"-") == 0))   or ((substr_count($sd[$i]['P'],"-") != 0)    and (substr_count($sd[$i]['Q'],"-") == 0))   or ((substr_count($sd[$i]['P'],"-") == 0)    and (substr_count($sd[$i]['Q'],"-") != 0)))) {
 			$query = "SELECT Workers.ID_Worker FROM Workers 
-					WHERE (Workers.F_Worker LIKE '%".substr($sheetData[$i]['A'],0,strpos($sheetData[$i]['A']," "))."%') 
-						AND (Workers.N_Worker LIKE '%".substr($sheetData[$i]['A'],strpos($sheetData[$i]['A']," ")+1,strrpos($sheetData[$i]['A']," ")-strpos($sheetData[$i]['A']," ")-1)."%') 
-						AND (Workers.P_Worker LIKE '%".substr($sheetData[$i]['A'],strrpos($sheetData[$i]['A']," ")+1)."%');";
+					WHERE (Workers.F_Worker LIKE '%".substr($sd[$i]['A'],0,strpos($sd[$i]['A']," "))."%') 
+						AND (Workers.N_Worker LIKE '%".substr($sd[$i]['A'],strpos($sd[$i]['A']," ")+1,strrpos($sd[$i]['A']," ")-strpos($sd[$i]['A']," ")-1)."%') 
+						AND (Workers.P_Worker LIKE '%".substr($sd[$i]['A'],strrpos($sd[$i]['A']," ")+1)."%');";
 			$r=mssql_fetch_row(mssql_query($query));
 			if (!$r[0]) {
-				$query = "SELECT ID_Post FROM Posts WHERE (N_Post = '".substr($sheetData[$i]['B'],0)."')";
+				$query = "SELECT ID_Post FROM Posts WHERE (N_Post = '".substr($sd[$i]['B'],0)."')";
 				$r_dol=mssql_fetch_row(mssql_query($query));
 				if ($r_dol[0]!= NULL) {
-					$query = "SELECT ID_Otdel FROM Otdels WHERE (Name_Otdel LIKE '".substr($sheetData[$i]['D'],0)."%')";
+					$query = "SELECT ID_Otdel FROM Otdels WHERE (Name_Otdel LIKE '".substr($sd[$i]['D'],0)."%')";
 					$r_otdel=mssql_fetch_row(mssql_query($query));
 					if ($r_otdel[0] != NULL) {
 						$query = "INSERT INTO Workers (F_Worker, N_Worker, P_Worker, I_Worker, ID_Post, ID_Otdel, Login) VALUES ('"
-							.substr($sheetData[$i]['A'],0,strpos($sheetData[$i]['A']," "))."','"
-							.substr($sheetData[$i]['A'],strpos($sheetData[$i]['A']," ")+1,strrpos($sheetData[$i]['A']," ")-strpos($sheetData[$i]['A']," ")-1)."','"
-							.substr($sheetData[$i]['A'],strrpos($sheetData[$i]['A']," ")+1)."','"
-							.substr($sheetData[$i]['A'],strpos($sheetData[$i]['A']," ")+1,1).".".substr($sheetData[$i]['A'],strrpos($sheetData[$i]['A']," ")+1,1).".','"
+							.substr($sd[$i]['A'],0,strpos($sd[$i]['A']," "))."','"
+							.substr($sd[$i]['A'],strpos($sd[$i]['A']," ")+1,strrpos($sd[$i]['A']," ")-strpos($sd[$i]['A']," ")-1)."','"
+							.substr($sd[$i]['A'],strrpos($sd[$i]['A']," ")+1)."','"
+							.substr($sd[$i]['A'],strpos($sd[$i]['A']," ")+1,1).".".substr($sd[$i]['A'],strrpos($sd[$i]['A']," ")+1,1).".','"
 							.$r_dol[0]."','"
 							.$r_otdel[0]."','"
-							.trIt(substr($sheetData[$i]['A'],0,strpos($sheetData[$i]['A']," "))).trIt(substr($sheetData[$i]['A'],strpos($sheetData[$i]['A']," ")+1,1)).trIt(substr($sheetData[$i]['A'],strrpos($sheetData[$i]['A']," ")+1,1))."');";
+							.trIt(substr($sd[$i]['A'],0,strpos($sd[$i]['A']," "))).trIt(substr($sd[$i]['A'],strpos($sd[$i]['A']," ")+1,1)).trIt(substr($sd[$i]['A'],strrpos($sd[$i]['A']," ")+1,1))."');";
 						$body.= "<tr class='tab_bg_1'><td>"
 								.date("d.m.Y",strtotime($in_work_date))."</td><td>"
-								.$sheetData[$i]['A']."</td><td>"
-								.$sheetData[$i]['B']."</td><td>"
-								.$sheetData[$i]['D']."</td><td>Новый</td><td>Новый</td><td>Новый</td><td><span style='color:red;'>Новый</span></td>";
+								.$sd[$i]['A']."</td><td>"
+								.$sd[$i]['B']."</td><td>"
+								.$sd[$i]['D']."</td><td>Новый</td><td>Новый</td><td>Новый</td><td><span style='color:red;'>Новый</span></td>";
 						if ($insrt == 1) {
 							if (mssql_query($query)) $body.="<td>added</td></tr>"; else $body.="<td><b><abbr title=\"".mssql_get_last_message()."\"><span style='color:red;'>error!</span></abbr></b></td></tr>";
 						} else {$body.="<td><abbr title=\"".$query."\">debug</abbr></td></tr>";} //--- Если пользователь отдел и должность существуют в базах, добавляем нового пользователя
 					} //--- Проверяем отдел пользователя на наличие в базе отделов
 				} //--- Проверяем должность пользователя на наличие в базе должностей
 			} //--- Проверяем, есть ли в пользователь в базе пользователей
-			if (substr_count($sheetData[$i]['P'],"Нет") or substr_count($sheetData[$i]['P'],"-")) {
-				$day_start=date('d.m.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." 09:00:00";
-				$sheetData[$i]['P']=date('m.d.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." 09:00:00";
-				} else $sheetData[$i]['P']=date('m.d.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." ".$sheetData[$i]['P']. ":00";
-			if (substr_count($sheetData[$i]['Q'],"Нет") or substr_count($sheetData[$i]['Q'],"-")) {
-				$day_end = date('d.m.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." 18:15:00";
-				$sheetData[$i]['Q']=date('m.d.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." 18:15:00";
-				} else $sheetData[$i]['Q']=date('m.d.Y',strtotime(substr($sheetData[$i]['F'],6,2)."-".substr($sheetData[$i]['F'],0,2)."-".substr($sheetData[$i]['F'],3,2)))." ".$sheetData[$i]['Q']. ":00";
-			$in_work_time_minutes = (strtotime($sheetData[$i]['G']) - strtotime($in_work_date)) / 60; //- (strtotime($sheetData[$i]['N']) - strtotime($in_work_date)) - (strtotime($sheetData[$i]['O']) - strtotime($in_work_date))) / 60;
+			if (substr_count($sd[$i]['P'],"Нет") or substr_count($sd[$i]['P'],"-")) {
+				$day_start=date('d.m.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." 09:00:00";
+				$sd[$i]['P']=date('m.d.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." 09:00:00";
+				} else $sd[$i]['P']=date('m.d.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." ".$sd[$i]['P']. ":00";
+			if (substr_count($sd[$i]['Q'],"Нет") or substr_count($sd[$i]['Q'],"-")) {
+				$day_end = date('d.m.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." 18:15:00";
+				$sd[$i]['Q']=date('m.d.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." 18:15:00";
+				} else $sd[$i]['Q']=date('m.d.Y',strtotime(substr($sd[$i]['F'],6,2)."-".substr($sd[$i]['F'],0,2)."-".substr($sd[$i]['F'],3,2)))." ".$sd[$i]['Q']. ":00";
+			$in_work_time_minutes = (strtotime($sd[$i]['G']) - strtotime($in_work_date)) / 60; //- (strtotime($sd[$i]['N']) - strtotime($in_work_date)) - (strtotime($sd[$i]['O']) - strtotime($in_work_date))) / 60;
 			$real_in_work = ((strtotime($day_end) - strtotime($in_work_date)) - (strtotime($day_start) - strtotime($in_work_date))) / 60;
-			$morning_time_minutes = ((strtotime($sheetData[$i]['M']) - strtotime($in_work_date))/60);
+			$morning_time_minutes = ((strtotime($sd[$i]['M']) - strtotime($in_work_date))/60);
 			if (($in_work_time_minutes > $real_in_work) or ($in_work_time_minutes < 0)) $in_work_time_minutes = $real_in_work;
 			if ($in_work_time_minutes < 0) $in_work_time_minutes = 0;
 			if ($morning_time_minutes >= $in_work_time_minutes) $morning_time_minutes = 0;
 			if (!$r[0]) {
 				$query = "SELECT Workers.ID_Worker FROM Workers 
-						WHERE (Workers.F_Worker LIKE '%".substr($sheetData[$i]['A'],0,strpos($sheetData[$i]['A']," "))."%') 
-							AND (Workers.N_Worker LIKE '%".substr($sheetData[$i]['A'],strpos($sheetData[$i]['A']," ")+1,strrpos($sheetData[$i]['A']," ")-strpos($sheetData[$i]['A']," ")-1)."%') 
-							AND (Workers.P_Worker LIKE '%".substr($sheetData[$i]['A'],strrpos($sheetData[$i]['A']," ")+1)."%');";
+						WHERE (Workers.F_Worker LIKE '%".substr($sd[$i]['A'],0,strpos($sd[$i]['A']," "))."%') 
+							AND (Workers.N_Worker LIKE '%".substr($sd[$i]['A'],strpos($sd[$i]['A']," ")+1,strrpos($sd[$i]['A']," ")-strpos($sd[$i]['A']," ")-1)."%') 
+							AND (Workers.P_Worker LIKE '%".substr($sd[$i]['A'],strrpos($sd[$i]['A']," ")+1)."%');";
 				$r=mssql_fetch_row(mssql_query($query));
 			} //--- Проверяем, был ли добавлен пользователь в базу как новый
 			if ($r[0]) {
 				$query = "SELECT ID_Worker FROM tURVData WHERE (ID_worker = ".$r[0].") AND (IN_WORK_DATE = CONVERT(DATETIME,'".date('m.d.Y H:i:s',strtotime($in_work_date))."'))";
 				if ($r != mssql_fetch_row(mssql_query($query))) {
 					$query = "INSERT INTO tURVData (ID_Worker, IN_WORK_DATE, DAY_START, DAY_END, IN_WORK_TIME_MINUTES, MORNING_TIME_MINUTES)
-							VALUES     ('".$r[0]."','".date('m.d.Y H:i:s',strtotime($in_work_date))."','".$sheetData[$i]['P']."','".$sheetData[$i]['Q']."','".$in_work_time_minutes."','".$morning_time_minutes."')";
+							VALUES     ('".$r[0]."','".date('m.d.Y H:i:s',strtotime($in_work_date))."','".$sd[$i]['P']."','".$sd[$i]['Q']."','".$in_work_time_minutes."','".$morning_time_minutes."')";
 					$body.= "<tr class='tab_bg_1'><td>"
 							.date("d.m.Y",strtotime($in_work_date))."</td><td>"
-							.$sheetData[$i]['A']."</td><td>"
-							.$sheetData[$i]['B']."</td><td>"
-							.$sheetData[$i]['D']."</td><td>"
+							.$sd[$i]['A']."</td><td>"
+							.$sd[$i]['B']."</td><td>"
+							.$sd[$i]['D']."</td><td>"
 							.date("H:i",strtotime($day_start))."</td><td>"
 							.date("H:i",strtotime($day_end))."</td><td>"
 							.(($in_work_time_minutes <= 10 || $in_work_time_minutes > 700)?"<span style='color:red;'>".$in_work_time_minutes."</span>":$in_work_time_minutes)."</td><td>"
@@ -310,17 +310,17 @@ for ($i=5; $i <= sizeof($sheetData); $i++) {
 				} //--- Если нет записи - пишем строку в базу
 				elseif ($r == mssql_fetch_row(mssql_query($query))) {
 					$query = "UPDATE tURVData SET 
-								DAY_START = '".$sheetData[$i]['P']."', 
-								DAY_END = '".$sheetData[$i]['Q']."', 
+								DAY_START = '".$sd[$i]['P']."', 
+								DAY_END = '".$sd[$i]['Q']."', 
 								IN_WORK_TIME_MINUTES = '".$in_work_time_minutes."', 
 								MORNING_TIME_MINUTES = '".$morning_time_minutes."' 
 							WHERE (ID_Worker = '".$r[0]."') 
 								AND (IN_WORK_DATE = '".date('m.d.Y H:i:s',strtotime($in_work_date))."')";
 					$body.= "<tr class='tab_bg_1'><td>"
 							.date("d.m.Y",strtotime($in_work_date))."</td><td>"
-							.$sheetData[$i]['A']."</td><td>"
-							.$sheetData[$i]['B']."</td><td>"
-							.$sheetData[$i]['D']."</td><td>"
+							.$sd[$i]['A']."</td><td>"
+							.$sd[$i]['B']."</td><td>"
+							.$sd[$i]['D']."</td><td>"
 							.date("H:i",strtotime($day_start))."</td><td>"
 							.date("H:i",strtotime($day_end))."</td><td>"
 							.(($in_work_time_minutes <= 10 || $in_work_time_minutes > 700)?"<span style='color:red;'>".$in_work_time_minutes."</span>":$in_work_time_minutes)."</td><td>"
@@ -330,10 +330,10 @@ for ($i=5; $i <= sizeof($sheetData); $i++) {
 					} else {$body.="<td><abbr title=\"".$query."\">debug</abbr></td></tr>";}
 				} //--- Если есть запись - обновляем данные
 			} //--- Проверяем, есть ли записи по пользователю в базе от этой даты
-				else $body.= "<tr class='tab_bg_1'><td> </td><td>".$sheetData[$i]['A']."</td><td>".$sheetData[$i]['B']."</td><td>".$sheetData[$i]['D']."</td><td> </td><td> </td><td> </td><td> </td><td><b>не в базе</b></td></tr>";
+				else $body.= "<tr class='tab_bg_1'><td> </td><td>".$sd[$i]['A']."</td><td>".$sd[$i]['B']."</td><td>".$sd[$i]['D']."</td><td> </td><td> </td><td> </td><td> </td><td><b>не в базе</b></td></tr>";
 		} //--- Проверка на наличие данных во "Вход" или "Выход"
 	} //--- Проверка на принадлежность к организации
-//	else $body.= "<tr class='tab_bg_1'><td> </td><td>".$sheetData[$i]['A']."</td><td>не из Тюменьгипротрубопровод <br>или не Временный пропуск</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
+//	else $body.= "<tr class='tab_bg_1'><td> </td><td>".$sd[$i]['A']."</td><td>не из Тюменьгипротрубопровод <br>или не Временный пропуск</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
 } //--- Прохождение всех занисей в файле
 	} 
 }
