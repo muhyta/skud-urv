@@ -79,7 +79,7 @@ for ($i=5; $i <= sizeof($sheetData); $i++) {
 	$firma=iconv('UTF-8','CP1251',$sheetData[$i]['E']);	// firma
 	$fio=iconv('UTF-8','CP1251',$sheetData[$i]['A']);	// fio
 	$otdel[$fio]=iconv('UTF-8','CP1251',$sheetData[$i]['D']);	// otdel
-	if ( ( substr_count($firma,"Тюменьгипротрубопровод") > 0 || substr_count($firma,"Временный пропуск") > 0 ) && substr_count($otdel[$fio],"Рабоч") == 0 ) {
+	if ( ( substr_count($firma,$footer) > 0 || substr_count($firma,"Временный пропуск") > 0 ) && substr_count($otdel[$fio],"Рабоч") == 0 ) {
 		$post[$fio]=iconv('UTF-8','CP1251',$sheetData[$i]['B']);	// post
 		$date_time=iconv('UTF-8','CP1251',$sheetData[$i]['F']);	// date_time
 		$action=iconv('UTF-8','CP1251',$sheetData[$i]['I']);	// in_out action where
@@ -139,9 +139,9 @@ foreach ($in_work_date as $fio => $in_work) {
 							.trIt( substr($fio,0,strpos($fio," ")) ).trIt( substr($fio,strpos($fio," ")+1,1) ).trIt( substr($fio,strrpos($fio," ")+1,1) )."</td><td><abbr title=\"".$query."\">"
 							.$result."</abbr></td></tr>";
 				}
-				else $result = "no post";
+				else $result = "<span style='color:red;'>no post</span>";
 			}
-			else $result = "no otdel";
+			else $result = "<span style='color:red;'>no otdel</span>";
 		}
 		$query="SELECT	tURVData.ID_Worker
 			FROM	tURVData INNER JOIN
@@ -171,7 +171,7 @@ foreach ($in_work_date as $fio => $in_work) {
 				}
 				else $result="<abbr title=\"".$result.";\n".$query."\">debug</abbr>";
 			}
-			else $result="<abbr title=\"".$result.";\n".$query."\">no user</abbr>";
+			else $result="<abbr title=\"".$result.";\n".$query."\"><span style='color:red;'>no user</span></abbr>";
 		}
 		else {
 //			$result="debug"; 
@@ -186,7 +186,7 @@ foreach ($in_work_date as $fio => $in_work) {
 				}
 				else $result = "<abbr title=\"".$result.";\n".$query."\">debug</abbr>";
 			}
-			else $result="<abbr title=\"".$result.";\n".$query."\">no user</abbr>";
+			else $result="<abbr title=\"".$result.";\n".$query."\"><span style='color:red;'>no user</span></abbr>";
 		}
 		$body = $body . "<tr class='tab_bg_1'><td>"
 			.date('d.m.Y',strtotime($in_work))."</td><td>"
@@ -195,7 +195,7 @@ foreach ($in_work_date as $fio => $in_work) {
 			.$otdel[$fio]."</td><td>"
 			.date('H:i',strtotime($day_start[$fio]))."</td><td>"
 			.date('H:i',strtotime($day_end[$fio]))."</td><td>"
-			.$in_work_time_minutes[$fio]."</td><td>"
+			.(($in_work_time_minutes[$fio] <= 10 || $in_work_time_minutes[$fio] > 700)?"<span style='color:red;'>".$in_work_time_minutes[$fio]."</span>":$in_work_time_minutes[$fio])."</td><td>"
 			.$morning_time_minutes[$fio]."</td><td><abbr title=\"".$query."\">"
 			.$result."</abbr></td></tr>";
 		}
@@ -221,7 +221,7 @@ $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 for ($i=5; $i <= sizeof($sheetData); $i++) {
 	$sheetData[$i]['D']=iconv('UTF-8','CP1251',$sheetData[$i]['D']);
 	$sheetData[$i]['E']=iconv('UTF-8','CP1251',$sheetData[$i]['E']);
-	if (($sheetData[$i]['E'] == "Тюменьгипротрубопровод" or $sheetData[$i]['E'] == "Временный пропуск") and $sheetData[$i]['D'] != "Рабочие") {
+	if (($sheetData[$i]['E'] == $footer or $sheetData[$i]['E'] == "Временный пропуск") and $sheetData[$i]['D'] != "Рабочие") {
 		$sheetData[$i]['A']=iconv('UTF-8','CP1251',$sheetData[$i]['A']);
 		$sheetData[$i]['B']=iconv('UTF-8','CP1251',$sheetData[$i]['B']);
 		$sheetData[$i]['F']=iconv('UTF-8','CP1251',$sheetData[$i]['F']); 
@@ -262,9 +262,9 @@ for ($i=5; $i <= sizeof($sheetData); $i++) {
 								.date("d.m.Y",strtotime($in_work_date))."</td><td>"
 								.$sheetData[$i]['A']."</td><td>"
 								.$sheetData[$i]['B']."</td><td>"
-								.$sheetData[$i]['D']."</td><td>Новый</td><td>Новый</td><td>Новый</td><td>Новый</td>";
+								.$sheetData[$i]['D']."</td><td>Новый</td><td>Новый</td><td>Новый</td><td><span style='color:red;'>Новый</span></td>";
 						if ($insrt == 1) {
-							if (mssql_query($query)) $body.="<td>added</td></tr>"; else $body.="<td><b><abbr title=\"".mssql_get_last_message()."\">error!</abbr></b></td></tr>";
+							if (mssql_query($query)) $body.="<td>added</td></tr>"; else $body.="<td><b><abbr title=\"".mssql_get_last_message()."\"><span style='color:red;'>error!</span></abbr></b></td></tr>";
 						} else {$body.="<td><abbr title=\"".$query."\">debug</abbr></td></tr>";} //--- Если пользователь отдел и должность существуют в базах, добавляем нового пользователя
 					} //--- Проверяем отдел пользователя на наличие в базе отделов
 				} //--- Проверяем должность пользователя на наличие в базе должностей
@@ -302,10 +302,10 @@ for ($i=5; $i <= sizeof($sheetData); $i++) {
 							.$sheetData[$i]['D']."</td><td>"
 							.date("H:i",strtotime($day_start))."</td><td>"
 							.date("H:i",strtotime($day_end))."</td><td>"
-							.$in_work_time_minutes."</td><td>"
+							.(($in_work_time_minutes <= 10 || $in_work_time_minutes > 700)?"<span style='color:red;'>".$in_work_time_minutes."</span>":$in_work_time_minutes)."</td><td>"
 							.$morning_time_minutes."</td>";
 					if ($insrt == 1) {
-						if (mssql_query($query)) $body.="<td>inserted</td></tr>"; else $body.="<td><b><abbr title=\"".mssql_get_last_message()."\">error!</abbr></b></td></tr>";
+						if (mssql_query($query)) $body.="<td>inserted</td></tr>"; else $body.="<td><b><abbr title=\"".mssql_get_last_message()."\"><span style='color:red;'>error!</span></abbr></b></td></tr>";
 					} else {$body.="<td><abbr title=\"".$query."\">debug</abbr></td></tr>";}
 				} //--- Если нет записи - пишем строку в базу
 				elseif ($r == mssql_fetch_row(mssql_query($query))) {
@@ -323,10 +323,10 @@ for ($i=5; $i <= sizeof($sheetData); $i++) {
 							.$sheetData[$i]['D']."</td><td>"
 							.date("H:i",strtotime($day_start))."</td><td>"
 							.date("H:i",strtotime($day_end))."</td><td>"
-							.$in_work_time_minutes."</td><td>"
+							.(($in_work_time_minutes <= 10 || $in_work_time_minutes > 700)?"<span style='color:red;'>".$in_work_time_minutes."</span>":$in_work_time_minutes)."</td><td>"
 							.$morning_time_minutes."</td>";
 					if ($insrt == 1) {
-						if (mssql_query($query)) $body.="<td>updated</td></tr>"; else $body.="<td><b><abbr title=\"".mssql_get_last_message()."\">error!</abbr></b></td></tr>";
+						if (mssql_query($query)) $body.="<td>updated</td></tr>"; else $body.="<td><b><abbr title=\"".mssql_get_last_message()."\"><span style='color:red;'>error!</span></abbr></b></td></tr>";
 					} else {$body.="<td><abbr title=\"".$query."\">debug</abbr></td></tr>";}
 				} //--- Если есть запись - обновляем данные
 			} //--- Проверяем, есть ли записи по пользователю в базе от этой даты
