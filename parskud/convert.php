@@ -79,7 +79,7 @@ for ($i=5; $i <= sizeof($sheetData); $i++) {
 	$firma=iconv('UTF-8','CP1251',$sheetData[$i]['E']);	// firma
 	$fio=iconv('UTF-8','CP1251',$sheetData[$i]['A']);	// fio
 	$otdel[$fio]=iconv('UTF-8','CP1251',$sheetData[$i]['D']);	// otdel
-	if ( ( substr_count($firma,$footer) > 0 || substr_count($firma,"Временный пропуск") > 0 ) && substr_count($otdel[$fio],"Рабоч") == 0 ) {
+	if ( ( substr_count($firma,iconv('UTF-8','CP1251',$footer)) > 0 || substr_count($firma,"Временный пропуск") > 0 ) && substr_count($otdel[$fio],"Рабоч") == 0 ) {
 		$post[$fio]=iconv('UTF-8','CP1251',$sheetData[$i]['B']);	// post
 		$date_time=iconv('UTF-8','CP1251',$sheetData[$i]['F']);	// date_time
 		$action=iconv('UTF-8','CP1251',$sheetData[$i]['I']);	// in_out action where
@@ -221,7 +221,7 @@ $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 for ($i=5; $i <= sizeof($sheetData); $i++) {
 	$sheetData[$i]['D']=iconv('UTF-8','CP1251',$sheetData[$i]['D']);
 	$sheetData[$i]['E']=iconv('UTF-8','CP1251',$sheetData[$i]['E']);
-	if (($sheetData[$i]['E'] == $footer or $sheetData[$i]['E'] == "Временный пропуск") and $sheetData[$i]['D'] != "Рабочие") {
+	if (($sheetData[$i]['E'] == iconv('UTF-8','CP1251',$footer) or $sheetData[$i]['E'] == "Временный пропуск") and $sheetData[$i]['D'] != "Рабочие") {
 		$sheetData[$i]['A']=iconv('UTF-8','CP1251',$sheetData[$i]['A']);
 		$sheetData[$i]['B']=iconv('UTF-8','CP1251',$sheetData[$i]['B']);
 		$sheetData[$i]['F']=iconv('UTF-8','CP1251',$sheetData[$i]['F']); 
