@@ -5,20 +5,21 @@ $start = microtime(true);
 $vers="";
 $html=file_get_contents("maket.tm_"); //---загрузка макета страницы
 include_once("../config.php");
-$menu="<li id='menu1'><a href='#' class='itemP' onclick=\"document.getElementById('p').value=1;document.getElementById('fill').submit();\" onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Добавить</a></li>
+$menu="<li id='menu1'><a href='#' class='itemP' onclick=\"document.getElementById('p').value=1;document.getElementById('fill').submit();\" onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Редактировать</a></li>
 	<li id='menu2'><a href='#' class='itemP' onclick=\"document.getElementById('p').value=2;document.getElementById('fill').submit();\" onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Объеденить</a></li>";
 
 if (isset($_REQUEST['p'])) $p=$_REQUEST['p']; else $p="1";
 switch ($p) {
     case "1":
-        $header="Добавить<br><span style='font-size:11px;color:#c0272b;'>Для добавления введите Шифр и Наименование объекта и нажмите \"+\".<br>Для редактирования объекта, выберите необходимый элемент из списка.</span>";
+        $header="Редактировать<br><span style='font-size:11px;color:#c0272b;'>Для добавления введите Шифр и Наименование объекта и нажмите \"+\".<br>Для редактирования объекта, выберите необходимый элемент из списка.</span>";
         $menu=str_ireplace("<li id='menu1'>","<li id='menu1' style='background-color:rgb(221,255,112);'>",$menu);
         include("add.php"); break;
     case "2":
         $header="Объединение<br><span style='font-size:11px;color:#c0272b;'>Для совмещения двух шифров в один - выберите совмещаемые шифры.<br>Затем слева пометьте шифр, наименование которого нужно оставить, и нажмите \"Совместить\".</span>";
         $menu=str_ireplace("<li id='menu2'>","<li id='menu2' style='background-color:rgb(221,255,112);'>",$menu);
         include("combine.php"); break;
-    default: $header="Add";
+    default: $header="Редактировать<br><span style='font-size:11px;color:#c0272b;'>Для добавления введите Шифр и Наименование объекта и нажмите \"+\".<br>Для редактирования объекта, выберите необходимый элемент из списка.</span>";
+        $menu=str_ireplace("<li id='menu2'>","<li id='menu2' style='background-color:rgb(221,255,112);'>",$menu);
         include("add.php");}
 
 $html=str_ireplace("%menu%",$menu,$html);

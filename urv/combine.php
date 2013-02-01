@@ -23,10 +23,13 @@ if (isset($_REQUEST['p_sh_1']) && isset($_REQUEST['p_sh_2']) && isset($_REQUEST[
         if (mssql_query($query,$db)==false) {
             $add="<tr><td>".mssql_get_last_message($db)."</td></tr>";
         }
-        else $add="<tr><td>Совмещено ".(($_REQUEST['use']=="1")?$_REQUEST['p_sh_2']." и ".$_REQUEST['p_sh_1']." с наименованием последнего.":$_REQUEST['p_sh_1']." и ".$_REQUEST['p_sh_2']." с наименованием последнего.")."</td></tr>";
+        else $add="<tr><td><form action='index.php' method='post' name='fill' id='fill'>
+	        <input type='hidden' value='2' name='p' id='p'/>
+	        Совмещено ".(($_REQUEST['use']=="1")?$_REQUEST['p_sh_2']." и ".$_REQUEST['p_sh_1']." с наименованием последнего.":$_REQUEST['p_sh_1']." и ".$_REQUEST['p_sh_2']." с наименованием последнего.").
+            "</form></td></tr>";
     }
     else {
-    $add="<form action='index.php' method='post' id='fill'>
+    $add="<form action='index.php' method='post' name='fill' id='fill'>
 	    <input type='hidden' value='2' name='p' id='p'/>
 	    <input type='hidden' value='0' name='flag' id='flag'/>
 	    <tr>
