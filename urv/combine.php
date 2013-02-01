@@ -15,6 +15,7 @@ function get_all($db) {
     }
     return $out;}
 
+$add="";
 if (isset($_REQUEST['p_sh_1']) && isset($_REQUEST['p_sh_2']) && isset($_REQUEST['use']) && $_REQUEST['flag'] != "0") {
         switch ($_REQUEST['use']) {
             case "1": $query="UPDATE CalWorksDec SET ID_Project = ".$_REQUEST['p_sh_1']." WHERE (ID_Project = ".$_REQUEST['p_sh_2']."); DELETE FROM Projects WHERE (ID_Project = ".$_REQUEST['p_sh_2'].");";break;
@@ -23,13 +24,13 @@ if (isset($_REQUEST['p_sh_1']) && isset($_REQUEST['p_sh_2']) && isset($_REQUEST[
         if (mssql_query($query,$db)==false) {
             $add="<tr><td>".mssql_get_last_message($db)."</td></tr>";
         }
-        else $add="<tr><td><form action='index.php' method='post' name='fill' id='fill'>
-	        <input type='hidden' value='2' name='p' id='p'/>
+        else $add="<form action='index.php' method='post' name='fill' id='fill'>
+	        <input type='hidden' value='2' name='p' id='p'/><tr><td>
 	        Совмещено ".(($_REQUEST['use']=="1")?$_REQUEST['p_sh_2']." и ".$_REQUEST['p_sh_1']." с наименованием последнего.":$_REQUEST['p_sh_1']." и ".$_REQUEST['p_sh_2']." с наименованием последнего.").
-            "</form></td></tr>";
+            "</td></tr></form>";
     }
     else {
-    $add="<form action='index.php' method='post' name='fill' id='fill'>
+    $add.="<form action='index.php' method='post' name='fill' id='fill'>
 	    <input type='hidden' value='2' name='p' id='p'/>
 	    <input type='hidden' value='0' name='flag' id='flag'/>
 	    <tr>

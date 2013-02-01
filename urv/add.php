@@ -53,12 +53,12 @@ function delete_by_id($id,$db) {
     mssql_query($query,$db);}
 
 $body="";$base="";$sh_sel="";$name_sel="";$id_sel="";
-if ($_REQUEST['flag_add'] == 1) add($_REQUEST['p_sh_new'],$_REQUEST['p_name_new'],$db);
+if ($_REQUEST['flag_add'] == 1 && (substr_count($_REQUEST['p_sh_new'],"Шифр") == 0 && substr_count($_REQUEST['p_name_new'],"Название") == 0)) add($_REQUEST['p_sh_new'],$_REQUEST['p_name_new'],$db);
 elseif ($_REQUEST['flag'] == 2) change_by_id($_REQUEST['id_new'],$_REQUEST['p_sh_new'],$_REQUEST['p_name_new'],$db);
 elseif ($_REQUEST['flag'] == 3) delete_by_id($_REQUEST['id_new'],$db);
 $add="<tr><form action='index.php' method='post' id='fill'>
 	    <input type='hidden' value='1' name='p' id='p'/>
-	    <input type='hidden' value='1' name='flag_add' id='flag_add'/>
+	    <input type='hidden' value='0' name='flag_add' id='flag_add'/>
 		<td class='tab_bg_2'>
 				<input type='text' name='p_sh_new' style='width:90%;height:90%;' value='Шифр' onfocus='if(this.value==\"Шифр\"){this.value=\"\";}' onblur='if(this.value==\"\"){this.value=\"Шифр\";}'>
 		</td>
@@ -66,20 +66,17 @@ $add="<tr><form action='index.php' method='post' id='fill'>
 		        <input type='text' name='p_name_new' style='width:90%;height:90%;' value='Название' onfocus='if(this.value==\"Название\"){this.value=\"\";}' onblur='if(this.value==\"\"){this.value=\"Название\";}'>
 		</td>
 		<td class='tab_bg_2'>
-		        <input type='submit' value='+' style='width:90%;height:120%;'>
+		        <input type='submit' value='+' style='width:90%;height:120%;' onclick='document.getElementById(\"flag_add\").value=1;'>
 	    </td>
 	</form></tr>";
 $query="SELECT TOP 100 Sh_project, Name_Project, ID_Project FROM Projects ORDER BY 3 DESC";
 $res=mssql_query($query,$db);
 $base.="<form action='index.php' method='post' name='get' id='get'><input type='hidden' value='1' name='p' id='p'/><input type='hidden' name='p_id_del' id='p_id_del' value='1'>";
 while ($r=mssql_fetch_row($res)) {
-    $base.="<tr class='tab_bg_1'>
-			<td onclick='document.getElementById(\"p_id_del\").value=\"".$r[2]."\";document.get.submit();'>".((strlen($r[0])>32)?"<abbr title='".$r[0]."'>".substr($r[0],0,32)."...</abbr>":$r[0])."</td>
-			<td onclick='document.getElementById(\"p_id_del\").value=\"".$r[2]."\";document.get.submit();'>".((strlen($r[1])>140)?"<abbr title='".$r[1]."'>".substr($r[1],0,140)."...</abbr>":$r[1])."</td>
-			<td onclick='document.getElementById(\"p_id_del\").value=\"".$r[2]."\";document.get.submit();'>".$r[2]."</td></tr>";
-    //$sh_sel.="<option>".((strlen($r[0])>32)?substr($r[0],0,32)."...":$r[0])."</option>";
-    //$name_sel.="<option>".((strlen($r[1])>150)?substr($r[1],0,150)."...":$r[1])."</option>";
-    //$id_sel.="<option>".$r[2]."</option>";
+    $base.="<tr  onclick='document.getElementById(\"p_id_del\").value=\"".$r[2]."\";document.get.submit();' class='tab_bg_1'>
+			<td>".((strlen($r[0])>32)?"<abbr title='".$r[0]."'>".substr($r[0],0,32)."...</abbr>":$r[0])."</td>
+			<td>".((strlen($r[1])>140)?"<abbr title='".$r[1]."'>".substr($r[1],0,140)."...</abbr>":$r[1])."</td>
+			<td>".$r[2]."</td></tr>";
 }
 $base.="</form></table>";
 if (isset($_REQUEST['p_id_del']) && strlen($_REQUEST['p_id_del'])>1) $base.=get_by_id($_REQUEST['p_id_del'],$db);
