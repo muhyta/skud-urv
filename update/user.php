@@ -1,6 +1,7 @@
 <?php
 function get_by_id($id,$db) {
-    $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Posts.N_Post, Otdels.Name_Otdel, Otdels.NB_Otdel, Workers.ID_Worker FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel WHERE (Workers.ID_Worker='".$id."');";
+    //$query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Posts.N_Post, Otdels.Name_Otdel, Otdels.NB_Otdel, Workers.ID_Worker FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel WHERE (Workers.ID_Worker='".$id."');";
+    $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Workers.ID_Post, Workers.ID_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Workers.Fl_Rel FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel WHERE (Workers.ID_Worker='".$id."');";
     $res=mssql_query($query,$db);
     $r=mssql_fetch_row($res);
     $tor="<div id=\"wait\" name='wait'>
@@ -45,9 +46,14 @@ function get_by_id($id,$db) {
 		                    </datalist>
 		                </td>
 		            </tr>
+		             <tr>
+		                <td class='tab_bg_2'>
+		                    <abbr title='Проставить при увольнении'><input type='checkbox' name='w_fired' value='1'".(($r[8])?" checked ":" ")."/> <span style='font-size:9px;'>Уволен</span></abbr>
+		                </td>
+		            </tr>
 		            <tr>
     		            <td class='tab_bg_2'>
-		                    <input type='submit' value='Применить' style='width:150px;height:25px;'>
+		                    <input type='button' value='Применить' onclick='document.getElementById(\"flag\").value=2;document.change.submit();' style='width:150px;height:25px;'>
 	                    </td>
 	                </tr>
 	            </table>
@@ -57,11 +63,10 @@ function get_by_id($id,$db) {
         </div>";
     return $tor;}
 
-function change_by_id($id,$f_new,$n_new,$p_new,$l_new,$post_new,$otdel_new,$db) {
-    $id_post=mssql_fetch_row(mssql_query("SELECT ID_Post FROM Posts WHERE (N_Post = '".$post_new."')",$db));
-    $id_otdel=mssql_fetch_row(mssql_query("SELECT ID_Otdel FROM Otdels WHERE (Name_Otdel = '".$otdel_new."')",$db));
-    $query="UPDATE Workers SET F_Worker = '".$f_new."', N_Worker = '".$n_new."', P_Worker = '".$p_new."', Login = '".$l_new."', ID_Post = '".$id_post[0]."', ID_Otdel = '".$id_otdel[0]."' WHERE (ID_Worker = ".$id.")";
-    mssql_query($query,$db);}
+function change_by_id($id,$f_new,$n_new,$p_new,$l_new,$post_new,$otdel_new,$fired,$db) {
+    $query="UPDATE Workers SET F_Worker='".$f_new."', N_Worker='".$n_new."', P_Worker='".$p_new."', Login='".$l_new."', ID_Post='".$post_new."', ID_Otdel='".$otdel_new."'".(($fired)?", Fl_Rel=1 ":" ")."WHERE (ID_Worker = ".$id.")";
+    mssql_query($query,$db);
+    }
 
 function add($f_new,$n_new,$p_new,$l_new,$post_new,$otdel_new,$db) {
     $query="INSERT INTO Workers (F_Worker, N_Worker, P_Worker, Login, ID_Post, ID_Otdel, I_Worker) VALUES ('".
@@ -72,15 +77,18 @@ function add($f_new,$n_new,$p_new,$l_new,$post_new,$otdel_new,$db) {
         $post_new.", ".
         $otdel_new.", '".
         substr($n_new,1,1).".".substr($p_new,1,1).".')";
-    mssql_query($query,$db);}
+    mssql_query($query,$db);
+    }
 
 function delete_by_id($id,$db) {
     $query="DELETE FROM Workers WHERE (ID_Worker=".$id.");";
-    mssql_query($query,$db);}
+    mssql_query($query,$db);
+    }
 
 function get_posts($db) {
     $query="SELECT N_Post, ID_Post FROM Posts ORDER BY 1;";
     $res=mssql_query($query,$db);
+
     $posts="";
     while ($r=mssql_fetch_row($res)) $posts.="<option value='".$r[1]."'>".$r[0]."</option>";
     return $posts;}
@@ -88,15 +96,15 @@ function get_posts($db) {
 function get_otdels($db) {
     $query="SELECT Name_Otdel, ID_Otdel FROM Otdels ORDER BY 1;";
     $res=mssql_query($query,$db);
+
     $otdels="";
     while ($r=mssql_fetch_row($res)) $otdels.="<option value='".$r[1]."'>".$r[0]."</option>";
     return $otdels;}
 
-
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-$body="";$base="";$sh_sel="";$name_sel="";$id_sel="";
+$body="";$base="";$sh_sel="";$name_sel="";$id_sel="";$err="";
 if ($_REQUEST['flag_add'] == 1) add($_REQUEST['w_f_new'],$_REQUEST['w_n_new'],$_REQUEST['w_p_new'],$_REQUEST['w_l_new'],$_REQUEST['w_post_new'],$_REQUEST['w_otdel_new'],$db);
-elseif ($_REQUEST['flag'] == 2) change_by_id($_REQUEST['id_new'],$_REQUEST['w_f_new'],$_REQUEST['w_n_new'],$_REQUEST['w_p_new'],$_REQUEST['w_l_new'],$_REQUEST['w_post_new'],$_REQUEST['w_otdel_new'],$db);
+elseif ($_REQUEST['flag'] == 2) change_by_id($_REQUEST['id_new'],$_REQUEST['w_f_new'],$_REQUEST['w_n_new'],$_REQUEST['w_p_new'],$_REQUEST['w_l_new'],$_REQUEST['w_post_new'],$_REQUEST['w_otdel_new'],$_REQUEST['w_fired'],$db);
 elseif ($_REQUEST['flag'] == 3) delete_by_id($_REQUEST['id_new'],$db);
 $add="<tr><form action='index.php' method='post' id='fill'>
 	    <input type='hidden' value='1' name='p' id='p'/>

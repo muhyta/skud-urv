@@ -4,6 +4,7 @@
 <link rel='stylesheet' type='text/css' href='style.css'>
 <link rel='stylesheet' type='text/css' href='style_from_glpi.css'>
 <link href="/favicon.ico" type="images/x-icon" rel="shortcut icon">
+<script type="text/javascript">if ("%err%" != "") alert("Ошибка","%err%");</script>
 
 
 <head>

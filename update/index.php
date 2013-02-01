@@ -37,6 +37,7 @@ $html=str_ireplace("%menu%",$menu,$html);
 $html=str_ireplace("%centerbar%",$body,$html);
 $html=str_ireplace("%footer%",$footer,$html);
 $html=str_ireplace("%header%",$header,$html);
+$html=str_ireplace("%err%",$err,$html);
 //---1
 $html=str_ireplace("%add%",$add,$html);
 $html=str_ireplace("%posts%",$post_sel,$html);
