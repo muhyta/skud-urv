@@ -35,7 +35,7 @@ $body="<table class='tab_cadrehov'>
 $query="SELECT	TOP 100 PERCENT tURVData.IN_WORK_DATE, 
 		Otdels.NB_Otdel + ' - ' + Otdels.Name_Otdel AS Otdel, 
 		Workers.F_Worker + ' ' + Workers.N_Worker + ' ' + Workers.P_Worker AS FIO, 
-		tURVData.IN_WORK_TIME_MINUTES, 
+		tURVData.IN_WORK_TIME_MINUTES - tURVData.MORNING_TIME_MINUTES,
 		CASE WHEN (	SELECT 	TOP 1 SUBSTRING(FTDay, DAY(tURVData.IN_WORK_DATE), 1) 
 				FROM 	CalWorks
 				WHERE 	(CalWorks.ID_Worker = tURVData.ID_Worker) 

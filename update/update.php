@@ -1,12 +1,9 @@
 <?php
-$d_sel="";
-$m_sel="";
-$y_sel="";
+$d_sel="";$m_sel="";$y_sel="";
 
 for ($i=1;$i<32;$i++){
 	if ($i != $d) $d_sel.="<option value='".$i."'>".$i."</option>";
-		else $d_sel.="<option selected value='".$i."'>".$i."</option>";
-}
+    else $d_sel.="<option selected value='".$i."'>".$i."</option>";}
 
 $month=array( 0 => 0,
 	1 => "<option value='01'>Январь</option>",
@@ -20,46 +17,40 @@ $month=array( 0 => 0,
 	9 => "<option value='09'>Сентябрь</option>",
 	10 => "<option value='10'>Октябрь</option>",
 	11 => "<option value='11'>Ноябрь</option>",
-	12 => "<option value='12'>Декабрь</option>");
-
-switch ($m) {
-	case "1": $m_sel="<option selected value='01'>Январь</option>"; break;
-	case "2": $m_sel="<option selected value='02'>Февраль</option>"; break;
-	case "3": $m_sel="<option selected value='03'>Март</option>"; break;
-	case "4": $m_sel="<option selected value='04'>Апрель</option>"; break;
-	case "5": $m_sel="<option selected value='05'>Май</option>"; break;
-	case "6": $m_sel="<option selected value='06'>Июнь</option>"; break;
-	case "7": $m_sel="<option selected value='07'>Июль</option>"; break;
-	case "8": $m_sel="<option selected value='08'>Август</option>"; break;
-	case "9": $m_sel="<option selected value='09'>Сентябрь</option>"; break;
-	case "10": $m_sel="<option selected value='10'>Октябрь</option>"; break;
-	case "11": $m_sel="<option selected value='11'>Ноябрь</option>"; break;
-	case "12": $m_sel="<option selected value='12'>Декабрь</option>"; break;
-}
+	12 => "<option value='12'>Декабрь</option>",
+    21 => "<option selected value='01'>Январь</option>",
+    22 => "<option selected value='02'>Февраль</option>",
+    23 => "<option selected value='03'>Март</option>",
+    24 => "<option selected value='04'>Апрель</option>",
+    25 => "<option selected value='05'>Май</option>",
+    26 => "<option selected value='06'>Июнь</option>",
+    27 => "<option selected value='07'>Июль</option>",
+    28 => "<option selected value='08'>Август</option>",
+    29 => "<option selected value='09'>Сентябрь</option>",
+    30 => "<option selected value='10'>Октябрь</option>",
+    31 => "<option selected value='11'>Ноябрь</option>",
+    32 => "<option selected value='12'>Декабрь</option>",);
 
 for ($i=1;$i<13;$i++){
 	if ($i != $m) $m_sel.=$month[$i];
-}
+    else $m_sel.=$month[$i+20];}
 
-$year=array( 0 => "<option value='2010'>2009</option>",
-	1 => "<option value='2010'>2010</option>",
-	2 => "<option value='2011'>2011</option>",
-	3 => "<option value='2012'>2012</option>",
-	4 => "<option value='2013'>2013</option>",
-	5 => "<option value='2014'>2014</option>");
-
-switch ($y) {
-	case "2009": $y_sel="<option selected value='2009'>2009</option>"; break;
-	case "2010": $y_sel="<option selected value='2010'>2010</option>"; break;
-	case "2011": $y_sel="<option selected value='2011'>2011</option>"; break;
-	case "2012": $y_sel="<option selected value='2012'>2012</option>"; break;
-	case "2013": $y_sel="<option selected value='2013'>2013</option>"; break;
-	case "2014": $y_sel="<option selected value='2014'>2014</option>"; break;
-}
+$year=array( 0 => "<option value='2010'>2010</option>",
+	1 => "<option value='2011'>2011</option>",
+	2 => "<option value='2012'>2012</option>",
+	3 => "<option value='2013'>2013</option>",
+	4 => "<option value='2014'>2014</option>",
+	5 => "<option value='2015'>2015</option>",
+    20 => "<option selected value='2010'>2010</option>",
+    21 => "<option selected value='2011'>2011</option>",
+    22 => "<option selected value='2012'>2012</option>",
+    23 => "<option selected value='2013'>2013</option>",
+    24 => "<option selected value='2014'>2014</option>",
+    25 => "<option selected value='2015'>2015</option>");
 
 for ($i=0;$i<6;$i++){
-	if (($i+2009) != $y) $y_sel.=$year[$i];
-}
+	if (($i+2010) != $y) $y_sel.=$year[$i];
+    else $y_sel.=$year[$i+20];}
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 $fio_sel="<option value='%'>*</option>";
