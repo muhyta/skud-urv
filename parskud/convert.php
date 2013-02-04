@@ -79,7 +79,7 @@ for ($i=5; $i <= sizeof($sd); $i++) {
 	$firma=iconv('UTF-8','CP1251',$sd[$i]['E']);	// firma
 	$fio=iconv('UTF-8','CP1251',$sd[$i]['A']);	// fio
 	$otdel[$fio]=iconv('UTF-8','CP1251',$sd[$i]['D']);	// otdel
-	if ( ( substr_count($firma,iconv('UTF-8','CP1251',$footer)) > 0 || substr_count($firma,"Временный пропуск") > 0 ) && substr_count($otdel[$fio],"Рабоч") == 0 ) {
+	if ( ( substr_count($firma,$footer)>0 || substr_count($firma,"Временный пропуск") > 0 ) && substr_count($otdel[$fio],"Рабоч") == 0 ) {
 		$post[$fio]=iconv('UTF-8','CP1251',$sd[$i]['B']);	// post
 		$date_time=iconv('UTF-8','CP1251',$sd[$i]['F']);	// date_time
 		$action=iconv('UTF-8','CP1251',$sd[$i]['I']);	// in_out action where
@@ -215,13 +215,16 @@ $filterSubset = new MyReadFilter();
 pathinfo($inputFileName,PATHINFO_BASENAME);
 $objReader = PHPExcel_IOFactory::createReader($inputFileType);
 $html = str_ireplace("%filename%","Loading ".$inputFileName,$html);
+//$objReader->setSheetIndex(1);
 $objReader->setReadFilter($filterSubset);
+//$objReader->setSheetIndex(1);
 $objPHPExcel = $objReader->load($inputFileName);
+//$objReader->setSheetIndex(1);
 $sd = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 for ($i=5; $i <= sizeof($sd); $i++) {
 	$sd[$i]['D']=iconv('UTF-8','CP1251',$sd[$i]['D']);
 	$sd[$i]['E']=iconv('UTF-8','CP1251',$sd[$i]['E']);
-	if (( substr_count($sd[$i]['E'],iconv('UTF-8','CP1251',$footer)) > 0 || substr_count($sd[$i]['E'],"Временный пропуск") > 0 ) && substr_count($sd[$i]['D'],"Рабоч") == 0) { //($sd[$i]['E'] == iconv('UTF-8','CP1251',$footer) or $sd[$i]['E'] == "Временный пропуск") and $sd[$i]['D'] != "Рабочие") {
+	if (( substr_count($sd[$i]['E'],$footer) > 0 || substr_count($sd[$i]['E'],"Временный пропуск") > 0 ) && substr_count($sd[$i]['D'],"Рабоч") == 0) { //($sd[$i]['E'] == iconv('UTF-8','CP1251',$footer) or $sd[$i]['E'] == "Временный пропуск") and $sd[$i]['D'] != "Рабочие") {
 		$sd[$i]['A']=iconv('UTF-8','CP1251',$sd[$i]['A']);
 		$sd[$i]['B']=iconv('UTF-8','CP1251',$sd[$i]['B']);
 		$sd[$i]['F']=iconv('UTF-8','CP1251',$sd[$i]['F']); 
