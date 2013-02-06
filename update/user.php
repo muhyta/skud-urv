@@ -64,7 +64,7 @@ function get_by_id($id,$db) {
     return $tor;}
 
 function change_by_id($id,$f_new,$n_new,$p_new,$l_new,$post_new,$otdel_new,$fired,$db) {
-    $query="UPDATE Workers SET F_Worker='".$f_new."', N_Worker='".$n_new."', P_Worker='".$p_new."', Login='".$l_new."', ID_Post='".$post_new."', ID_Otdel='".$otdel_new."'".(($fired)?", Fl_Rel=1 ":" ")."WHERE (ID_Worker = ".$id.")";
+    $query="UPDATE Workers SET F_Worker='".$f_new."', N_Worker='".$n_new."', P_Worker='".$p_new."', Login='".$l_new."', ID_Post='".$post_new."', ID_Otdel='".$otdel_new."', Fl_Rel=".(($fired)?"'1'":"'0'")." WHERE (ID_Worker = ".$id.")";
     mssql_query($query,$db);
     }
 
