@@ -1,7 +1,7 @@
 <?php
 function get_by_id($id,$db) {
     //$query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Posts.N_Post, Otdels.Name_Otdel, Otdels.NB_Otdel, Workers.ID_Worker FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel WHERE (Workers.ID_Worker='".$id."');";
-    $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Workers.ID_Post, Workers.ID_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Workers.Fl_Rel FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel WHERE (Workers.ID_Worker='".$id."');";
+    $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Workers.ID_Post, Workers.ID_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Workers.Fl_Rel, Workers.I_Worker FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel WHERE (Workers.ID_Worker='".$id."');";
     $res=mssql_query($query,$db);
     $r=mssql_fetch_row($res);
     $tor="<div id=\"wait\" name='wait'>
@@ -48,7 +48,7 @@ function get_by_id($id,$db) {
 		            </tr>
 		             <tr>
 		                <td class='tab_bg_2'>
-		                    <abbr title='Проставить при увольнении'><input type='checkbox' name='w_fired' value='1'".(($r[8])?" checked ":" ")."/> <span style='font-size:9px;'>Уволен</span></abbr>
+		                    <abbr title='Проставить при увольнении ".$r[0]." ".$r[9]."'><input type='checkbox' name='w_fired' value='1'".(($r[8])?" checked ":" ")."/> <span style='font-size:9px;'>Уволен</span></abbr>
 		                </td>
 		            </tr>
 		            <tr>
@@ -142,7 +142,7 @@ $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Log
 $res=mssql_query($query,$db);
 $base.="<form action='index.php' method='post' name='get' id='get'><input type='hidden' value='1' name='p' id='p'/><input type='hidden' name='p_id_del' id='p_id_del' value='1'>";
 while ($r=mssql_fetch_row($res)) {
-    $base.="<tr class='tab_bg_1' onclick='document.getElementById(\"p_id_del\").value=\"".$r[7]."\";document.get.submit();'>
+    $base.="<tr style='cursor: pointer;' class='tab_bg_1' onclick='document.getElementById(\"p_id_del\").value=\"".$r[7]."\";document.get.submit();'>
 			<td>".$r[0]."</td>
 			<td>".$r[1]."</td>
 			<td>".$r[2]."</td>
