@@ -8,6 +8,9 @@ INSTALL:
 - Rename file "config_.php" to "config.php";
 - Fill in all your credentials in "config.php".
 
+VERSION CHANGES (1.0.3):
+- исправлена ошибка заполнения инициалов при добавлении и редактировании пользователя.
+
 VERSION CHANGES (1.0.2):
 - исправлена ошибка при импорте отчета СКУД;
 - исправлена ошибка при изменении статуса пользователя (работает/уволен).
