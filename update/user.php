@@ -142,7 +142,7 @@ $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Log
 $res=mssql_query($query,$db);
 $base.="<form action='index.php' method='post' name='get' id='get'><input type='hidden' value='1' name='p' id='p'/><input type='hidden' name='p_id_del' id='p_id_del' value='1'>";
 while ($r=mssql_fetch_row($res)) {
-    $base.="<tr style='cursor: pointer;' class='tab_bg_1' onclick='document.getElementById(\"p_id_del\").value=\"".$r[7]."\";document.get.submit();'>
+    $base.="<tr style='cursor: pointer;".(($r[8])?"display:none;'":"'")." class='tab_bg_1' onclick='document.getElementById(\"p_id_del\").value=\"".$r[7]."\";document.get.submit();'>
 			<td>".$r[0]."</td>
 			<td>".$r[1]."</td>
 			<td>".$r[2]."</td>

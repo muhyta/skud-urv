@@ -54,7 +54,8 @@ $menu="<li id='menu1'><a href='#' class='itemP' onclick=\"start();document.getEl
 	<li id='menu3'><a href='#' class='itemP' onclick=\"start();document.getElementById('p').value=3;document.getElementById('filt').submit();\" onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">УРВ = 0 и СКУД > 0</a></li>
 	<li id='menu4'><a href='#' class='itemP' onclick=\"start();document.getElementById('p').value=4;document.getElementById('filt').submit();\" onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">СКУД > УРВ</a></li>
 	<li id='menu5'><a href='index.php?p=6' class='itemP' onclick=\"start();document.getElementById('p').value=6;document.getElementById('filt').submit();\" onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Средний трудодень(СКУД)</a></li>
-	<li id='menu6'><a href='index.php?p=7' class='itemP' onclick=\"start();document.getElementById('p').value=7;document.getElementById('filt').submit();\" onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Средний трудодень(УРВ)</a></li>";
+	<li id='menu6'><a href='index.php?p=7' class='itemP' onclick=\"start();document.getElementById('p').value=7;document.getElementById('filt').submit();\" onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Средний трудодень(УРВ)</a></li>
+	<li id='menu7'><a href='index.php?p=8' class='itemP' onclick=\"start();document.getElementById('p').value=8;document.getElementById('filt').submit();\" onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Отчет (УРВ)</a></li>";
 
 	if (isset($_REQUEST['p'])) $p=$_REQUEST['p']; else $p="6";
 		switch ($p) {
@@ -88,6 +89,9 @@ $menu="<li id='menu1'><a href='#' class='itemP' onclick=\"start();document.getEl
 		case "7": $header=$m.".".$y.": Средний трудодень <br>(по УРВ)";
 			$menu=str_ireplace("<li id='menu6'>","<li id='menu6' style='background-color:rgb(221,255,112);'>",$menu);
 			include("7.php"); break;
+        case "8": $header=$m.".".$y.": Отчет работник - проект <br>(по УРВ)";
+            $menu=str_ireplace("<li id='menu7'>","<li id='menu7' style='background-color:rgb(221,255,112);'>",$menu);
+            include("8.php"); break;
 		default: $header=$m.".".$y.": Средний трудодень <br>(по СКУД)";
 			include("6.php");}
 ?>

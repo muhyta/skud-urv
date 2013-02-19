@@ -8,6 +8,10 @@ INSTALL:
 - Rename file "config_.php" to "config.php";
 - Fill in all your credentials in "config.php".
 
+VERSION CHANGES (1.1.0):
+- добавлен месячный отчет по "работник - время, потраченное на проект";
+- добавлено скрытие уволенных сотрудников.
+
 VERSION CHANGES (1.0.3):
 - исправлена ошибка заполнения инициалов при добавлении и редактировании пользователя.
 
