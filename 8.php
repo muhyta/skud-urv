@@ -20,8 +20,8 @@ if ($m != 0) { //---по месяцам
     }
     $body="<table class='tab_cadrehov'>
 		<tr class='tab_bg_2'>
+		    <th>Фамилия И.О.</th>
 			<th>Проект</th>
-			<th>Фамилия И.О.</th>
 			<th>Время</th>
 			<th>Дни</th>
 		</tr>
@@ -79,14 +79,14 @@ if ($m != 0) { //---по месяцам
 } elseif ($m == 0) { //---за год
     $body="<table class='tab_cadrehov'>
 		<tr class='tab_bg_2'>
-			<th>Проект</th>
 			<th>Фамилия И.О.</th>
-			<th>Время, мин</th>
+			<th>Проект</th>
+			<th>Время</th>
 		</tr>
 		<tr>
 			<th>
 				<form action='index.php' method='post' id='filt'>
-					<input type='hidden' value='6' name='p' id='p'/>
+					<input type='hidden' value='8' name='p' id='p'/>
 					<select name='m' onchange=\"document.getElementById('filt').submit();\">
 						".$m_sel."
 					</select>
