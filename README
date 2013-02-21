@@ -9,6 +9,7 @@ INSTALL:
 - Fill in all your credentials in "config.php".
 
 VERSION CHANGES (1.1.1):
+- исправлено отображение формы совмещения проектов (УРВ - Совместить);
 - исправлен алгоритм корректировки данных СКУД (Админитсрирование).
 
 VERSION CHANGES (1.1.0):

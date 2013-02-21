@@ -22,15 +22,16 @@ if (isset($_REQUEST['p_sh_1']) && isset($_REQUEST['p_sh_2']) && isset($_REQUEST[
             case "2": $query="UPDATE CalWorksDec SET ID_Project = ".$_REQUEST['p_sh_2']." WHERE (ID_Project = ".$_REQUEST['p_sh_1']."); DELETE FROM Projects WHERE (ID_Project = ".$_REQUEST['p_sh_1'].");";break;
         }
         if (mssql_query($query,$db)==false) {
-            $add="<tr><td>".mssql_get_last_message($db)."</td></tr>";
+            $add="<tr><td></td><td>".mssql_get_last_message($db)."</td><td></td></tr>";
         }
-        else $add="<form action='index.php' method='post' name='fill' id='fill'>
-	        <input type='hidden' value='2' name='p' id='p'/><tr><td>
+        else {
+            $add="<tr><td></td><td>
 	        Совмещено ".(($_REQUEST['use']=="1")?$_REQUEST['p_sh_2']." и ".$_REQUEST['p_sh_1']." с наименованием последнего.":$_REQUEST['p_sh_1']." и ".$_REQUEST['p_sh_2']." с наименованием последнего.").
-            "</td></tr></form>";
+                "</td><td></td></tr>";
+        }
     }
-    else {
-    $add.="<form action='index.php' method='post' name='fill' id='fill'>
+
+$add.="<form action='index.php' method='post' name='fill' id='fill'>
 	    <input type='hidden' value='2' name='p' id='p'/>
 	    <input type='hidden' value='0' name='flag' id='flag'/>
 	    <tr>
@@ -57,5 +58,4 @@ if (isset($_REQUEST['p_sh_1']) && isset($_REQUEST['p_sh_2']) && isset($_REQUEST[
 		</td>
 		</tr>
 	</form>";
-}
 ?>
