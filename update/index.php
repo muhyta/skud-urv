@@ -3,7 +3,7 @@
 $start = microtime(true);
 $html=file_get_contents("maket.tm_"); //---загрузка макета страницы
 include_once("../config.php");
-$vers="0.1v"; //---version
+$vers="1v"; //---version
 $menu="<li id='menu1'><a href='/parskud/' class='itemP' onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Импорт</a></li>
 	<li id='menu2'><a href='/update/index.php?p=2'  class='itemP' onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Администрирование</a></li>
 	<li id='menu3'><a href='/update/index.php?p=1' class='itemP' onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Пользователи</a></li>";

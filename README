@@ -8,6 +8,9 @@ INSTALL:
 - Rename file "config_.php" to "config.php";
 - Fill in all your credentials in "config.php".
 
+VERSION CHANGES (1.1.1):
+- исправлен алгоритм корректировки данных СКУД (Админитсрирование).
+
 VERSION CHANGES (1.1.0):
 - добавлен месячный отчет "работник -> число и время, потраченное на проект" (Отчет УРВ);
 - добавлено скрытие уволенных сотрудников.
