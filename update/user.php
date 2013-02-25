@@ -73,7 +73,6 @@ function add($f_new,$n_new,$p_new,$l_new,$post_new,$otdel_new,$db) {
         $f_new."', '".
         $n_new."', '".
         $p_new."', '".
-        $p_new."', '".
         $l_new."', ".
         $post_new.", ".
         $otdel_new.", '".
