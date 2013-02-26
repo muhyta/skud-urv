@@ -137,11 +137,16 @@ $add="<tr><form action='index.php' method='post' id='fill'>
 		        <input type='submit' value='+' style='width:90%;height:120%;'>
 	    </td>
 	</form></tr>";
-$query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Posts.N_Post, Otdels.Name_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Fl_Rel FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel ORDER BY 9,1,2,3";
+if (isset($_REQUEST['showall']) && htmlspecialchars($_REQUEST['showall'])==1) $showall=1;
+    else $showall=0;
+$query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Posts.N_Post, Otdels.Name_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Fl_Rel FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel ".(($showall)?"":"WHERE (Fl_Rel <> 1)")." ORDER BY 9,1,2,3";
 $res=mssql_query($query,$db);
-$base.="<form action='index.php' method='post' name='get' id='get'><input type='hidden' value='1' name='p' id='p'/><input type='hidden' name='p_id_del' id='p_id_del' value='1'>";
+$base.="<form action='index.php' method='post' name='get' id='get'>
+    <input type='hidden' value='1' name='p' id='p'/>
+    <input type='hidden' value='0' name='showall' id='showall'/>
+    <input type='hidden' name='p_id_del' id='p_id_del' value='1'>";
 while ($r=mssql_fetch_row($res)) {
-    $base.="<tr style='cursor: pointer;".(($r[8])?"display:none;'":"'")." class='tab_bg_1' onclick='document.getElementById(\"p_id_del\").value=\"".$r[7]."\";document.get.submit();'>
+    $base.="<tr class='tab_bg_1' name='".$r[7]."' id='".$r[7]."' onclick='document.getElementById(\"p_id_del\").value=\"".$r[7]."\";document.get.submit();'>
 			<td>".$r[0]."</td>
 			<td>".$r[1]."</td>
 			<td>".$r[2]."</td>
@@ -150,9 +155,17 @@ while ($r=mssql_fetch_row($res)) {
 			<td><abbr title='".$r[5]."'>".$r[6]."</abbr></td>
 			<td>".(($r[8])?"<span style='font-size:9px;color:#c0272b;'>Уволен</span>":"<span style='font-size:9px;color:#008844;'>Работает</span>")."</td></tr>";
 }
+$base.="<tr style='cursor: pointer;' class='tab_bg_1' onclick='document.getElementById(\"p_id_del\").value=\"0\";document.getElementById(\"showall\").value=\"".(($showall)?"0":"1")."\";document.get.submit();'>
+			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>
+			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>
+			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>
+			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>
+			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>
+			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>
+			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td></tr>";
 $base.="</form></table>";
 if (isset($_REQUEST['p_id_del']) && strlen($_REQUEST['p_id_del'])>1) $base.=get_by_id($_REQUEST['p_id_del'],$db);
-$body="<table class='tab_cadrehov'>
+$body="<table style='cursor: pointer;' class='tab_cadrehov'>
 	<tr class='tab_bg_2'>
 		<th>Фамилия</th>
 		<th>Имя</th>

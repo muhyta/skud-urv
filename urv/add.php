@@ -69,15 +69,21 @@ $add="<tr><form action='index.php' method='post' id='fill'>
 		        <input type='submit' value='+' style='width:90%;height:120%;' onclick='document.getElementById(\"flag_add\").value=1;'>
 	    </td>
 	</form></tr>";
-$query="SELECT TOP 100 Sh_project, Name_Project, ID_Project FROM Projects ORDER BY 3 DESC";
+if (isset($_REQUEST['showall']) && htmlspecialchars($_REQUEST['showall'])==1) $showall=1;
+    else $showall=0;
+$query="SELECT TOP 100 ".(($showall)?"PERCENT":"")." Sh_project, Name_Project, ID_Project FROM Projects ORDER BY 3 DESC";
 $res=mssql_query($query,$db);
-$base.="<form action='index.php' method='post' name='get' id='get'><input type='hidden' value='1' name='p' id='p'/><input type='hidden' name='p_id_del' id='p_id_del' value='1'>";
+$base.="<form action='index.php' method='post' name='get' id='get'>
+    <input type='hidden' value='1' name='p' id='p'/>
+    <input type='hidden' name='showall' id='showall' value='0'>
+    <input type='hidden' name='p_id_del' id='p_id_del' value='1'>";
 while ($r=mssql_fetch_row($res)) {
     $base.="<tr  onclick='document.getElementById(\"p_id_del\").value=\"".$r[2]."\";document.get.submit();' class='tab_bg_1'>
 			<td>".((strlen($r[0])>32)?"<abbr title='".$r[0]."'>".substr($r[0],0,32)."...</abbr>":$r[0])."</td>
 			<td>".((strlen($r[1])>140)?"<abbr title='".$r[1]."'>".substr($r[1],0,140)."...</abbr>":$r[1])."</td>
 			<td>".$r[2]."</td></tr>";
 }
+$base.="<tr onclick='document.getElementById(\"p_id_del\").value=\"0\";document.getElementById(\"showall\").value=\"".(($showall)?"0":"1")."\";document.get.submit();' class='tab_bg_1'><td>...</td><td>...</td><td>...</td></tr>";
 $base.="</form></table>";
 if (isset($_REQUEST['p_id_del']) && strlen($_REQUEST['p_id_del'])>1) $base.=get_by_id($_REQUEST['p_id_del'],$db);
 $body="<table class='tab_cadrehov'>
