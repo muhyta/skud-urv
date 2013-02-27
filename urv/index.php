@@ -1,6 +1,5 @@
 <?php
-//error_reporting(E_ALL);
-//ini_set("display_errors", 1);
+//error_reporting(E_ALL);ini_set("display_errors", 1);
 $start = microtime(true);
 $vers="";
 $html=file_get_contents("maket.tm_"); //---загрузка макета страницы
