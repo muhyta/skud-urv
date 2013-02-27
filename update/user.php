@@ -1,6 +1,5 @@
 <?php
 function get_by_id($id,$db) {
-    //$query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Posts.N_Post, Otdels.Name_Otdel, Otdels.NB_Otdel, Workers.ID_Worker FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel WHERE (Workers.ID_Worker='".$id."');";
     $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Workers.ID_Post, Workers.ID_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Workers.Fl_Rel, Workers.I_Worker FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel WHERE (Workers.ID_Worker='".$id."');";
     $res=mssql_query($query,$db);
     $r=mssql_fetch_row($res);
@@ -69,6 +68,7 @@ function change_by_id($id,$f_new,$n_new,$p_new,$l_new,$post_new,$otdel_new,$fire
     }
 
 function add($f_new,$n_new,$p_new,$l_new,$post_new,$otdel_new,$db) {
+    if (sizeof(mssql_fetch_array(mssql_query("SELECT ID_Post FROM Posts WHERE (ID_Post = '".$post_new."')"))) > 1) {
     $query="INSERT INTO Workers (F_Worker, N_Worker, P_Worker, Login, ID_Post, ID_Otdel, I_Worker) VALUES ('".
         $f_new."', '".
         $n_new."', '".
@@ -78,6 +78,18 @@ function add($f_new,$n_new,$p_new,$l_new,$post_new,$otdel_new,$db) {
         $otdel_new.", '".
         substr($n_new,0,1).".".substr($p_new,0,1).".')";
     mssql_query($query,$db);
+    }
+    else {
+        mssql_query("INSERT INTO Posts (N_Post) VALUES ('".$post_new."')");
+        mssql_query("INSERT INTO Workers (F_Worker, N_Worker, P_Worker, Login, ID_Post, ID_Otdel, I_Worker) SELECT '".
+            $f_new."' as f, '".
+            $n_new."' as n, '".
+            $p_new."' as p, '".
+            $l_new."' as l, ID_Post, ".
+            $otdel_new." as o, '".
+            substr($n_new,0,1).".".substr($p_new,0,1).".' as izz
+            FROM Posts WHERE (N_Post = '".$post_new."')",$db);
+    }
     }
 
 function delete_by_id($id,$db) {
