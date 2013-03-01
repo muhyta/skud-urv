@@ -74,10 +74,10 @@ if ($m != "0") {//---по мес€цам
 				ќтдел<br>
 				<form action='index.php' method='post' id='filt'>
 					<input type='hidden' value='6' name='p' id='p'/>
-					<select name='m' onchange=\"document.getElementById('filt').submit();\">
+					<select name='m' onchange=\"start();document.getElementById('filt').submit();\">
 						".$m_sel."
 					</select>
-					<select name='y' onchange=\"document.getElementById('filt').submit();\">
+					<select name='y' onchange=\"start();document.getElementById('filt').submit();\">
 						".$y_sel."
 					</select>
 				</form>
@@ -102,8 +102,8 @@ if ($m != "0") {//---по мес€цам
 	$result_skud_tbl=array();
 	$name_otdel_tbl=array();
 	$name_otdel=array();
-	for ($i=1;$i<date('m')+1;$i++) {
-		$query="	SELECT	Otdels.ID_Otdel, 
+	for ($i=1;$i<13;$i++) {
+		$query="SELECT	Otdels.ID_Otdel,
 					COUNT(tURVData.IN_WORK_DATE) AS [—умма дней]
 				FROM	Workers INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel INNER JOIN tURVData ON Workers.ID_Worker = tURVData.ID_Worker
 		 		WHERE	(tURVData.IN_WORK_TIME_MINUTES > 0) 
@@ -113,7 +113,6 @@ if ($m != "0") {//---по мес€цам
 					AND (Otdels.ID_Otdel <> 28)
 				GROUP BY Otdels.ID_Otdel
 				ORDER BY Otdels.ID_Otdel";
-//var_dump($query);
 		$res=mssql_query($query);
 		while ($r=mssql_fetch_row($res)) {
 			array_push($r1,$r[0]);
@@ -135,7 +134,6 @@ if ($m != "0") {//---по мес€цам
 				AND (Otdels.ID_Otdel NOT IN (20, 28, 31, 43))
 			GROUP BY Otdels.Name_Otdel,Otdels.ID_Otdel
 			ORDER BY Otdels.ID_Otdel";
-//var_dump($query);
 		$res=mssql_query($query);
 		while($row=mssql_fetch_row($res)) {
 			array_push($name_otdel,$row[0]);
@@ -154,11 +152,11 @@ if ($m != "0") {//---по мес€цам
 			$sr_ar=0;
 			$body.= "<tr class='tab_bg_1'>";
 			$body.= "<td>".$key."</td>";
-			for ($j=1;$j<date('m')+1;$j++) {
+			for ($j=1;$j<13;$j++) {
 				$sr_ar=$sr_ar+$result_skud_tbl[$j][$key];
 				$body.= "<td>".$result_skud_tbl[$j][$key]."</td>";
 			}
-			$body.= "<td>".round($sr_ar/date('m'),2)."</td></tr>";
+			$body.= "<td>".round($sr_ar/12,2)."</td></tr>";
 		}
 	break;
 	}

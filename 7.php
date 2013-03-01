@@ -56,7 +56,18 @@ if ($m != 0) { //---по мес€цам
 } elseif ($m == 0) { //---за год
 	$body="<table class='tab_cadrehov'>
 		<tr class='tab_bg_2'>
-			<th>ќтдел</th>
+			<th>
+			    ќтдел
+			    <form action='index.php' method='post' id='filt'>
+					<input type='hidden' value='7' name='p' id='p'/>
+					<select name='m' onchange=\"start();document.getElementById('filt').submit();\">
+						".$m_sel."
+					</select>
+					<select name='y' onchange=\"start();document.getElementById('filt').submit();\">
+						".$y_sel."
+					</select>
+				</form>
+		    </th>
 			<th>январь</th>
 			<th>‘евраль</th>
 			<th>ћарт</th>
@@ -69,36 +80,11 @@ if ($m != 0) { //---по мес€цам
 			<th>ќкт€брь</th>
 			<th>Ќо€брь</th>
 			<th>ƒекабрь</th>
-		</tr>
-		<tr>
-			<th>
-				<form action='index.php' method='post' id='filt'>
-					<input type='hidden' value='6' name='p' id='p'/>
-					<select name='m' onchange=\"document.getElementById('filt').submit();\">
-						".$m_sel."
-					</select>
-					<select name='y' onchange=\"document.getElementById('filt').submit();\">
-						".$y_sel."
-					</select>
-				</form>
-			</th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
 		</tr>";
 	$r1 = array();
 	$r2 = array();
 	$r3 = array();
-	for ($i=1;$i<date('m')+1;$i++) {
+	for ($i=1;$i<13;$i++) {
 		$query="SELECT	dep_full_name AS [Ќаименование отдела], 
 				total_sum_time_in_min / (days_in_month * num_workers - total_count_234) AS Expr1
 			FROM	vURVForAVGTotal
@@ -121,7 +107,7 @@ if ($m != 0) { //---по мес€цам
 		foreach ($value1 as $key => $value) {
 			$body.= "<tr class='tab_bg_1'>";
 			$body.= "<td>".$key."</td>";
-			for ($j=1;$j<date('m')+1;$j++) {
+			for ($j=1;$j<13;$j++) {
 				$body.= "<td>".round($r3[$j][$key]/60,2)."</td>";
 			}
 			$body.= "</tr>";
