@@ -242,9 +242,9 @@ $body="<table class='tab_cadrehov'>
 		<th></th>
 		<th></th>
 		<th></th>
-		<th><select name='in_work'>%in_work_sel%</select></th>
-		<th><select name='out_work'>%out_work_sel%</select></th>
-		<th><select disabled='disabled' name='in_work_time'>%in_work_time_sel%</select></th>
+		<th></th>
+		<th></th>
+		<th></th>
 		<th>
 			<input type='submit' value='±' />
 			<input type='hidden' name='id' value='%id%' />

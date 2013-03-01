@@ -174,7 +174,21 @@ elseif ($_REQUEST['flag'] == 3) delete_by_id($_REQUEST['id_new'],$db);
 elseif (isset($_REQUEST['us']) && $_REQUEST['us'] == 1) $log=syncAD($domain,$dn,$dom_user,$dom_pass,$db,1);
 elseif (isset($_REQUEST['us']) && $_REQUEST['us'] == 2) $log=syncAD($domain,$dn,$dom_user,$dom_pass,$db,2);
 elseif (isset($_REQUEST['us']) && $_REQUEST['us'] == 0) $log=syncAD($domain,$dn,$dom_user,$dom_pass,$db,0);
-$add="<tr><form action='index.php' method='post' id='fill'>
+$add="<table class='tab_cadre_pager'>
+    <tr>
+        <td style='text-align:center;' class='tab_bg_2'>
+            <form action='index.php' method='post' name='sync' id='sync' enctype='multipart/form-data'>
+            Синхронизировать с доменом<br><span style='font-size:11px;color:#c0272b;'>Для синхронизации пользователей нажмите необходимую кнопку<br>Лог синхронизации будет выведен ниже.</span>
+            <br>
+            <input type='hidden' name='p' id='p' value='1' />
+            <input type='hidden' name='us' id='us' value='0' />
+            <input type='button' value='Всех' onclick='document.getElementById(\"us\").value=2;document.sync.submit();' />
+            <input type='button' value='Уволенных' onclick='document.getElementById(\"us\").value=1;document.sync.submit();' />
+            <input type='submit' value='Проверить' />
+            </form>
+        </td></tr></table>
+    <table class='tab_cadre_pager'>
+    <tr><form action='index.php' method='post' id='fill'>
 	    <input type='hidden' value='1' name='p' id='p'/>
 	    <input type='hidden' value='1' name='flag_add' id='flag_add'/>
 		<td class='tab_bg_2'>
@@ -204,7 +218,7 @@ $add="<tr><form action='index.php' method='post' id='fill'>
 		<td class='tab_bg_2'>
 		        <input type='submit' value='+' style='width:90%;height:120%;'>
 	    </td>
-	</form></tr>";
+	</form></tr></table>";
 if (isset($_REQUEST['showall']) && htmlspecialchars($_REQUEST['showall'])==1) $showall=1;
     else $showall=0;
 $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Posts.N_Post, Otdels.Name_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Fl_Rel FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel ".(($showall)?"":"WHERE (Fl_Rel <> 1)")." ORDER BY 9,1,2,3";

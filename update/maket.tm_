@@ -36,29 +36,9 @@
 		</tr>
 	</table>	
 	<br>
-    <table class='tab_cadre_pager'>
-
         %add%
-
-    </table>
     <br>
-    <table class='tab_cadre_pager'>
-        <form action='index.php' method='post' name='sync' id='sync' enctype='multipart/form-data'>
-            <tr>
-                <td style='text-align:center;' class="tab_bg_2">
-                    Синхронизировать с доменом<br><span style='font-size:11px;color:#c0272b;'>Для синхронизации пользователей нажмите необходимую кнопку<br>Лог синхронизации будет выведен ниже.</span>
-                    <br>
-                    <input type='hidden' name='p' id='p' value='1' />
-                    <input type='hidden' name='us' id='us' value='0' />
-                    <input type='button' value='Всех' onclick='document.getElementById("us").value=2;document.sync.submit();' />
-                    <input type='button' value='Уволенных' onclick='document.getElementById("us").value=1;document.sync.submit();' />
-                    <input type='submit' value='Проверить' />
-                </td>
-            </tr>
-        </form>
-    </table>
-    <br>
-    %log%
+        %log%
 	<div class='center'>%centerbar%</div>
 </div>
 <div id="footer">

@@ -24,11 +24,11 @@ if (substr_count($_SERVER['AUTH_USER'],"VorotnikovMV") || substr_count($_SERVER[
             $menu=str_ireplace("<li id='menu3'>","<li id='menu3' style='background-color:rgb(221,255,112);'>",$menu);
             include("user.php"); break;
         case "2":
-            $header="Администрирование<br><span style='font-size:11px;color:#c0272b;'>Для изменения времени в СКУД выберите дату, пользователя, время входа/выхода и нажмите \"+\"</span>";
+            $header="Администрирование<br><span style='font-size:11px;color:#c0272b;'>Для изменения времени в СКУД выберите дату и нажмите на необходимую запись в таблице</span>";
             $menu=str_ireplace("<li id='menu2'>","<li id='menu2' style='background-color:rgb(221,255,112);'>",$menu);
             include_once('update.php'); break;
         default:
-            $header="Администрирование<br><span style='font-size:11px;color:#c0272b;'>Для изменения времени в СКУД выберите дату, пользователя, время входа/выхода и нажмите \"+\"</span>";
+            $header="Администрирование<br><span style='font-size:11px;color:#c0272b;'>Для изменения времени в СКУД выберите дату и нажмите на необходимую запись в таблице</span>";
             include_once('update.php');}
 }
 else $add = "Access denied!";
