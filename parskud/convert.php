@@ -344,31 +344,6 @@ elseif (isset($_FILES['f']) and $_FILES['f']['error'] > 0) {
 	$vers = "Ошибка загрузки файла №<a href='http://php.net/manual/ru/features.file-upload.errors.php'>" . $_FILES['f']['error'] . "</a>";
 	$header = "Ошибка загрузки файла №<a href='http://php.net/manual/ru/features.file-upload.errors.php'>" . $_FILES['f']['error'] . "</a>";
 }
-elseif (isset($_REQUEST['us'])) {
-	$filter="(|(sAMAAccountName=*)(cn=*))";
-	$justthese = array("sAMAccountName","cn","department","whenCreated","whenChanged", "title");
-	$ds = ldap_connect($domain) or die("Не могу соединиться с сервером LDAP.");
-	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3); 
-	ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
-	if ($ds) {
-		$ldapbind = ldap_bind($ds, $dom_user."@".$domain, $dom_pass);
- 		if ($ldapbind) {
-			$sr=ldap_search($ds, $dn, $filter, $justthese);
-			$info = ldap_get_entries($ds, $sr);
-			for ($i = $info["count"]-1;$i>=0; $i--) {
- 					$query="UPDATE Workers SET Fl_Rel = 1, Exit_DT = (CASE WHEN Exit_DT = NULL THEN { fn NOW() } END) WHERE (Login = '".$info[$i]['samaccountname'][0]."')";
-					if (mssql_query($query)) $status="v"; else $status="-";
-					$body = $body . "<tr class='tab_bg_1'><td>"
-						.$info[$i]['samaccountname'][0]."</td><td>"
-						.iconv("UTF-8","CP1251",$info[$i]['cn'][0])."</td><td>"
-						.iconv("UTF-8","CP1251",$info[$i]['title'][0])."</td><td>"
-						.iconv("UTF-8","CP1251",$info[$i]['department'][0])."</td><td></td><td></td><td></td><td></td><td style='text-align:center;'>"
-						.$status."</td></tr>";
-			}
-		} else {
-			$html=str_ireplace("%header%","привязка LDAP не удалась...",$html);
-		}
-	}
-}
+
 $body.="</table>";
 ?>

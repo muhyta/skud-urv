@@ -72,17 +72,6 @@
 		</tr>
 	</table>
 	<br>
-	<table width='100%' class='tab_cadre_fixe'>
-		<form action='index.php' method='post' enctype='multipart/form-data'>
-		<tr>
-			<td style='text-align:center;'>
-				<input type='checkbox' name='us' value='1'> Синхронизировать уволенных с AD?
-				<input type='submit' value='Синхронизировать'>
-			</td>
-		</tr>
-		</form>
-	</table>
-	<br>
 	<div class='center'> %centerbar% </div>
 </div>
 

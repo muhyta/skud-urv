@@ -40,6 +40,7 @@ $html=str_ireplace("%header%",$header,$html);
 $html=str_ireplace("%err%",$err,$html);
 //---1
 $html=str_ireplace("%add%",$add,$html);
+$html=str_ireplace("%log%",$log,$html);
 $html=str_ireplace("%posts%",$post_sel,$html);
 $html=str_ireplace("%otdels%",$otd_sel,$html);
 //---2

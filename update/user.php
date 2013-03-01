@@ -113,11 +113,67 @@ function get_otdels($db) {
     while ($r=mssql_fetch_row($res)) $otdels.="<option value='".$r[1]."'>".$r[0]."</option>";
     return $otdels;}
 
+function syncAD($domain,$dn,$dom_user,$dom_pass,$db,$f) {
+    if ($f == 3) $debug=1; else $debug=0;
+    $tor="<table class='tab_cadre_pager'>";
+    $filter="(|(sAMAAccountName=*)(cn=*))";
+    $justthese = array("sAMAccountName","cn","department","whenCreated","whenChanged", "title");
+    $ds = ldap_connect($domain) or die("Не могу соединиться с сервером LDAP.");
+    ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+    ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+    if ($ds) {
+        $ldapbind = ldap_bind($ds, $dom_user."@".$domain, $dom_pass);
+        if ($ldapbind) {
+            if ($f != 1) $dn=substr($dn,strpos($dn,"OU=User"));
+            $sr=ldap_search($ds, $dn, $filter, $justthese);
+            $info = ldap_get_entries($ds, $sr);
+            for ($i = $info["count"]-1;$i>=0; $i--) {
+                $status="";
+                $s=array(0=>"",1=>"",2=>"",3=>"");
+                if ($f) {
+                    $query="UPDATE Workers SET Fl_Rel = 1, Exit_DT = (CASE WHEN Exit_DT = NULL THEN { fn NOW() } END) WHERE (Login = '".$info[$i]['samaccountname'][0]."')";
+                    if (mssql_query($query,$db)) $status="v"; else $status="-";
+                }
+                else {
+                    $r=mssql_fetch_row(mssql_query("SELECT Workers.F_Worker + ' ' + Workers.N_Worker + ' ' + Workers.P_Worker AS fio, Posts.N_Post, Otdels.Name_Otdel,  Workers.TabNum
+                            FROM Workers INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post
+                            WHERE (Workers.Login = '".$info[$i]['samaccountname'][0]."') AND (Fl_Rel <> 1)",$db));
+                    if (isset($r[0])) {
+                        if ($r[0] != iconv("UTF-8","CP1251",$info[$i]['cn'][0])) $s[0]="style='color:red;'".$r[0];
+                        if ($r[1] != iconv("UTF-8","CP1251",$info[$i]['title'][0])) {
+                            $s[1]="style='color:red;'".$r[1];
+                            if (!$debug) if (mssql_query("UPDATE Workers SET ID_Post = (SELECT TOP 1 ID_Post FROM Posts WHERE (N_Post = '".iconv("UTF-8","CP1251",$info[$i]['title'][0])."')) WHERE (Login = '".$info[$i]['samaccountname'][0]."')",$db)) $status.="v"; else $status.="-";
+                        }
+                        if ($r[2] != iconv("UTF-8","CP1251",$info[$i]['department'][0])) {
+                            $s[2]="style='color:red;'".$r[2];
+                            if (!$debug) if (mssql_query("UPDATE Workers SET ID_Otdel = (SELECT TOP 1 ID_Otdel FROM Otdels WHERE (Name_Otdel = '".iconv("UTF-8","CP1251",$info[$i]['department'][0])."')) WHERE (Login = '".$info[$i]['samaccountname'][0]."')",$db)) $status.="v"; else $status.="-";
+                        }
+                    }
+                    else $s[3]="style='color:red;'Пользователь не найден среди работающих";
+                    if ($debug) $status="debug";
+                }
+                $status="<abbr title=\"".htmlspecialchars($query)."\">".$status."</abbr>";
+                $tor.="<tr class='tab_bg_1'><td ".substr($s[3],0,strlen("style='color:red;'"))."><abbr title=\"".substr($s[3],strlen("style='color:red;'"))."\">"
+                    .$info[$i]['samaccountname'][0]."</abbr></td><td ".substr($s[0],0,strlen("style='color:red;'"))."><abbr title=\"".substr($s[0],strlen("style='color:red;'"))."\">"
+                    .iconv("UTF-8","CP1251",$info[$i]['cn'][0])."</abbr></td><td ".substr($s[1],0,strlen("style='color:red;'"))."><abbr title=\"".substr($s[1],strlen("style='color:red;'"))."\">"
+                    .iconv("UTF-8","CP1251",$info[$i]['title'][0])."</abbr></td><td ".substr($s[2],0,strlen("style='color:red;'"))."><abbr title=\"".substr($s[2],strlen("style='color:red;'"))."\">"
+                    .iconv("UTF-8","CP1251",$info[$i]['department'][0])."</abbr></td><td style='text-align:center;'>"
+                    .$status."</td></tr>";
+                }
+            }
+        else $tor.="<tr class='tab_bg_1'><td>привязка LDAP не удалась...(".$ds.",".$dn.")</td></tr>";
+    }
+    $tor.="</table><br>";
+    return $tor;}
+
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-$body="";$base="";$sh_sel="";$name_sel="";$id_sel="";$err="";
+$body="";$base="";$sh_sel="";$name_sel="";$id_sel="";$err="";$log="";
 if ($_REQUEST['flag_add'] == 1) add($_REQUEST['w_f_new'],$_REQUEST['w_n_new'],$_REQUEST['w_p_new'],$_REQUEST['w_l_new'],$_REQUEST['w_post_new'],$_REQUEST['w_otdel_new'],$db);
 elseif ($_REQUEST['flag'] == 2) change_by_id($_REQUEST['id_new'],$_REQUEST['w_f_new'],$_REQUEST['w_n_new'],$_REQUEST['w_p_new'],$_REQUEST['w_l_new'],$_REQUEST['w_post_new'],$_REQUEST['w_otdel_new'],$_REQUEST['w_fired'],$db);
 elseif ($_REQUEST['flag'] == 3) delete_by_id($_REQUEST['id_new'],$db);
+elseif (isset($_REQUEST['us']) && $_REQUEST['us'] == 1) $log=syncAD($domain,$dn,$dom_user,$dom_pass,$db,1);
+elseif (isset($_REQUEST['us']) && $_REQUEST['us'] == 2) $log=syncAD($domain,$dn,$dom_user,$dom_pass,$db,2);
+elseif (isset($_REQUEST['us']) && $_REQUEST['us'] == 0) $log=syncAD($domain,$dn,$dom_user,$dom_pass,$db,0);
 $add="<tr><form action='index.php' method='post' id='fill'>
 	    <input type='hidden' value='1' name='p' id='p'/>
 	    <input type='hidden' value='1' name='flag_add' id='flag_add'/>
@@ -157,8 +213,11 @@ $base.="<form action='index.php' method='post' name='get' id='get'>
     <input type='hidden' value='1' name='p' id='p'/>
     <input type='hidden' value='0' name='showall' id='showall'/>
     <input type='hidden' name='p_id_del' id='p_id_del' value='1'>";
+$i=0;
 while ($r=mssql_fetch_row($res)) {
+    $i++;
     $base.="<tr class='tab_bg_1' name='".$r[7]."' id='".$r[7]."' onclick='document.getElementById(\"p_id_del\").value=\"".$r[7]."\";document.get.submit();'>
+            <td style='text-align:center;'>".$i."</td>
 			<td>".$r[0]."</td>
 			<td>".$r[1]."</td>
 			<td>".$r[2]."</td>
@@ -167,7 +226,9 @@ while ($r=mssql_fetch_row($res)) {
 			<td><abbr title='".$r[5]."'>".$r[6]."</abbr></td>
 			<td>".(($r[8])?"<span style='font-size:9px;color:#c0272b;'>Уволен</span>":"<span style='font-size:9px;color:#008844;'>Работает</span>")."</td></tr>";
 }
+unset($i);
 $base.="<tr style='cursor: pointer;' class='tab_bg_1' onclick='document.getElementById(\"p_id_del\").value=\"0\";document.getElementById(\"showall\").value=\"".(($showall)?"0":"1")."\";document.get.submit();'>
+			<td><span style='font-size:9px;color:#c0272b;'>...</span></td>
 			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>
 			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>
 			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>
@@ -179,6 +240,7 @@ $base.="</form></table>";
 if (isset($_REQUEST['p_id_del']) && strlen($_REQUEST['p_id_del'])>1) $base.=get_by_id($_REQUEST['p_id_del'],$db);
 $body="<table style='cursor: pointer;' class='tab_cadrehov'>
 	<tr class='tab_bg_2'>
+	    <th>№</th>
 		<th>Фамилия</th>
 		<th>Имя</th>
 		<th>Отчество</th>
