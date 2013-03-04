@@ -1,6 +1,6 @@
 <?php
 function get_by_id($id,$db) {
-    $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Workers.ID_Post, Workers.ID_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Workers.Fl_Rel, Workers.I_Worker FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel WHERE (Workers.ID_Worker='".$id."');";
+    $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Workers.ID_Post, Workers.ID_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Workers.Fl_Rel, Workers.I_Worker FROM Workers LEFT OUTER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel WHERE (Workers.ID_Worker='".$id."');";
     $res=mssql_query($query,$db);
     $r=mssql_fetch_row($res);
     $tor="<div id=\"wait\" name='wait'>
@@ -130,13 +130,13 @@ function syncAD($domain,$dn,$dom_user,$dom_pass,$db,$f) {
             for ($i = $info["count"]-1;$i>=0; $i--) {
                 $status="";
                 $s=array(0=>"",1=>"",2=>"",3=>"");
-                if ($f) {
+                if ($f==1) {
                     $query="UPDATE Workers SET Fl_Rel = 1, Exit_DT = (CASE WHEN Exit_DT = NULL THEN { fn NOW() } END) WHERE (Login = '".$info[$i]['samaccountname'][0]."')";
                     if (mssql_query($query,$db)) $status="v"; else $status="-";
                 }
                 else {
                     $r=mssql_fetch_row(mssql_query("SELECT Workers.F_Worker + ' ' + Workers.N_Worker + ' ' + Workers.P_Worker AS fio, Posts.N_Post, Otdels.Name_Otdel,  Workers.TabNum
-                            FROM Workers INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post
+                            FROM Workers LEFT OUTER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel LEFT OUTER JOIN Posts ON Workers.ID_Post = Posts.ID_Post
                             WHERE (Workers.Login = '".$info[$i]['samaccountname'][0]."') AND (Fl_Rel <> 1)",$db));
                     if (isset($r[0])) {
                         if ($r[0] != iconv("UTF-8","CP1251",$info[$i]['cn'][0])) $s[0]="style='color:red;'".$r[0];
@@ -221,7 +221,7 @@ $add="<table class='tab_cadre_pager'>
 	</form></tr></table>";
 if (isset($_REQUEST['showall']) && htmlspecialchars($_REQUEST['showall'])==1) $showall=1;
     else $showall=0;
-$query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Posts.N_Post, Otdels.Name_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Fl_Rel FROM Workers INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel ".(($showall)?"":"WHERE (Fl_Rel <> 1)")." ORDER BY 9,1,2,3";
+$query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Posts.N_Post, Otdels.Name_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Fl_Rel FROM Workers LEFT OUTER JOIN Posts ON Workers.ID_Post = Posts.ID_Post INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel ".(($showall)?"":"WHERE (Fl_Rel <> 1)")." ORDER BY 9,1,2,3";
 $res=mssql_query($query,$db);
 $base.="<form action='index.php' method='post' name='get' id='get'>
     <input type='hidden' value='1' name='p' id='p'/>
