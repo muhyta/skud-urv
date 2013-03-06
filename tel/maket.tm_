@@ -3,19 +3,19 @@
 <meta http-equiv="content-type" content="text/html; charset=windows-1251" />
 <link rel='stylesheet' type='text/css' href='style.css'>
 <link rel='stylesheet' type='text/css' href='style_from_glpi.css'>
-<script src="/script.js" type="text/javascript"></script>
 <link href="/favicon.ico" type="images/x-icon" rel="shortcut icon">
+<script type="text/javascript">if ("%err%" != "") alert("%err%","Ошибка");</script>
 
 
 <head>
 	<title>
-		УРВ
+		СКУД
 	</title>
 </head>
 <body class=" ext-gecko ext-gecko3">
 <div id='header'>
 	<div id='c_logo'><a href='/'> </a></div>
-	<div id='c_preference'><a href='http://comm.gtptmn.gtp.transneft.ru/'>Главная</a> <a href='http://comm.gtptmn.gtp.transneft.ru/update/index.php'>СКУД</a> <a style='background-color:rgb(221,255,112);' href='http://comm.gtptmn.gtp.transneft.ru/urv/'>УРВ</a> <a href='http://comm.gtptmn.gtp.transneft.ru/tel/'>Телефония</a></div>
+	<div id='c_preference'><a href='http://comm.gtptmn.gtp.transneft.ru/'>Главная</a> <a href='http://comm.gtptmn.gtp.transneft.ru/update/index.php'>CКУД</a> <a href='http://comm.gtptmn.gtp.transneft.ru/urv/'>УРВ</a> <a style='background-color:rgb(221,255,112);' href='http://comm.gtptmn.gtp.transneft.ru/tel/'>Телефония</a></div>
 	<div id="c_recherche">
 		 
 		<div id="boutonRecherche"> </div>
@@ -36,13 +36,10 @@
 		</tr>
 	</table>	
 	<br>
-    <table class='tab_cadre_pager'>
-
-            %add%
-
-    </table>
+        %add%
     <br>
-    <div class='center'>%centerbar%</div>
+        %log%
+	<div class='center'>%centerbar%</div>
 </div>
 <div id="footer">
 	<table width="100%">
@@ -52,6 +49,5 @@
 		</tr>
 	</table>
 </div>
-
 </body>
 </html>
