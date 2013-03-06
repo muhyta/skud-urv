@@ -14,7 +14,7 @@
 <body class=" ext-gecko ext-gecko3">
 <div id='header'>
 	<div id='c_logo'><a href='/'> </a></div>
-	<div id='c_preference'><a href='http://comm.gtptmn.gtp.transneft.ru/'>Главная</a> <a style='background-color:rgb(221,255,112);' href='http://comm.gtptmn.gtp.transneft.ru/update/index.php'>СКУД</a> <a href='http://comm.gtptmn.gtp.transneft.ru/urv/'>УРВ</a></div>
+	<div id='c_preference'><a href='http://comm.gtptmn.gtp.transneft.ru/'>Главная</a> <a style='background-color:rgb(221,255,112);' href='http://comm.gtptmn.gtp.transneft.ru/update/index.php'>СКУД</a> <a href='http://comm.gtptmn.gtp.transneft.ru/urv/'>УРВ</a> <a href='http://comm.gtptmn.gtp.transneft.ru/tel/'>Телефония</a></div>
 	<div id="c_recherche">
 		 
 		<div id="boutonRecherche"> </div>
