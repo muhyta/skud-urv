@@ -16,7 +16,7 @@ if (isset($_REQUEST['y'])) $y=$_REQUEST['y'];
 if (isset($_REQUEST['d'])) $d=$_REQUEST['d'];
 	else $d=date('d');
 
-if (substr_count($_SERVER['AUTH_USER'],"VorotnikovMV") || substr_count($_SERVER['AUTH_USER'],"KazantsevaSV") || substr_count($_SERVER['AUTH_USER'],"KozhevnikovAV")) {
+if (substr_count($_SERVER['AUTH_USER'],$admin_u[0]) || substr_count($_SERVER['AUTH_USER'],$admin_u[1]) || substr_count($_SERVER['AUTH_USER'],$admin_u[2])) {
     if (isset($_REQUEST['p'])) $p=$_REQUEST['p']; else $p="2";
     switch ($p) {
         case "1":
