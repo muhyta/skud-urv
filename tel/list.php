@@ -58,24 +58,33 @@ function get_by_id($id,$db) {
     return $tor;}
 
 function change_by_id($id,$num_new,$user_new,$black_new,$organization_new,$comment_new,$db) {
-    $query="UPDATE phones SET number = ".$num_new.", user_id = ".$user_new.", black = ".(($black_new)?"1":"0").", organization = '".$organization_new."', comment = '".$comment_new."' WHERE (number = ".$id.")";
+    if (!isset($user_new)) $user_new="";
+    $query="UPDATE phones SET number = ".$num_new.(($user_new == "")?"":", user_id = ".$user_new).", black = ".(($black_new)?"1":"0").", organization = '".$organization_new."', comment = '".$comment_new."' WHERE (number = ".$id.")";
     if (!mssql_query($query,$db)) return mssql_get_last_message(); else return "";
 }
 
 function add($num_new,$user_new,$black_new,$organization_new,$comment_new,$db) {
+    $num_new=htmlspecialchars($num_new);
+    $num_new=trim($num_new);
+    $num_new=str_ireplace("-","",$num_new);
+    $num_new=str_ireplace("(","",$num_new);
+    $num_new=str_ireplace(")","",$num_new);
+    $num_new=str_ireplace(" ","",$num_new);
+    $num_new=trim($num_new);
+    if (!isset($user_new) || $user_new="Пользователь") $user_new="";
     $r=mssql_fetch_array(mssql_query("SELECT number FROM phones WHERE (number = ".$num_new.")",$db));
     if (isset($r[0])) {
-        $query="UPDATE phones SET number = ".$num_new.", user_id = ".$user_new.", black = ".(($black_new)?"1":"0").", organization = '".$organization_new."', comment = '".$comment_new."' WHERE (number = ".$num_new.")";
-        if (!mssql_query($query,$db)) return mssql_get_last_message(); else return "";
+        $query="UPDATE phones SET number = ".$num_new.(($user_new == "")?"":", user_id = ".$user_new).", black = ".(($black_new)?"1":"0").", organization = '".$organization_new."', comment = '".$comment_new."' WHERE (number = ".$num_new.")";
+        if (!mssql_query($query,$db)) return $query; else return "";
     }
     else {
-        $query="INSERT INTO phones (number, user_id, black, organization, comment) VALUES (".
+        $query="INSERT INTO phones (number, ".(($user_new == "")?"":"user_id, ")." black, organization, comment) VALUES (".
             $num_new.", ".
-            $user_new.", ".
+            (($user_new == "")?"":$user_new.", ").
             (($black_new)?"1":"0").", '".
             $organization_new."', '".
             $comment_new."')";
-        if (!mssql_query($query,$db)) return mssql_get_last_message(); else return "";
+        if (!mssql_query($query,$db)) return $query; else return "";
     }
 }
 
@@ -107,7 +116,7 @@ $add="
 				<input type='text' name='num_new' style='width:90%;height:90%;' value='Номер' onfocus='if(this.value==\"Номер\"){this.value=\"\";}' onblur='if(this.value==\"\"){this.value=\"Номер\";}'>
 		</td>
 		<td class='tab_bg_2'>
-		        <input list='users' type='text' name='user_new' style='width:90%;height:90%;' value='Пользователь' onfocus='if(this.value==\"Пользователь\"){this.value=\"\";}' onblur='if(this.value==\"\"){this.value=\"Пользователь\";}' />
+		        <input list='users' type='text' name='user_new' style='width:90%;height:90%;' value='Пользователь' onfocus='if(this.value==\"Пользователь\"){this.value=\"\";}' />
 		        <datalist id='users'>
 		        %users%
 		        </datalist>
@@ -122,7 +131,7 @@ $add="
 		        <input type='text' name='comment_new' style='width:90%;height:90%;' value='Коментарий' onfocus='if(this.value==\"Коментарий\"){this.value=\"\";}'>
 		</td>
 		<td class='tab_bg_2'>
-		        <input type='submit' value='+' style='width:90%;height:120%;'>
+		        <input type='submit' value='+' style='width:90%;height:120%;border:1px solid #f2f2f2;' onmouseover='this.style.border=\"1px solid black\";' onmouseout='this.style.border=\"1px solid #f2f2f2\";'>
 	    </td>
 	</form></tr></table>";
 if (isset($_REQUEST['showall']) && htmlspecialchars($_REQUEST['showall'])==1) $showall=1;
