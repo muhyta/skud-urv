@@ -1,5 +1,5 @@
 <?php
-function get_by_id($id,$db) {
+function get_by_id($id,$db,$domain) {
     $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Workers.ID_Post, Workers.ID_Otdel, Otdels.NB_Otdel, Workers.ID_Worker, Workers.Fl_Rel, Workers.I_Worker FROM Workers LEFT OUTER JOIN Posts ON Workers.ID_Post = Posts.ID_Post LEFT OUTER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel WHERE (Workers.ID_Worker='".$id."');";
     $res=mssql_query($query,$db);
     $r=mssql_fetch_row($res);
@@ -8,7 +8,12 @@ function get_by_id($id,$db) {
             	<input type='hidden' value='1' name='p' id='p'/>
             	<input type='hidden' value='2' name='flag' id='flag'/>
             	<input type='hidden' value='".$r[7]."' name='id_new' id='id_new'/>
-                <table style='border:1px solid gray;z-index:1000;margin:10px 0px 10px 10px;width:97%;height:100%;'>
+                <table style='border:1px solid gray;z-index:1000;margin:10px 0px 10px 10px;width:92%;height:100%;'>
+                    <tr>
+		                <td class='tab_bg_2'>
+				            <img src='http://www.".$domain."/photos/".$r[3].".jpg' style='height:150px;' value='".$r[0]."'>
+		                </td>
+		            </tr>
                     <tr>
 		                <td class='tab_bg_2'>
 				            <input type='text' name='w_f_new' style='width:90%;height:90%;' value='".$r[0]."'>
@@ -56,8 +61,8 @@ function get_by_id($id,$db) {
 	                    </td>
 	                </tr>
 	            </table>
-	            <input style='width:150px;height:90%;' type='button' value='Delete' onclick='document.getElementById(\"flag\").value=3;document.change.submit();'>
-	            <input style='width:150px;height:90%;' type='button' value='Close' onclick='document.getElementById(\"wait\").style.visibility=\"hidden\";document.getElementById(\"wait_block\").style.visibility=\"hidden\";'>
+	            <input style='width:50px;height:90%;' type='button' value='Delete' onclick='document.getElementById(\"flag\").value=3;document.change.submit();'>
+	            <input style='width:50px;height:90%;' type='button' value='Close' onclick='document.getElementById(\"wait\").style.visibility=\"hidden\";document.getElementById(\"wait_block\").style.visibility=\"hidden\";'>
 	            </form>
         </div>";
     return $tor;}
@@ -281,7 +286,7 @@ $base.="<tr style='cursor: pointer;' class='tab_bg_1' onclick='document.getEleme
 			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>
 			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td></tr>";
 $base.="</form></table>";
-if (isset($_REQUEST['p_id_del']) && strlen($_REQUEST['p_id_del'])>1) $base.=get_by_id($_REQUEST['p_id_del'],$db);
+if (isset($_REQUEST['p_id_del']) && strlen($_REQUEST['p_id_del'])>1) $base.=get_by_id($_REQUEST['p_id_del'],$db,$domain);
 $body="<table style='cursor: pointer;' class='tab_cadrehov'>
 	<tr class='tab_bg_2'>
 	    <th>№</th>
