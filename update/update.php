@@ -200,29 +200,19 @@ else {
 	WHERE     (tURVData.IN_WORK_DATE = CONVERT(DATETIME, '".$y."-".$m."-".$d." 00:00:00', 102))
 	ORDER BY Workers.F_Worker, Workers.I_Worker";
 }
-
-$body="<table class='tab_cadrehov'>
-	<form action='index.php' method='post' id='filt'>
-	<tr class='tab_bg_2'>
-		<th>
-			<select name='d' onchange=\"document.getElementById('filt').submit();\">".$d_sel."</select>
+$header.="</td></tr><tr><td class='tab_bg_2'><form action='index.php' method='post' id='filt'><select name='d' onchange=\"document.getElementById('filt').submit();\">".$d_sel."</select>
 			<select name='m' onchange=\"document.getElementById('filt').submit();\">".$m_sel."</select>
 			<select name='y' onchange=\"document.getElementById('filt').submit();\">".$y_sel."</select>
-        </th>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th>
 			<input type='hidden' name='id' value='%id%' />
 			<input type='hidden' name='p' value='2' />
-		</th>
-	</tr>
-	</form>	
+			</form>";
+$body="<table class='tab_cadrehov'>
+
 	<tr class='tab_bg_2'>
-		<th><a href='#'>Дата</a></th>
+		<th>
+		    <a href='#'>Дата</a><br>
+
+	    </th>
 		<th><a href='#'>ФИО</a></th>
 		<th><a href='#'>Должность</a></th>
 		<th><a href='#'>Отдел</a></th>
@@ -231,11 +221,10 @@ $body="<table class='tab_cadrehov'>
 		<th><a href='#'>Находился в здании<br>минут</a></th>
 		<th><a href='#'>Утренняя переработка<br>минут</a></th>
 	</tr>
-	</form>";
+	";
 
 if (isset($_REQUEST['l_id_del']) && strlen($_REQUEST['l_id_del'])>1) $base=get_by_id($_REQUEST['l_id_del'],$db);
 elseif ($_REQUEST['flag'] == 2) update_by_id($_REQUEST['id_new'],date("Y-m-d H:i:s",strtotime($_REQUEST['in_new'])),date("Y-m-d H:i:s",strtotime($_REQUEST['out_new'])),$_REQUEST['in_time_new'],$_REQUEST['b_time_new'],$db);
-//var_dump($query);
 $res=mssql_query($query);
 $body.="<form action='index.php' method='post' name='get' id='get'>
             <input type='hidden' value='2' name='p' id='p'/>
