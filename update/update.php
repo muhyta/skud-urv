@@ -18,7 +18,7 @@ function get_by_id($id,$db) {
 		WHERE     (tURVData.id = ".$id.")";
     $res=mssql_query($query,$db);
     $r=mssql_fetch_row($res);
-    $tor="<div id=\"wait\" name='wait'>
+    $tor="<div id=\"wait\" name='wait' style='width:230px;'>
                 <form action='index.php' method='post' id='change' name='change'>
             	<input type='hidden' value='2' name='p' id='p'/>
             	<input type='hidden' value='2' name='flag' id='flag'/>
@@ -26,43 +26,43 @@ function get_by_id($id,$db) {
             	<input type='hidden' value='".date('d',strtotime($r[0]))."' name='d' id='d'/>
             	<input type='hidden' value='".date('m',strtotime($r[0]))."' name='m' id='m'/>
             	<input type='hidden' value='".date('Y',strtotime($r[0]))."' name='y' id='y'/>
-                <table style='border:1px solid gray;z-index:1000;margin:10px 0px 10px 10px;width:97%;height:100%;'>
-                    <tr class='tab_bg_2'><td>Дата</td>
+                <table style='border:1px solid gray;z-index:1000;margin:10px 0px 10px 10px;width:90%;height:100%;'>
+                    <tr class='tab_bg_1'><td>Дата</td>
                         <td class='tab_bg_2'>
 				        <input type='date' name='date_new' style='width:90%;height:90%;' value='".date('Y-m-d',strtotime($r[0]))."' />
 		            </td></tr>
-		            <tr class='tab_bg_2'><td>ФИО</td>
+		            <tr class='tab_bg_1'><td>ФИО</td>
 		                <td class='tab_bg_2'>
 		                <input type='text' style='width:90%;height:90%;' value='".$r[1]." ".$r[2]."' disabled>
 		            </td></tr>
-		            <tr class='tab_bg_2'><td>Должность</td>
+		            <tr class='tab_bg_1'><td>Должность</td>
 		                <td class='tab_bg_2'>
 		                <input type='text' style='width:90%;height:90%;' value='".$r[3]."' disabled>
 		            </td></tr>
-		            <tr class='tab_bg_2'><td>Отдел</td>
+		            <tr class='tab_bg_1'><td>Отдел</td>
 		                <td class='tab_bg_2'>
 		                <input type='text' style='width:90%;height:90%;' value='".$r[4]."' disabled>
 		            </td></tr>
-		            <tr class='tab_bg_2'><td>Первый вход</td>
+		            <tr class='tab_bg_1'><td>Первый вход</td>
 		                <td class='tab_bg_2'>
 		                <input type='time' name='in_new' style='width:90%;height:90%;' value='".date('H:i',strtotime($r[5]))."' />
 		            </td></tr>
-		            <tr class='tab_bg_2'><td>Последний выход</td>
+		            <tr class='tab_bg_1'><td>Последний выход</td>
 		                <td class='tab_bg_2'>
 		                <input type='time' name='out_new' style='width:90%;height:90%;' value='".date('H:i',strtotime($r[6]))."' />
 		            </td></tr>
-		            <tr class='tab_bg_2'><td>Находился в здании</td>
+		            <tr class='tab_bg_1'><td>Находился в здании</td>
 		                <td class='tab_bg_2'>
 		                <input type='text' name='in_time_new' style='width:90%;height:90%;' value='".$r[7]."' />
 		            </td></tr>
-		            <tr class='tab_bg_2'><td>Утренняя переработка</td>
+		            <tr class='tab_bg_1'><td>Утренняя переработка</td>
 		                <td class='tab_bg_2'>
 		                <input type='text' name='b_time_new' style='width:90%;height:90%;' value='".$r[8]."' />
 		            </td></tr>
 	            </table>
 	            <input type='button' value='Применить' onclick='document.getElementById(\"flag\").value=2;document.change.submit();' style='width:150px;height:90%;'></br></br>
-	            <input style='width:150px;height:90%;' type='button' value='Удалить' onclick='document.getElementById(\"flag\").value=3;document.change.submit();'>
-	            <input style='width:150px;height:90%;' type='button' value='Закрыть' onclick='document.getElementById(\"wait\").style.visibility=\"hidden\";document.getElementById(\"wait_block\").style.visibility=\"hidden\";'>
+	            <input style='width:50px;height:90%;' type='button' value='Удалить' onclick='document.getElementById(\"flag\").value=3;document.change.submit();'>
+	            <input style='width:50px;height:90%;' type='button' value='Закрыть' onclick='document.getElementById(\"wait\").style.visibility=\"hidden\";document.getElementById(\"wait_block\").style.visibility=\"hidden\";'>
 	            </form>
         </div>";
     return $tor;}
@@ -120,36 +120,6 @@ for ($i=0;$i<6;$i++){
 	if (($i+2010) != $y) $y_sel.=$year[$i];
     else $y_sel.=$year[$i+20];}
 
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//$fio_sel="<option value='%'>*</option>";$dolz_sel="";$otdel_sel="";$in_work_sel="";$out_work_sel="";$in_work_time_sel="";$morning_time_sel="<option selected value='0'>0</option>";
-/*
-if (isset($_REQUEST['id']) && $_REQUEST['fio'] != "%") $id=$_REQUEST['id']; else $id="";
-if ($id == "" || $id == "%id%") { 
-	$fio_sel="<option selected value='%'>*</option>";
-	$id = "";
-}
-if (isset($_REQUEST['upd'])) $upd=$_REQUEST['upd'];
-	else $upd=0;
-if (isset($_REQUEST['fio'])) {
-	$fio=$_REQUEST['fio'];
-}
-	else {
-	$fio_sel="<option selected value='%'>*</option>";
-	$fio="";
-}
-if (isset($_REQUEST['dolz'])) $dolz=$_REQUEST['dolz'];
-	else $dolz="";
-if (isset($_REQUEST['otdel'])) $otdel=$_REQUEST['otdel'];
-	else $otdel="";
-if (isset($_REQUEST['in_work'])) $in_work=$_REQUEST['in_work'];
-	else $in_work="";
-if (isset($_REQUEST['out_work'])) $out_work=$_REQUEST['out_work'];
-	else $out_work="";
-if (isset($_REQUEST['in_work_time'])) $in_work_time=$_REQUEST['in_work_time'];
-	else $in_work_time="";
-if (isset($_REQUEST['morning_time'])) $morning_time=$_REQUEST['morning_time'];
-	else $morning_time="";
-*/
 if ($upd == 0 && $fio != "%"){
 	$query = "SELECT	tURVData.IN_WORK_DATE, 
 			Workers.F_Worker, 
@@ -246,10 +216,8 @@ $body="<table class='tab_cadrehov'>
 		<th></th>
 		<th></th>
 		<th>
-			<input type='submit' value='±' />
 			<input type='hidden' name='id' value='%id%' />
 			<input type='hidden' name='p' value='2' />
-			<input type='checkbox' name='upd' value='1' />
 		</th>
 	</tr>
 	</form>	
