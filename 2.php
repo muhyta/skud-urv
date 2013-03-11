@@ -46,7 +46,7 @@ FROM         tURVData INNER JOIN
                       vURV ON Workers.ID_Worker = vURV.ID_Worker AND tURVData.IN_WORK_DATE = vURV.cw_date
 WHERE     (tURVData.IN_WORK_DATE < CONVERT(DATETIME, '".(($m>11)?($y+1):$y)."-".(($m>11)?($m-11):($m+1))."-01 00:00:00', 102)) 
 	AND (tURVData.IN_WORK_DATE >= CONVERT(DATETIME, '".$y."-".$m."-01 00:00:00', 102))
-	AND (Otdels.ID_Otdel NOT IN (20, 28, 31, 43))
+	AND (Otdels.ID_Otdel NOT IN (20, 28, 31, 43, 108))
 	AND (Workers.Fl_Rel = 0)
 	AND (IN_WORK_TIME_MINUTES = 0)	";
 if (isset($n_otd_f) and $n_otd_f != "%") $query = $query .  "AND  (Otdels.NB_Otdel + ' - ' + Otdels.Name_Otdel like '".$n_otd_f."') ";

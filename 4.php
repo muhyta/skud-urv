@@ -37,18 +37,18 @@ $body="<table class='tab_cadrehov'>
 	</form>		
 	</tr>";
 
-$query = "SELECT     	tURVData.IN_WORK_DATE, 
+$query = "SELECT tURVData.IN_WORK_DATE,
 			Workers.ID_Worker, 
 			Workers.F_Worker, 
 			Workers.I_Worker, 
 			Otdels.NB_Otdel + ' - ' + Otdels.Name_Otdel AS Otdel, 
 			CASE WHEN ({ fn DAYOFWEEK(IN_WORK_DATE) } IN (2, 3, 4, 5, 6)) AND (SUM(DISTINCT IN_WORK_TIME_MINUTES) > 0) THEN (SUM(DISTINCT IN_WORK_TIME_MINUTES) - SUM(DISTINCT MORNING_TIME_MINUTES)) ELSE SUM(DISTINCT IN_WORK_TIME_MINUTES) END AS Time1, 
 			SUM(vURV.time_sum_in_minutes) AS Expr1
-	FROM         tURVData INNER JOIN
+	FROM tURVData INNER JOIN
                       Workers ON tURVData.ID_Worker = Workers.ID_Worker INNER JOIN
                       Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel INNER JOIN
                       vURV ON Workers.ID_Worker = vURV.ID_Worker AND tURVData.IN_WORK_DATE = vURV.cw_date
-	WHERE     (Workers.Fl_Rel = 0) AND (Otdels.ID_Otdel NOT IN (20, 28, 31, 43)) ";
+	WHERE (Workers.Fl_Rel = 0) AND (Otdels.ID_Otdel NOT IN (20, 28, 31, 43, 108)) ";
 if (isset($n_otd_f) and $n_otd_f != "%") $query = $query .  "AND  (Otdels.NB_Otdel + ' - ' + Otdels.Name_Otdel like '".$n_otd_f."') ";
 $query = $query."	GROUP BY tURVData.IN_WORK_DATE, Workers.ID_Worker, Workers.F_Worker, Workers.I_Worker, Otdels.NB_Otdel + ' - ' + Otdels.Name_Otdel, 
                       Otdels.Name_Otdel
