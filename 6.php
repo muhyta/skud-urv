@@ -47,7 +47,7 @@ if ($m != "0") {//---по мес€цам
 			WHERE	(tURVData.IN_WORK_TIME_MINUTES > 0) 
 				AND (tURVData.IN_WORK_DATE >= CONVERT(DATETIME, '".$y."-".$m."-01 00:00:00', 102)) 
 				AND (tURVData.IN_WORK_DATE < CONVERT(DATETIME, '".(($m>11)?($y+1):$y)."-".(($m>11)?($m-11):($m+1))."-01 00:00:00', 102)) 
-				AND (Otdels.ID_Otdel NOT IN (20, 22, 28, 31, 43, 108))
+				AND (Otdels.ID_Otdel NOT IN (20, 28, 31, 43, 108))
 			GROUP BY Otdels.ID_Otdel,Otdels.NB_Otdel + ' - ' + Otdels.Name_Otdel";
 	$res=mssql_query($query);
 	while($row=mssql_fetch_row($res)) {
@@ -131,7 +131,7 @@ if ($m != "0") {//---по мес€цам
 			WHERE	(tURVData.IN_WORK_DATE >= CONVERT(DATETIME, '".$y."-".$i."-01 00:00:00', 102)) 
 				AND (tURVData.IN_WORK_DATE < CONVERT(DATETIME,'".(($i>11)?($y+1):$y)."-".(($i>11)?($i-11):($i+1))."-01 00:00:00', 102)) 
 				AND (tURVData.IN_WORK_TIME_MINUTES > 0)
-				AND (Otdels.ID_Otdel NOT IN (20, 22, 28, 31, 43, 108))
+				AND (Otdels.ID_Otdel NOT IN (20, 28, 31, 43, 108))
 			GROUP BY Otdels.Name_Otdel,Otdels.ID_Otdel
 			ORDER BY Otdels.ID_Otdel";
 		$res=mssql_query($query);
