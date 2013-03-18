@@ -2,6 +2,8 @@
 //error_reporting(E_ALL);ini_set("display_errors", 1);
 $start = microtime(true);
 $vers="";
+$links="";
+$ads="";
 $html=file_get_contents("maket.tm_"); //---загрузка макета страницы
 include_once("../config.php");
 $menu="<li id='menu1'><a href='#' class='itemP' onclick=\"document.getElementById('p').value=1;document.getElementById('fill').submit();\" onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Редактировать</a></li>

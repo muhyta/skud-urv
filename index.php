@@ -1,7 +1,8 @@
 <?php
 //error_reporting(E_ALL);ini_set("display_errors", 1);
 $start = microtime(true);
-
+$links="";
+$ads="";
 function getUserList() {
     $dbsql01=mssql_connect("SQL01-GTPTMN","command","jlv8ykxred");
     mssql_select_db("sspd_new",$dbsql01);

@@ -29,7 +29,7 @@ if ($m != "0") {//---по мес€цам
 				AND (tURVData.IN_WORK_DATE >= CONVERT(DATETIME, '".$y."-".$m."-01 00:00:00', 102)) 
 				AND (tURVData.IN_WORK_DATE < CONVERT(DATETIME, '".(($m>11)?($y+1):$y)."-".(($m>11)?($m-11):($m+1))."-01 00:00:00', 102)) 
 				AND ({ fn DAYOFWEEK(tURVData.IN_WORK_DATE) } IN (1, 7))
-				AND (Otdels.ID_Otdel <> 28)
+				AND (Otdels.ID_Otdel NOT IN (20, 28, 31, 43, 108))
 			GROUP BY Otdels.ID_Otdel
 			ORDER BY Otdels.ID_Otdel";
 	$res=mssql_query($query);

@@ -53,9 +53,9 @@ function delete_by_id($id,$db) {
     mssql_query($query,$db);}
 
 $body="";$base="";$sh_sel="";$name_sel="";$id_sel="";
-if ($_REQUEST['flag_add'] == 1 && (substr_count($_REQUEST['p_sh_new'],"Шифр") == 0 && substr_count($_REQUEST['p_name_new'],"Название") == 0)) add($_REQUEST['p_sh_new'],$_REQUEST['p_name_new'],$db);
-elseif ($_REQUEST['flag'] == 2) change_by_id($_REQUEST['id_new'],$_REQUEST['p_sh_new'],$_REQUEST['p_name_new'],$db);
-elseif ($_REQUEST['flag'] == 3) delete_by_id($_REQUEST['id_new'],$db);
+if (isset($_REQUEST['flag_add']) && $_REQUEST['flag_add'] == 1 && (substr_count($_REQUEST['p_sh_new'],"Шифр") == 0 && substr_count($_REQUEST['p_name_new'],"Название") == 0)) add($_REQUEST['p_sh_new'],$_REQUEST['p_name_new'],$db);
+elseif (isset($_REQUEST['flag']) && $_REQUEST['flag'] == 2) change_by_id($_REQUEST['id_new'],$_REQUEST['p_sh_new'],$_REQUEST['p_name_new'],$db);
+elseif (isset($_REQUEST['flag']) && $_REQUEST['flag'] == 3) delete_by_id($_REQUEST['id_new'],$db);
 $add="<tr><form action='index.php' method='post' id='fill'>
 	    <input type='hidden' value='1' name='p' id='p'/>
 	    <input type='hidden' value='0' name='flag_add' id='flag_add'/>
