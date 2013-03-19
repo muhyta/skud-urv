@@ -66,7 +66,7 @@ $add="<tr><form action='index.php' method='post' id='fill'>
 		        <input type='text' name='p_name_new' style='width:90%;height:90%;' value='Название' onfocus='if(this.value==\"Название\"){this.value=\"\";}' onblur='if(this.value==\"\"){this.value=\"Название\";}'>
 		</td>
 		<td class='tab_bg_2'>
-		        <input type='submit' value='+' style='width:90%;height:120%;' onclick='document.getElementById(\"flag_add\").value=1;'>
+		        <input type='submit' value='+' style='width:90%;height:120%;border:1px solid #f2f2f2;' onmouseover='this.style.border=\"1px solid black\";' onmouseout='this.style.border=\"1px solid #f2f2f2\";' onclick='document.getElementById(\"flag_add\").value=1;'>
 	    </td>
 	</form></tr>";
 if (isset($_REQUEST['showall']) && htmlspecialchars($_REQUEST['showall'])==1) $showall=1;

@@ -251,7 +251,7 @@ $add="<table class='tab_cadre_pager'>
 		        </datalist>
 		</td>
 		<td class='tab_bg_2'>
-		        <input type='submit' value='+' style='width:90%;height:120%;'>
+		        <input type='submit' value='+' style='width:90%;height:120%;border:1px solid #f2f2f2;' onmouseover='this.style.border=\"1px solid black\";' onmouseout='this.style.border=\"1px solid #f2f2f2\";'>
 	    </td>
 	</form></tr></table>";
 if (isset($_REQUEST['showall']) && htmlspecialchars($_REQUEST['showall'])==1) $showall=1;
