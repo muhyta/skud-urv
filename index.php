@@ -45,5 +45,8 @@ $html=str_ireplace("%header%",$header,$html);
 mssql_close($db);                       //---завершение подключения к базе
 $vers = round(microtime(true) - $start,2)."s - " . $vers;
 $html=str_ireplace("%version%",$vers,$html);
+$users=getUserList();
+$info=$users[substr($_SERVER['AUTH_USER'],7)][0]."\n".$users[substr($_SERVER['AUTH_USER'],7)][1]."\n".$users[substr($_SERVER['AUTH_USER'],7)][2];
+$html=str_ireplace("ОИТ","<abbr title='".$info."'>ОИТ</abbr>",$html);
 echo $html;                             //---отображение страницы
 ?>

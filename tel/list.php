@@ -71,7 +71,10 @@ function add($num_new,$user_new,$black_new,$organization_new,$comment_new,$db) {
     $num_new=str_ireplace(")","",$num_new);
     $num_new=str_ireplace(" ","",$num_new);
     $num_new=trim($num_new);
+    if ((substr($num_new,0,1) != "7" || substr($num_new,0,1) != "8") && strlen($num_new) > 7) $num_new="7".$num_new;
     if (!isset($user_new) || $user_new="Пользователь") $user_new="";
+    if (!isset($comment_new) || $comment_new="Коментарий") $comment_new="date('d-m-Y')";
+    if (!isset($organization_new) || $organization_new="Организация") $organization_new="date('d-m-Y')";
     $r=mssql_fetch_array(mssql_query("SELECT number FROM phones WHERE (number = ".$num_new.")",$db));
     if (isset($r[0])) {
         $query="UPDATE phones SET number = ".$num_new.(($user_new == "")?"":", user_id = ".$user_new).", black = ".(($black_new)?"1":"0").", organization = '".$organization_new."', comment = '".$comment_new."' WHERE (number = ".$num_new.")";

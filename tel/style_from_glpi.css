@@ -221,7 +221,8 @@ hr {
 #page {
    /*margin: 0 auto; text-align:center;*/
    margin: 25px 10px;
-   background: #FFFFFF  repeat-x top left;
+   background-image: url('/pics/fon.png');
+   /*background: #FFFFFF  repeat-x top left;*/
    -moz-border-radius: 8px;
    -webkit-border-radius: 8px;
    border-radius: 8px;
