@@ -37,7 +37,7 @@ body {
    font-size: 12px;
    margin: 0;
    padding: 0;
-	background-image: url('pics/fon.png');
+	background-image: url('/pics/fon.png');
    background-repeat:  repeat-x;
 }
 
@@ -164,7 +164,7 @@ hr {
    display: none;
    position: absolute;
    border: 1px solid  #CC9900;
-   background: url("../pics/fd_hoverlink.png") 0 0 repeat;
+   background: url("/pics/fd_hoverlink.png") 0 0 repeat;
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
    -o-border-radius: 5px;
@@ -195,7 +195,7 @@ hr {
 
 #page {
    /*margin: 0 auto; text-align:center;*/
-    background-image: url('pics/fon.png');
+    background-image: url('/pics/fon.png');
    margin: 25px 10px;
    /*background: #FFFFFF  repeat-x top left;*/
    -moz-border-radius: 8px;
@@ -267,7 +267,7 @@ input.submit {
    border: 1px solid #888888;
    background-color:#eeeeee;
    cursor:pointer;
-   background:  url("../pics/fond_form.png") repeat-x;
+   background:  url("/pics/fond_form.png") repeat-x;
    -moz-box-shadow: 0px 1px 3px;
    -webkit-box-shadow: 0px 1px 3px ;
    box-shadow: 0px 1px 3px ;
@@ -280,7 +280,7 @@ input.submit {
 input.submit:hover {
    border: 1px inset #888888;
    background-color:#ffffff;
-   background:  url("../pics/fond_form_on.png") repeat-x;
+   background:  url("/pics/fond_form_on.png") repeat-x;
 }
 
 
@@ -305,7 +305,7 @@ input.submit:hover {
 
 .treeroot {
    width:100%;
-   background: url("../pics/treeroot.png") 0 2px no-repeat;
+   background: url("/pics/treeroot.png") 0 2px no-repeat;
    border:0;
    /*margin-top:5px;*/
    font-weight:bold;
@@ -323,13 +323,13 @@ input.submit:hover {
    border: 1px solid #888888;
    background-color:#eeeeee;
    cursor:pointer;
-   background:  url("../pics/fond_form.png") repeat-x;
+   background:  url("/pics/fond_form.png") repeat-x;
 }
 
 .button:hover{
    border: 1px inset #888888;
    background-color:#ffffff;
-   background:  url("../pics/fond_form_on.png") repeat-x;
+   background:  url("/pics/fond_form_on.png") repeat-x;
 }
 
 
@@ -374,7 +374,7 @@ td { }
    font-size: 11px;
    width:950px;
    /* background-color: #FFF4DF; */
-   background : url("../pics/fond-central.png") repeat-x top right ;
+   background : url("/pics/fond-central.png") repeat-x top right ;
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
    border-radius: 5px;
@@ -455,7 +455,7 @@ td { }
    -webkit-border-radius: 4px;
    -o-border-radius: 4px;
    padding: 2px;
-   /*background:  url("../pics/fond_th.png") repeat-x;
+   /*background:  url("/pics/fond_th.png") repeat-x;
    border-bottom:1px solid #cccccc;
    padding: 2px;*/
 }
@@ -578,7 +578,7 @@ td { }
    font-weight: bold;
    background-color: #fccc6f;
    text-align: center;
-   background:  url("../pics/fond_th.png") repeat-x;
+   background:  url("/pics/fond_th.png") repeat-x;
 }
 
 td.nopadding {
@@ -597,7 +597,7 @@ td.nopadding {
    margin: 1px;
    border: 1px solid #aaaaaa;
    background-color: #e4e4e4;
-   /*background:  url("../pics/fond_ico_cons.png") repeat-x; */
+   /*background:  url("/pics/fond_ico_cons.png") repeat-x; */
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
    -o-border-radius: 5px;
@@ -635,8 +635,8 @@ a.icon_consol_hov {
    margin: 1px;
    border: 1px inset #888888;
    background-color: white;
-   /*background:  url("../pics/fond_ico_cons_on.png") repeat-x; */
-   background:  #efc24b url("../pics/fond_form_on.png") repeat-x;
+   /*background:  url("/pics/fond_ico_cons_on.png") repeat-x; */
+   background:  #efc24b url("/pics/fond_form_on.png") repeat-x;
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
    -o-border-radius: 5px;
@@ -755,7 +755,7 @@ li.auto_comp {
    vertical-align:middle;
    /*border: 1px solid #888888;
    background-color:#eeeeee;
-   background:  url("../pics/fond_form.png") repeat-x; */
+   background:  url("/pics/fond_form.png") repeat-x; */
 }
 
 .calendrier:hover {
@@ -1054,7 +1054,7 @@ div#tabcontent {
    margin-top:100px;
    margin-left: auto;
    margin-right: auto;
-   background:url("../pics/login_glpi.png")  no-repeat;
+   background:url("/pics/login_glpi.png")  no-repeat;
    font-family : Verdana,Arial,Helvetica,sans-serif;
    font-size : 12px;
    color :#659900;
@@ -1063,14 +1063,14 @@ div#tabcontent {
 
 #bloc .haut {
    height: 53px;
-   background: url(../pics/haut_install.png) 0 0 no-repeat;
+   background: url("/pics/haut_install.png") 0 0 no-repeat;
    width:760px;
    margin:0;
    padding:0;
 }
 
 #bloc {
-   background: url(../pics/milieu_install.png) 0 0 repeat-y;
+   background: url("/pics/milieu_install.png") 0 0 repeat-y;
    width:760px;
    margin:0 auto;
    text-align:left;
@@ -1078,7 +1078,7 @@ div#tabcontent {
 
 #bloc .bas {
    height: 31px;
-   background: url(../pics/bas_install.png)  0 0  no-repeat;
+   background: url("/pics/bas_install.png")  0 0  no-repeat;
    width:760px;
    margin:0;
    padding:0;
@@ -1193,7 +1193,7 @@ div#tabcontent {
 /* ################--------------- Header / menu  ---------------#################### */
 
 div#header {
-   background: #f1f4e3 url("../pics/fd_nav1.png") 0 0 repeat-x;
+   background: #f1f4e3 url("/pics/fd_nav1.png") 0 0 repeat-x;
    margin: 0px 10px 10px 10px;
    -moz-border-radius: 0px 0px 8px 8px;
    -webkit-border-radius: 0px 0px 8px 8px;
@@ -1309,7 +1309,7 @@ ul#menu ul.ssmenu {
    top: 5px;
    width: 108px;
    border: 1px solid #CC9900;
-   background: url("../pics/fd_ssmenu.png") 0 0 repeat;
+   background: url("/pics/fd_ssmenu.png") 0 0 repeat;
    display: none;
    -moz-border-radius: 4px;
    -webkit-border-radius: 4px;
@@ -1340,7 +1340,7 @@ ul#menu ul li a {
 }
 
 ul#menu ul li a:hover {
-   background: url("../pics/fd_nav2.png") 0 0 repeat;
+   background: url("/pics/fd_nav2.png") 0 0 repeat;
 }
 
 ul#menu li#menu1 {
@@ -1419,7 +1419,7 @@ div#header div#c_logo {
    width: 64px;
    height: 41px;
    float: left;
-   background: url("../pics/fd_logo.png") 0 0 repeat-x;
+   background: url("/pics/fd_logo.png") 0 0 repeat-x;
 }
 
 div#header div#c_logo a {
@@ -1430,7 +1430,7 @@ div#header div#c_logo a {
 }
 
 div#c_ssmenu1 {
-   background: url("../pics/fd_nav2.png") 0 0 repeat-x;
+   background: url("/pics/fd_nav2.png") 0 0 repeat-x;
    height: 24px;
    clear: both;
    font-size: 0.8em;
@@ -1460,7 +1460,7 @@ div#c_ssmenu1 ul li a:hover {
 div#c_ssmenu2 {
    position: relative;
    z-index: 5;
-   background: url("../pics/fd_nav3.png") 0 0 repeat-x;
+   background: url("/pics/fd_nav3.png") 0 0 repeat-x;
    height: 28px;
    clear: both;
    font-size: 0.9em;
@@ -1494,7 +1494,7 @@ div#show_entities {
    top:20px;
    left:1px;
    border: 1px solid  #CC9900;
-   background: url("../pics/fd_hoverlink.png") 0 0 repeat;
+   background: url("/pics/fd_hoverlink.png") 0 0 repeat;
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
    -o-border-radius: 5px;
@@ -1510,7 +1510,7 @@ div#show_entities_long {
    top:20px;
    left:1px;
    border: 1px solid  #CC9900;
-   background: url("../pics/fd_hoverlink.png") 0 0 repeat;
+   background: url("/pics/fd_hoverlink.png") 0 0 repeat;
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
    -o-border-radius: 5px;
@@ -1529,7 +1529,7 @@ div#show_all_menu {
    top:20px;
    left:5px;
    border: 1px solid  #CC9900;
-   background: url("../pics/fd_hoverlink.png") 0 0 repeat;
+   background: url("/pics/fd_hoverlink.png") 0 0 repeat;
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
    border-radius: 5px;
@@ -1572,7 +1572,7 @@ div#show_all_menu {
 /* ################--------------- Footer  ---------------#################### */
 
 #footer {
-   background: url("../pics/fd_footer.png") 0 0 repeat-x;
+   background: url("/pics/fd_footer.png") 0 0 repeat-x;
    font-size: 9px;	
    color :#757575;
    padding: 6px;

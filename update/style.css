@@ -60,7 +60,7 @@ input [type='submit'] {
 }
 
 html, body {
-	background-image: url('pics/fon.png');
+	background-image: url('../pics/fon.png');
 	background-repeat: repeat;
 	font-family: sans-serif;
 	font-size: 12px;

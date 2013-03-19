@@ -37,7 +37,7 @@ body {
    font-size: 12px;
    margin: 0;
    padding: 0;
-	background-image: url('pics/fon.png');
+	background-image: url('../pics/fon.png');
    background-repeat:  repeat-x;
 }
 
@@ -1217,7 +1217,7 @@ div#tabcontent {
 /* ################--------------- Header / menu  ---------------#################### */
 
 div#header {
-   background: #f1f4e3 url("pics/fd_nav1.png") 0 0 repeat-x;
+   background: #f1f4e3 url("/pics/fd_nav1.png") 0 0 repeat-x;
    margin: 0px 10px 10px 10px;
    -moz-border-radius: 0px 0px 8px 8px;
    -webkit-border-radius: 0px 0px 8px 8px;
@@ -1364,7 +1364,7 @@ ul#menu ul li a {
 }
 
 ul#menu ul li a:hover {
-   background: url("pics/fd_nav2.png") 0 0 repeat;
+   background: url("/pics/fd_nav2.png") 0 0 repeat;
 }
 
 ul#menu li#menu1 {
@@ -1443,7 +1443,7 @@ div#header div#c_logo {
    width: 64px;
    height: 41px;
    float: left;
-   background: url("pics/fd_logo.png") 0 0 repeat-x;
+   background: url("/pics/fd_logo.png") 0 0 repeat-x;
 }
 
 div#header div#c_logo a {
@@ -1454,7 +1454,7 @@ div#header div#c_logo a {
 }
 
 div#c_ssmenu1 {
-   background: url("pics/fd_nav2.png") 0 0 repeat-x;
+   background: url("/pics/fd_nav2.png") 0 0 repeat-x;
    height: 24px;
    clear: both;
    font-size: 0.8em;
@@ -1484,7 +1484,7 @@ div#c_ssmenu1 ul li a:hover {
 div#c_ssmenu2 {
    position: relative;
    z-index: 5;
-   background: url("pics/fd_nav3.png") 0 0 repeat-x;
+   background: url("/pics/fd_nav3.png") 0 0 repeat-x;
    height: 28px;
    clear: both;
    font-size: 0.9em; 
@@ -1518,7 +1518,7 @@ div#show_entities {
    top:20px;
    left:1px;
    border: 1px solid  #CC9900;
-   background: url("pics/fd_hoverlink.png") 0 0 repeat;
+   background: url("/pics/fd_hoverlink.png") 0 0 repeat;
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
    -o-border-radius: 5px;
@@ -1534,7 +1534,7 @@ div#show_entities_long {
    top:20px;
    left:1px;
    border: 1px solid  #CC9900;
-   background: url("pics/fd_hoverlink.png") 0 0 repeat;
+   background: url("/pics/fd_hoverlink.png") 0 0 repeat;
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
    -o-border-radius: 5px;
@@ -1553,7 +1553,7 @@ div#show_all_menu {
    top:20px; 
    left:5px;
    border: 1px solid  #CC9900;
-   background: url("pics/fd_hoverlink.png") 0 0 repeat;
+   background: url("/pics/fd_hoverlink.png") 0 0 repeat;
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
    border-radius: 5px;
@@ -1571,7 +1571,7 @@ div#show_all_menu {
 /* ################--------------- Footer  ---------------#################### */
 
 #footer {
-   background: url("pics/fd_footer.png") 0 0 repeat-x;
+   background: url("/pics/fd_footer.png") 0 0 repeat-x;
    font-size: 9px;	
    color :#757575;
    padding: 6px;
