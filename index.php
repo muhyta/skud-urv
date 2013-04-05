@@ -47,6 +47,6 @@ $vers = round(microtime(true) - $start,2)."s - " . $vers;
 $html=str_ireplace("%version%",$vers,$html);
 $users=getUserList();
 $info=$users[substr($_SERVER['AUTH_USER'],7)][0]."\n".$users[substr($_SERVER['AUTH_USER'],7)][1]."\n".$users[substr($_SERVER['AUTH_USER'],7)][2];
-$html=str_ireplace("Œ»“","<abbr title='".$info."'>Œ»“</abbr>",$html);
+//$html=str_ireplace("Œ»“","<abbr title='".$info."'>Œ»“</abbr>",$html);
 echo $html;                             //---ÓÚÓ·‡ÊÂÌËÂ ÒÚ‡ÌËˆ˚
 ?>
