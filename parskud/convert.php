@@ -47,7 +47,11 @@ include_once('PHPExcel.php');
 set_include_path(get_include_path() . PATH_SEPARATOR . '.');
 include 'PHPExcel/IOFactory.php';
 if (isset($_FILES['f']) and $_FILES['f']['error'] == 0) {
-if (isset($_REQUEST['p'])) { //---подбробно
+if (isset($_REQUEST['p'])) {
+
+/**
+ ** подбробно
+ */
 $inputFileName=$_FILES['f']['tmp_name'];
 if (isset($_REQUEST['i'])) $insrt=$_REQUEST['i'];
 $inputFileType = 'Excel5';
@@ -70,29 +74,35 @@ $day_end = array();
 $in_work_time_minutes = array();
 $morning_time_minutes = array();
 $in_work_date = array();
-$lta = array();
-$flag = array();
+$lta = array(); //массив предыдущих действий пользователей
+$flag = array(); //флаг совершенности вычитания 60 минут (обед)
 $otdel = array();
 $post = array();
+$dbg_str = array(); //строка накопления операций суммирования времени с датами действий
 
 for ($i=5; $i <= sizeof($sd); $i++) {
 	$firma=iconv('UTF-8','CP1251',$sd[$i]['E']);	// firma
 	$fio=iconv('UTF-8','CP1251',$sd[$i]['A']);	// fio
+    if (!isset($flag[$fio])) $flag[$fio] = 0;
 	$otdel[$fio]=iconv('UTF-8','CP1251',$sd[$i]['D']);	// otdel
 	if ( ( substr_count($firma,$footer)>0 || substr_count($firma,"Временный пропуск") > 0 ) && substr_count($otdel[$fio],"Рабоч") == 0 ) {
 		$post[$fio]=iconv('UTF-8','CP1251',$sd[$i]['B']);	// post
-		$date_time=iconv('UTF-8','CP1251',$sd[$i]['F']);	// date_time
-		$action=iconv('UTF-8','CP1251',$sd[$i]['I']);	// in_out action where
-		if ( !isset($in_work_date[$fio]) ) $in_work_date[$fio] = date('d.m.Y',strtotime($date_time))." 00:00:00";//date('d.m.Y',strtotime(substr($date_time,6,2)."-".substr($date_time,0,2)."-".substr($date_time,3,2)))." 00:00:00";
-		if ( (strtotime($date_time) - strtotime($in_work_date[$fio])) >= 46800 && (strtotime($date_time) - strtotime($in_work_date[$fio])) <= 50400 && !isset($flag[$fio]) ) {
-			$day_end[$fio] = date('d.m.Y',strtotime($date_time)). " 13:00:00";//date('d.m.Y',strtotime(substr($date_time,6,2)."-".substr($date_time,0,2)."-".substr($date_time,3,2)))." 13:00:00";
-			$in_work_time_minutes[$fio] = $in_work_time_minutes[$fio] + ((strtotime($day_end[$fio]) - strtotime($lta[$fio]))/60);
-			$lta[$fio] = date('d.m.Y',strtotime($date_time)). " 14:00:00";//date('d.m.Y',strtotime(substr($date_time,6,2)."-".substr($date_time,0,2)."-".substr($date_time,3,2)))." 14:00:00";
-			$flag[$fio]=1;
-		}
-		if ( substr_count($action,"Вход") > 0 && (substr_count($action,"Турникет") > 0 || substr_count($action,"Парковка") > 0)) {
+		$action_time=iconv('UTF-8','CP1251',$sd[$i]['F']);	// date_time of action
+		$where=iconv('UTF-8','CP1251',$sd[$i]['I']);	// in_out action place
+		if ( !isset($in_work_date[$fio]) ) $in_work_date[$fio] = date('d.m.Y',strtotime($action_time))." 00:00:00";//date('d.m.Y',strtotime(substr($date_time,6,2)."-".substr($date_time,0,2)."-".substr($date_time,3,2)))." 00:00:00";
+		if ( (strtotime($action_time) - strtotime($in_work_date[$fio])) >= 46800 && (strtotime($action_time) - strtotime($in_work_date[$fio])) <= 50400 ) {
+            if (!$flag[$fio]) {
+			    $day_end[$fio] = date('d.m.Y',strtotime($action_time)). " 13:00:00";//date('d.m.Y',strtotime(substr($date_time,6,2)."-".substr($date_time,0,2)."-".substr($date_time,3,2)))." 13:00:00";
+			    $in_work_time_minutes[$fio] = $in_work_time_minutes[$fio] + ((strtotime($day_end[$fio]) - strtotime($lta[$fio]))/60);
+                $dbg_str[$fio] .= date("d.m.Y H:i:s",strtotime($lta[$fio]))."-".date("d.m.Y H:i:s",strtotime($action_time)). "_".$in_work_time_minutes[$fio].";";
+			    $lta[$fio] = date('d.m.Y',strtotime($action_time)). " 14:00:00";//date('d.m.Y',strtotime(substr($date_time,6,2)."-".substr($date_time,0,2)."-".substr($date_time,3,2)))." 14:00:00";
+			    $flag[$fio]=1;
+            }
+            else continue;
+        }
+		if ( substr_count($where,"Вход") > 0 && (substr_count($where,"Турникет") > 0 || substr_count($where,"Парковка") > 0)) {
 			if ( !isset($day_start[$fio]) ) {
-				$day_start[$fio] = date("d.m.Y H:i:s",strtotime($date_time));
+				$day_start[$fio] = date("d.m.Y H:i:s",strtotime($action_time));
 				$in_work_time_minutes[$fio] = 0;
 				$lta[$fio] = $day_start[$fio];
 				//32400s = 9h:00m
@@ -101,20 +111,31 @@ for ($i=5; $i <= sizeof($sd); $i++) {
 				}
 				else $morning_time_minutes[$fio] = (32400 - (strtotime($day_start[$fio]) - strtotime($in_work_date[$fio]))) / 60;
 			}
-			if ( (substr_count($action,"Турникет") > 0 || substr_count($action,"Парковка") > 0) && (strtotime($date_time) - strtotime($in_work_date[$fio])) >= (strtotime($lta[$fio]) - strtotime($in_work_date[$fio])) ) $lta[$fio] = $date_time;
+			if (strtotime($action_time) >= strtotime($lta[$fio])) $lta[$fio] = $action_time;
 		} 
-		if ( substr_count($action,"Выход") > 0 && (substr_count($action,"Турникет") > 0 || substr_count($action,"Парковка") > 0)) {
-			if ( (strtotime($date_time) - strtotime($lta[$fio])) > 0 ) $in_work_time_minutes[$fio] = $in_work_time_minutes[$fio] + (strtotime($date_time) - strtotime($lta[$fio]))/60;
-			$day_end[$fio] = date("d.m.Y H:i:s",strtotime($date_time));
+		if ( substr_count($where,"Выход") > 0 && (substr_count($where,"Турникет") > 0 || substr_count($where,"Парковка") > 0)) {
+			if ( (strtotime($action_time) - strtotime($lta[$fio])) > 0 ) {
+                $in_work_time_minutes[$fio] = $in_work_time_minutes[$fio] + (strtotime($action_time) - strtotime($lta[$fio]))/60;
+                $dbg_str[$fio] .= date("d.m.Y H:i:s",strtotime($lta[$fio]))."-".date("d.m.Y H:i:s",strtotime($action_time)). "_".$in_work_time_minutes[$fio].";";
+            }
+			$day_end[$fio] = date("d.m.Y H:i:s",strtotime($action_time));
+            $lta[$fio] = date("d.m.Y H:i:s",strtotime($action_time));
 		}
 	}
 }
+
 unset($fio);
-unset($firma,$date_time,$action);
+unset($firma,$action_time,$where);
 foreach ($in_work_date as $fio => $in_work) {
 		$result = "default";
-		if ( !isset($flag[$fio]) && (strtotime($day_start[$fio]) - strtotime($in_work_date[$fio])) < 46800 && (strtotime($day_end[$fio]) - strtotime($in_work_date[$fio])) > 46800) $in_work_time_minutes[$fio] = $in_work_time_minutes[$fio] - 60;
+		if (!$flag[$fio]
+                && (strtotime($day_start[$fio]) - strtotime($in_work_date[$fio])) < 46800
+                && (strtotime($day_end[$fio]) - strtotime($in_work_date[$fio])) > 46800) {
+            $in_work_time_minutes[$fio] = $in_work_time_minutes[$fio] - 60;
+            $dbg_str[$fio] .= date("d.m.Y H:i:s",strtotime($day_start[$fio]))."-".date("d.m.Y H:i:s",strtotime($day_end[$fio])). "_".$in_work_time_minutes[$fio].";";
+        }
 		if ( $in_work_time_minutes[$fio] > 1440 ) {
+            $dbg_str[$fio] .= "Беспредел:".$in_work_time_minutes[$fio].";";
 			$in_work_time_minutes[$fio] = 495;
 			$morning_time_minutes[$fio] = 0;
 		}
@@ -189,18 +210,22 @@ foreach ($in_work_date as $fio => $in_work) {
 			else $result="<abbr title=\"".$result.";\n".$query."\"><span style='color:red;'>no user</span></abbr>";
 		}
 		$body = $body . "<tr class='tab_bg_1'><td>"
-			.date('d.m.Y',strtotime($in_work))."</td><td>"
+			.date('d.m.Y',strtotime($in_work))."</td><td><abbr title='".$dbg_str[$fio]."'>"
 			.$fio."</td><td>"
 			.$post[$fio]."</td><td>"
 			.$otdel[$fio]."</td><td>"
 			.date('H:i',strtotime($day_start[$fio]))."</td><td>"
 			.date('H:i',strtotime($day_end[$fio]))."</td><td>"
-			.(($in_work_time_minutes[$fio] <= 10 || $in_work_time_minutes[$fio] > 700)?"<span style='color:red;'>".$in_work_time_minutes[$fio]."</span>":$in_work_time_minutes[$fio])."</td><td>"
+			.(($in_work_time_minutes[$fio] <= 10 || $in_work_time_minutes[$fio] > 700)?"<span style='color:red;'>".$in_work_time_minutes[$fio]."</span>":$in_work_time_minutes[$fio])."</td><td>(".$flag[$fio].")"
 			.$morning_time_minutes[$fio]."</td><td><abbr title=\"".$query."\">"
 			.$result."</abbr></td></tr>";
 		}
 	}
-	else {//---обычно
+	else {
+
+/**
+** обычно
+*/
 $inputFileName=$_FILES['f']['tmp_name']; 
 if (isset($_REQUEST['i'])) $insrt=$_REQUEST['i'];
 $inputFileType = 'Excel5';
