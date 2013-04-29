@@ -121,6 +121,7 @@ for ($i=5; $i <= sizeof($sd); $i++) {
 			$day_end[$fio] = date("d.m.Y H:i:s",strtotime($action_time));
             $lta[$fio] = date("d.m.Y H:i:s",strtotime($action_time));
 		}
+        $day_end[$fio] = date("d.m.Y H:i:s",strtotime($action_time));
 	}
 }
 
