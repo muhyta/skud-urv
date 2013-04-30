@@ -39,7 +39,7 @@
 	<table class='tab_cadre_fixe'>
 		<tr style='text-align:center;'>
 			<td id='full' name='full' style='border:solid 1px #fff;width:33%;cursor:pointer;' onclick="p.value=1;short.style.backgroundColor='#f2f2f2';this.style.backgroundColor='#ddff70';" onmouseover="this.style.border='solid 1px black';" onmouseout="this.style.border='solid 1px #fff';"><span style='font-size:14px;font-weight:bold;text-align:center;'>Обычно</span></td>
-			<td style='border:solid 1px #f2f2f2;width:34%;'> </td>
+			<td style='border:solid 1px #f2f2f2;width:34%;'>  </td>
 			<td id='short' name='short' style='border:solid 1px #fff;width:33%;cursor:pointer;background-color:#ddff70;' onclick="p.value=2;full.style.backgroundColor='#f2f2f2';this.style.backgroundColor='#ddff70';" onmouseover="this.style.border='solid 1px black';" onmouseout="this.style.border='solid 1px #fff';"><span style='font-size:14px;font-weight:bold;text-align:center;'>Подробно</span></td>
 		</tr>
 		<tr style='text-align:center;'>

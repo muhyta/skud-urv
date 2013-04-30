@@ -124,7 +124,6 @@ for ($i=5; $i <= sizeof($sd); $i++) {
         $day_end[$fio] = date("d.m.Y H:i:s",strtotime($action_time));
 	}
 }
-
 unset($fio);
 unset($firma,$action_time,$where);
 foreach ($in_work_date as $fio => $in_work) {
