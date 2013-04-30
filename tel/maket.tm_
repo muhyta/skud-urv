@@ -5,11 +5,12 @@
 <link rel='stylesheet' type='text/css' href='style_from_glpi.css'>
 <link href="/favicon.ico" type="images/x-icon" rel="shortcut icon">
 <script type="text/javascript">if ("%err%" != "") alert("%err%","Ошибка");</script>
+<script type="text/javascript" src="/script.js"></script>
 
 
 <head>
 	<title>
-		СКУД
+		Телефония
 	</title>
 </head>
 <body class=" ext-gecko ext-gecko3">
@@ -39,7 +40,56 @@
         %add%
     <br>
         %log%
-	<div class='center'>%centerbar%</div>
+	<div class='center'>%centerbar%
+        <div id='wait' name='wait' style='width:205px;'>
+            <input type='hidden' value='0' name='id' id='id'/>
+            <table style='border:1px solid gray;z-index:1000;margin:5px;width:97%;height:100%;'>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='text' id='num_new' name='num_new' style='width:90%;height:90%;' value='Номер' title="Номер телефона" onfocus='if(this.value == "Номер"){this.value="";}' onblur='if(this.value==""){this.value="Номер";}' />
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input list='users' type='text' id='user_new' name='user_new' style='width:90%;height:90%;' value='Пользователь' title='Пользователь, от кого предоставлены данные' onfocus='if(this.value == "Пользователь"){this.value="";}' onblur='if(this.value==""){this.value="Пользователь";}' />
+                        <datalist id='users'>
+                            %users%
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='text' id='organization_new' name='organization_new' style='width:90%;height:90%;' value='Организация' title='Организация, владеющая телефоном (необязательное поле)' onfocus='if(this.value == "Организация"){this.value="";}' onblur='if(this.value==""){this.value="Организация";}' />
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='text' id='comment_new' name='comment_new' style='width:90%;height:90%;' value='Комментарии' title='Необязательное поле' onfocus='if(this.value == "Комментарии"){this.value="";}' onblur='if(this.value==""){this.value="Комментарии";}' />
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='checkbox' id='black_new' name='black_new' value='1' title='Проставляется, если номер в черном списке' />
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='button' value='Добавить' onclick='telNumjs(id.value,4);' style='width:150px;height:24px;'>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='button' value='Сохранить' onclick='telNumjs(id.value,2);' style='width:150px;height:24px;'>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='button' value='Удалить' onclick='telNumjs(id.value,3);' style='width:150px;height:24px;'>
+                    </td>
+                </tr>
+            </table>
+    </div>
+    </div>
 </div>
 <div id="footer">
 	<table width="100%">

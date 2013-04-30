@@ -11,19 +11,16 @@ $add="";
 if (substr_count($_SERVER['AUTH_USER'],$admin_u[0]) || substr_count($_SERVER['AUTH_USER'],$admin_u[1]) || substr_count($_SERVER['AUTH_USER'],$admin_u[2])) {
     if (isset($_REQUEST['p'])) $p=$_REQUEST['p']; else $p="1";
     switch ($p) {
+        default:
         case "1":
-            $header="Список телефонов<br><span style='font-size:11px;color:#c0272b;'>Для добавления телефона заполните поле формы и нажмите +.<br>Если телефон является личным, проставьте галочку.<br>Для редактирования телефона, выберите его из списка.</span>";
+            $header="Список телефонов<br><span style='font-size:11px;color:#c0272b;'>Для добавления телефона заполните поле формы и нажмите Добавить.<br>Если телефон является личным, проставьте галочку.<br>Для редактирования телефона, выберите его из списка.</span>";
             $menu=str_ireplace("<li id='menu1'>","<li id='menu1' style='background-color:rgb(221,255,112);'>",$menu);
             include("list.php"); break;
         case "2":
             $header="Ничегошеньки<br><span style='font-size:11px;color:#c0272b;'>Для изменения ничевошеньки - ничего не нужно</span>";
             $menu=str_ireplace("<li id='menu2'>","<li id='menu2' style='background-color:rgb(221,255,112);'>",$menu);
             include_once('nope.php'); break;
-        default:
-            $header="Список телефонов<br><span style='font-size:11px;color:#c0272b;'>Для добавления телефона заполните поле формы и нажмите +.<br>Если телефон является личным, проставьте галочку.<br>Для редактирования телефона, выберите его из списка.</span>";
-            $menu=str_ireplace("<li id='menu1'>","<li id='menu1' style='background-color:rgb(221,255,112);'>",$menu);
-            include("list.php");}
-}
+        }}
 else $add = "Access denied!";
 
 $html=str_ireplace("%menu%",$menu,$html);

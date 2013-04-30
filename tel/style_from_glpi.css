@@ -189,7 +189,6 @@ hr {
     position: fixed;
     z-index:100;
     left: -5px;
-    right: 80%;
     top:35%;
     margin: 50px 0px 50px 0px;
     border:2px solid gray;
