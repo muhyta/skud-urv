@@ -3,12 +3,12 @@
 <link rel='stylesheet' type='text/css' href='style_from_glpi.css'>
 <meta http-equiv="content-type" content="text/html; charset=windows-1251" />
 <link href="/favicon.ico" type="images/x-icon" rel="shortcut icon">
-
+<script type="text/javascript" src="/script.js"></script>
 
 
 <head>
 	<title>
-		Статистика СКУД УРВ
+		СКУД
 	</title>
 </head>
 <body class=" ext-gecko ext-gecko3">
@@ -36,41 +36,32 @@
 		</tr>
 	</table>	
 	<br>
-	<table width='100%' class='tab_cadre_fixe'>
-		<tr>
-			<td></td>
-			<td><span style='font-size:14px;font-weight:bold;'>Обычный</span></td>
-			<td></td>
-			<td></td>
-			<td><span style='font-size:14px;font-weight:bold;'>Подробно</span></td>
-			<td></td>
+	<table class='tab_cadre_fixe'>
+		<tr style='text-align:center;'>
+			<td id='full' name='full' style='border:solid 1px #fff;width:33%;cursor:pointer;' onclick="p.value=1;short.style.backgroundColor='#f2f2f2';this.style.backgroundColor='#ddff70';" onmouseover="this.style.border='solid 1px black';" onmouseout="this.style.border='solid 1px #fff';"><span style='font-size:14px;font-weight:bold;text-align:center;'>Обычно</span></td>
+			<td style='border:solid 1px #f2f2f2;width:34%;'> </td>
+			<td id='short' name='short' style='border:solid 1px #fff;width:33%;cursor:pointer;background-color:#ddff70;' onclick="p.value=2;full.style.backgroundColor='#f2f2f2';this.style.backgroundColor='#ddff70';" onmouseover="this.style.border='solid 1px black';" onmouseout="this.style.border='solid 1px #fff';"><span style='font-size:14px;font-weight:bold;text-align:center;'>Подробно</span></td>
 		</tr>
-		<tr>
-		<form action='index.php' method='post' enctype='multipart/form-data'>
+		<tr style='text-align:center;'>
+		<form action='index.php' method='post' enctype='multipart/form-data' id='file' name='file'>
 			<td class='tab_bg_2' style='text-align:right;'>
-				<input type='file' name='f'>
-			</td>
-			<td>
-				<input type='checkbox' name='i' value='1'> Писать в базу?
-			</td>
-			<td class='tab_bg_2' style='text-align:left;'>
-				<input type='submit' value='Загрузить'>
-			</td>
-		</form>
-		<form action='index.php' method='post' enctype='multipart/form-data'>
-			<td class='tab_bg_2' style='text-align:right;'>
-				<input type='file' name='f'>
-				<input type='hidden' name='p' value='2'>
-			</td>
-			<td>
-				<input type='checkbox' name='i' value='1'> Писать в базу?
-			</td>
-			<td class='tab_bg_2' style='text-align:left;'>
-				<input type='submit' value='Загрузить'>
+            </td>
+            <td>
+				<input style='width:100%;' type='file' name='f' accept="application/vnd.ms-excel" /><br><br>
+				<input type='hidden' name='p' id='p' value='2'>
+                <input type='checkbox' name='i' id='i' value='1' title='Записывать в базу?'><br>
+				<input type='submit' value='Загрузить' style='width:50%;height:22px;'><br>
+            </td>
+            <td class='tab_bg_2' style='text-align:left;'>
 			</td>
 		</form>
 		</tr>
 	</table>
+    <table width='100%' class='tab_cadre_fixe'>
+        <tr>
+            <td class='tab_bg_2' style='text-align:center;'><input type='button' value='В базу' onclick='parsSKUDjs()'></td>
+        </tr>
+    </table>
 	<br>
 	<div class='center'> %centerbar% </div>
 </div>

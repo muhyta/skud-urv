@@ -47,7 +47,7 @@ include_once('PHPExcel.php');
 set_include_path(get_include_path() . PATH_SEPARATOR . '.');
 include 'PHPExcel/IOFactory.php';
 if (isset($_FILES['f']) and $_FILES['f']['error'] == 0) {
-if (isset($_REQUEST['p'])) {
+if ($_REQUEST['p'] == 2) {
 
 /**
  ** подбробно
@@ -94,7 +94,7 @@ for ($i=5; $i <= sizeof($sd); $i++) {
             if (!$flag[$fio]) {
 			    $day_end[$fio] = date('d.m.Y',strtotime($action_time)). " 13:00:00";//date('d.m.Y',strtotime(substr($date_time,6,2)."-".substr($date_time,0,2)."-".substr($date_time,3,2)))." 13:00:00";
 			    $in_work_time_minutes[$fio] = $in_work_time_minutes[$fio] + ((strtotime($day_end[$fio]) - strtotime($lta[$fio]))/60);
-                $dbg_str[$fio] .= date("d.m.Y H:i:s",strtotime($lta[$fio]))."-".date("d.m.Y H:i:s",strtotime($action_time)). "_".$in_work_time_minutes[$fio].";";
+                $dbg_str[$fio] .= date("d.m.Y H:i:s",strtotime($lta[$fio]))."-".date("d.m.Y H:i:s",strtotime($action_time)). "_".$in_work_time_minutes[$fio].";\n";
 			    $lta[$fio] = date('d.m.Y',strtotime($action_time)). " 14:00:00";//date('d.m.Y',strtotime(substr($date_time,6,2)."-".substr($date_time,0,2)."-".substr($date_time,3,2)))." 14:00:00";
 			    $flag[$fio]=1;
             }
@@ -116,7 +116,7 @@ for ($i=5; $i <= sizeof($sd); $i++) {
 		if ( substr_count($where,"Выход") > 0 && (substr_count($where,"Турникет") > 0 || substr_count($where,"Парковка") > 0)) {
 			if ( (strtotime($action_time) - strtotime($lta[$fio])) > 0 ) {
                 $in_work_time_minutes[$fio] = $in_work_time_minutes[$fio] + (strtotime($action_time) - strtotime($lta[$fio]))/60;
-                $dbg_str[$fio] .= date("d.m.Y H:i:s",strtotime($lta[$fio]))."-".date("d.m.Y H:i:s",strtotime($action_time)). "_".$in_work_time_minutes[$fio].";";
+                $dbg_str[$fio] .= date("d.m.Y H:i:s",strtotime($lta[$fio]))."-".date("d.m.Y H:i:s",strtotime($action_time)). "_".$in_work_time_minutes[$fio].";\n";
             }
 			$day_end[$fio] = date("d.m.Y H:i:s",strtotime($action_time));
             $lta[$fio] = date("d.m.Y H:i:s",strtotime($action_time));
@@ -129,18 +129,22 @@ unset($fio);
 unset($firma,$action_time,$where);
 foreach ($in_work_date as $fio => $in_work) {
 		$result = "default";
+        if ($in_work_time_minutes[$fio] <= 0) {
+            $in_work_time_minutes[$fio] = (strtotime($day_end[$fio])-strtotime($day_start[$fio]))/60;
+            $dbg_str[$fio] .= date("d.m.Y H:i:s",strtotime($day_start[$fio]))."-".date("d.m.Y H:i:s",strtotime($day_end[$fio]))."_".$in_work_time_minutes[$fio].";\n";
+        }
 		if (!$flag[$fio]
                 && (strtotime($day_start[$fio]) - strtotime($in_work_date[$fio])) < 46800
                 && (strtotime($day_end[$fio]) - strtotime($in_work_date[$fio])) > 46800) {
             $in_work_time_minutes[$fio] = $in_work_time_minutes[$fio] - 60;
-            $dbg_str[$fio] .= date("d.m.Y H:i:s",strtotime($day_start[$fio]))."-".date("d.m.Y H:i:s",strtotime($day_end[$fio])). "_".$in_work_time_minutes[$fio].";";
+            $dbg_str[$fio] .= date("d.m.Y H:i:s",strtotime($day_start[$fio]))."-".date("d.m.Y H:i:s",strtotime($day_end[$fio])). "_".$in_work_time_minutes[$fio].";\n";
         }
 		if ( $in_work_time_minutes[$fio] > 1440 ) {
-            $dbg_str[$fio] .= "Беспредел:".$in_work_time_minutes[$fio].";";
+            $dbg_str[$fio] .= "Беспредел:".$in_work_time_minutes[$fio].";\n";
 			$in_work_time_minutes[$fio] = 495;
 			$morning_time_minutes[$fio] = 0;
 		}
-		$id_w=mssql_fetch_row(mssql_query("SELECT	Workers.ID_Worker FROM	Workers WHERE	(Workers.F_Worker + ' ' + Workers.N_Worker + ' ' + Workers.P_Worker LIKE '%".$fio."%')"));
+		$id_w=mssql_fetch_row(mssql_query("SELECT Workers.ID_Worker FROM Workers WHERE (Workers.F_Worker + ' ' + Workers.N_Worker + ' ' + Workers.P_Worker LIKE '%".$fio."%')"));
 		if (!isset($id_w[0])) {
 			$id_o=mssql_fetch_row(mssql_query("SELECT     ID_Otdel FROM         Otdels WHERE     (Name_Otdel = '".$otdel[$fio]."')"));
 			if (!isset($id_o[0])) {
@@ -222,7 +226,7 @@ foreach ($in_work_date as $fio => $in_work) {
 			.$result."</abbr></td></tr>";
 		}
 	}
-	else {
+	elseif ($_REQUEST['p'] == 1) {
 
 /**
 ** обычно
