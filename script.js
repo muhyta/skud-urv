@@ -71,7 +71,7 @@ function telNumjs(num,i) {
     function ProcessRequest() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             var s=xmlHttp.responseText;
-            if (s != '0') {
+            if (s.indexOf("|") > 0) {
                 id.value=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
                 num_new.value=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
                 user_new.value=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
@@ -80,19 +80,7 @@ function telNumjs(num,i) {
                 if (s) black_new.checked = true;
                 else black_new.checked = false;
             }
-            else
-                switch (i) {
-                case 2:
-                    alert("Изменено");
-                    break;
-                case 3:
-                    alert("Удалено");
-                    break;
-                case 4:
-                    alert("Добавлено");
-                    break;
-                default: break;
-            }
+            else alert(s);
         }
     }
 
@@ -101,13 +89,68 @@ function telNumjs(num,i) {
             url = "ajax.php?id="+num+"&i="+i;
             break;
         case 2: //edit
-            url = "ajax.php?id="+num_new.value+"&num_new="+num_new.value+"&user_new="+user_new.value+"&black_new="+black_new.value+"&organization_new="+organization_new.value+"&comment_new="+comment_new.value+"&i="+i;
+            url = "ajax.php?id="+id.value+"&num_new="+num_new.value+"&user_new="+user_new.value+"&black_new="+((black_new.checked)?1:0)+"&organization_new="+organization_new.value+"&comment_new="+comment_new.value+"&i="+i;
             break;
         case 3: //del
             url = "ajax.php?id="+num+"&i="+i;
             break;
-        case 4: //add
-            url = "ajax.php?id="+num_new.value+"&num_new="+num_new.value+"&user_new="+user_new.value+"&black_new="+black_new.value+"&organization_new="+organization_new.value+"&comment_new="+comment_new.value+"&i="+i;
+        default: break;
+    }
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send();
+}
+
+function usrSKUDjs(id,i,domain) {
+    if (i == 4) {
+        id_new.value="";
+        w_f_new.value="";
+        w_n_new.value="";
+        w_p_new.value="";
+        w_l_new.value="";
+        w_post_new.value="";
+        w_otdel_new.value="";
+        w_i_new.value="";
+        w_fired.checked = false;
+        foto.src = domain+"/photos/none.png";
+        return 0;
+    }
+    var url = null;
+    var xmlHttp = null;
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = ProcessRequest;
+    xmlHttp.withCredentials = true;
+    function ProcessRequest() {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+            var s=xmlHttp.responseText;
+            if (s.indexOf("|") > 0) {
+                //       id | w_f_new | w_n_new | w_p_new | w_l_new | w_post_new | w_otdel_new | w_fired | w_i_new
+                id_new.value=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
+                w_f_new.value=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
+                w_n_new.value=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
+                w_p_new.value=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
+                w_l_new.value=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
+                w_post_new.value=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
+                w_otdel_new.value=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
+                var n=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
+                w_i_new.value=s.substr(0,s.indexOf('|')); s=s.substr(s.indexOf('|')+1);
+                if (!n) w_fired.checked = true;
+                else w_fired.checked = false;
+                foto.src = "http://www."+domain+"/photos/"+w_l_new.value+".jpg";
+            }
+            else alert(s);
+        }
+    }
+
+    switch (i) {
+        case 1: //get
+            url = "ajax.php?id="+id+"&i="+i;
+            break;
+        case 2: //edit
+            url = "ajax.php?id="+id_new.value+"&f_new="+w_f_new.value+"&n_new="+w_n_new.value+"&p_new="+w_p_new.value+"&l_new="+w_l_new.value+"&post_new="+w_post_new.value+"&otdel_new="+w_otdel_new.value+"&fired="+((w_fired.checked)?1:0)+"&i_new="+w_n_new.value.substr(0,1)+"."+w_p_new.value.substr(0,1)+"."+"&i="+i;
+            //"&num_new="+num_new.value+"&user_new="+user_new.value+"&black_new="+((black_new.checked)?1:0)+"&organization_new="+organization_new.value+"&comment_new="+comment_new.value+"&i="+i;
+            break;
+        case 3: //del
+            url = "ajax.php?id="+id+"&i="+i;
             break;
         default: break;
     }

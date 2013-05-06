@@ -22,6 +22,7 @@ $html = str_ireplace("%filename%","",$html);
 $html=str_ireplace("%menu%",$menu,$html);
 $html=str_ireplace("%centerbar%",$body,$html);
 $html=str_ireplace("%footer%",$footer,$html);
+$html=str_ireplace("%domain%","http://www.".$domain,$html);
 $html=str_ireplace("%header%",$header,$html);
 $vers = round(microtime(true) - $start,5) ."s ". $vers;
 $html=str_ireplace("%version%",$vers,$html);

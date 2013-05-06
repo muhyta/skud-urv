@@ -20,7 +20,7 @@ if (substr_count($_SERVER['AUTH_USER'],$admin_u[0]) || substr_count($_SERVER['AU
     if (isset($_REQUEST['p'])) $p=$_REQUEST['p']; else $p="2";
     switch ($p) {
         case "1":
-            $header="Пользователи<br><span style='font-size:11px;color:#c0272b;'>Для добавления пользователя заполните поля формы и нажмите \"+\"<br>Для редактирования пользователя, выберите его из списка.</span>";
+            $header="Пользователи<br><span style='font-size:11px;color:#c0272b;'>Для добавления пользователя заполните поля формы и нажмите \"Сохранить\"<br>Для редактирования пользователя, выберите его из списка.</span>";
             $menu=str_ireplace("<li id='menu3'>","<li id='menu3' style='background-color:rgb(221,255,112);'>",$menu);
             include("user.php"); break;
         case "2":
@@ -36,6 +36,7 @@ else $add = "Access denied!";
 $html=str_ireplace("%menu%",$menu,$html);
 $html=str_ireplace("%centerbar%",$body,$html);
 $html=str_ireplace("%footer%",$footer,$html);
+$html=str_ireplace("%domain%","http://www.".$domain,$html);
 $html=str_ireplace("%header%",$header,$html);
 $html=str_ireplace("%err%",$err,$html);
 //---1

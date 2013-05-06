@@ -4,6 +4,7 @@
 <link rel='stylesheet' type='text/css' href='style.css'>
 <link rel='stylesheet' type='text/css' href='style_from_glpi.css'>
 <link href="/favicon.ico" type="images/x-icon" rel="shortcut icon">
+<script type="text/javascript" src="../script.js"></script>
 <script type="text/javascript">if ("%err%" != "") alert("Ошибка","%err%");</script>
 
 
@@ -39,13 +40,81 @@
         %add%
     <br>
         %log%
-	<div class='center'>%centerbar%</div>
+	<div class='center'>%centerbar%
+        <div id='wait' name='wait'>
+            <input type='hidden' value='0' name='id_new' id='id_new' />
+            <input type='hidden' id='w_i_new' name='w_i_new' value='' />
+            <table style='border:1px solid gray;z-index:1000;margin:10px 0px 10px 10px;width:92%;height:100%;'>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <img id='foto' name='foto' src='%domain%/photos/none.png' style='height:150px;' value='' title=''>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='text' id='w_f_new' name='w_f_new' style='width:90%;height:90%;' value=''>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='text' id='w_n_new' name='w_n_new' style='width:90%;height:90%;' value=''>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='text' id='w_p_new' name='w_p_new' style='width:90%;height:90%;' value=''>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='text' id='w_l_new' name='w_l_new' style='width:90%;height:90%;' value=''>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input list='posts' type='text' id='w_post_new' name='w_post_new' style='width:90%;height:90%;' value='' />
+                        <datalist id='posts'>
+                            %posts%
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input list='otdels' type='text' id='w_otdel_new' name='w_otdel_new' style='width:90%;height:90%;' value='' />
+                        <datalist id='otdels'>
+                            %otdels%
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='checkbox' id='w_fired' name='w_fired' value='1' /> <span style='font-size:9px;'>Уволен</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='button' value='Очистить' onclick='usrSKUDjs(0, 4,"%domain%");'  style='width:150px;height:25px;'>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='button' value='Сохранить' onclick='usrSKUDjs(id_new.value, 2,"%domain%");' style='width:150px;height:25px;'><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
+                        <input type='button' value='Удалить' onclick='usrSKUDjs(id_new.value, 3,"%domain%");'  style='width:150px;height:25px;'>
+                    </td>
+                </tr>
+            </table>
+    </div>
+    </div>
 </div>
 <div id="footer">
 	<table width="100%">
 		<tr>
 			<td class="left"><span class="copyright">%version%</span></td>
-			<td class="right"><a href="http://www.gtptmn.gtp.transneft.ru/"><span class="copyright">%footer%</span></a></td>
+			<td class="right"><a href="%domain%"><span class="copyright">%footer%</span></a></td>
 		</tr>
 	</table>
 </div>

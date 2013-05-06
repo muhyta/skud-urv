@@ -42,7 +42,7 @@
 	<table width="100%">
 		<tr>
 			<td class="left"><span class="copyright">%version%</span></td>
-			<td class="right"><a href="http://www.gtptmn.gtp.transneft.ru/"><span class="copyright">%footer%</span></a></td>
+			<td class="right"><a href="%domain%"><span class="copyright">%footer%</span></a></td>
 		</tr>
 	</table>
 </div>

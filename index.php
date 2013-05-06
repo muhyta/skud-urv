@@ -41,6 +41,7 @@ $html=str_ireplace("%leftbar%",$links,$html);
 $html=str_ireplace("%rightbar%",$ads,$html);
 $html=str_ireplace("%centerbar%",$body,$html);
 $html=str_ireplace("%footer%",$footer,$html);
+$html=str_ireplace("%domain%","http://www.".$domain,$html);
 $html=str_ireplace("%header%",$header,$html);
 mssql_close($db);                       //---завершение подключения к базе
 $vers = round(microtime(true) - $start,2)."s - " . $vers;

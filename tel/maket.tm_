@@ -74,11 +74,6 @@
                 </tr>
                 <tr>
                     <td class='tab_bg_2'>
-                        <input type='button' value='Добавить' onclick='telNumjs(id.value,4);' style='width:150px;height:24px;'>
-                    </td>
-                </tr>
-                <tr>
-                    <td class='tab_bg_2'>
                         <input type='button' value='Сохранить' onclick='telNumjs(id.value,2);' style='width:150px;height:24px;'>
                     </td>
                 </tr>
@@ -95,7 +90,7 @@
 	<table width="100%">
 		<tr>
 			<td class="left"><span class="copyright">%version%</span></td>
-			<td class="right"><a href="http://www.gtptmn.gtp.transneft.ru/"><span class="copyright">%footer%</span></a></td>
+			<td class="right"><a href="%domain%"><span class="copyright">%footer%</span></a></td>
 		</tr>
 	</table>
 </div>
