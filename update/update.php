@@ -1,127 +1,9 @@
 <?php
-function get_by_id($id,$db) {
-    $query="SELECT
-            tURVData.IN_WORK_DATE,
-			Workers.F_Worker,
-			Workers.I_Worker,
-			Posts.N_Post,
-			Otdels.NB_Otdel,
-			tURVData.DAY_START,
-			tURVData.DAY_END,
-			tURVData.IN_WORK_TIME_MINUTES,
-			tURVData.MORNING_TIME_MINUTES,
-			tURVData.id
-		FROM         tURVData INNER JOIN
-                      Workers ON tURVData.ID_Worker = Workers.ID_Worker INNER JOIN
-                      Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel INNER JOIN
-                      Posts ON Workers.ID_Post = Posts.ID_Post
-		WHERE     (tURVData.id = ".$id.")";
-    $res=mssql_query($query,$db);
-    $r=mssql_fetch_row($res);
-    $tor="<div id=\"wait\" name='wait' style='width:230px;'>
-                <form action='index.php' method='post' id='change' name='change'>
-            	<input type='hidden' value='2' name='p' id='p'/>
-            	<input type='hidden' value='2' name='flag' id='flag'/>
-            	<input type='hidden' value='".$r[9]."' name='id_new' id='id_new'/>
-            	<input type='hidden' value='".date('d',strtotime($r[0]))."' name='d' id='d'/>
-            	<input type='hidden' value='".date('m',strtotime($r[0]))."' name='m' id='m'/>
-            	<input type='hidden' value='".date('Y',strtotime($r[0]))."' name='y' id='y'/>
-                <table style='border:1px solid gray;z-index:1000;margin:10px 0px 10px 10px;width:90%;height:100%;'>
-                    <tr class='tab_bg_1'><td>Дата</td>
-                        <td class='tab_bg_2'>
-				        <input type='date' name='date_new' style='width:90%;height:90%;' value='".date('Y-m-d',strtotime($r[0]))."' />
-		            </td></tr>
-		            <tr class='tab_bg_1'><td>ФИО</td>
-		                <td class='tab_bg_2'>
-		                <input type='text' style='width:90%;height:90%;' value='".$r[1]." ".$r[2]."' disabled>
-		            </td></tr>
-		            <tr class='tab_bg_1'><td>Должность</td>
-		                <td class='tab_bg_2'>
-		                <input type='text' style='width:90%;height:90%;' value='".$r[3]."' disabled>
-		            </td></tr>
-		            <tr class='tab_bg_1'><td>Отдел</td>
-		                <td class='tab_bg_2'>
-		                <input type='text' style='width:90%;height:90%;' value='".$r[4]."' disabled>
-		            </td></tr>
-		            <tr class='tab_bg_1'><td>Первый вход</td>
-		                <td class='tab_bg_2'>
-		                <input type='time' name='in_new' style='width:90%;height:90%;' value='".date('H:i',strtotime($r[5]))."' />
-		            </td></tr>
-		            <tr class='tab_bg_1'><td>Последний выход</td>
-		                <td class='tab_bg_2'>
-		                <input type='time' name='out_new' style='width:90%;height:90%;' value='".date('H:i',strtotime($r[6]))."' />
-		            </td></tr>
-		            <tr class='tab_bg_1'><td>Находился в здании</td>
-		                <td class='tab_bg_2'>
-		                <input type='text' name='in_time_new' style='width:90%;height:90%;' value='".$r[7]."' />
-		            </td></tr>
-		            <tr class='tab_bg_1'><td>Утренняя переработка</td>
-		                <td class='tab_bg_2'>
-		                <input type='text' name='b_time_new' style='width:90%;height:90%;' value='".$r[8]."' />
-		            </td></tr>
-	            </table>
-	            <input type='button' value='Применить' onclick='document.getElementById(\"flag\").value=2;document.change.submit();' style='width:150px;height:90%;'></br></br>
-	            <input style='width:50px;height:90%;' type='button' value='Удалить' onclick='document.getElementById(\"flag\").value=3;document.change.submit();'>
-	            <input style='width:50px;height:90%;' type='button' value='Закрыть' onclick='document.getElementById(\"wait\").style.visibility=\"hidden\";document.getElementById(\"wait_block\").style.visibility=\"hidden\";'>
-	            </form>
-        </div>";
-    return $tor;}
 
-function update_by_id($id,$in_new,$out_new,$in_time_new,$b_time_new,$db) {
-    $query="UPDATE tURVData SET DAY_START = CONVERT(DATETIME, '".$in_new."', 102),  DAY_END = CONVERT(DATETIME, '".$out_new."', 102), IN_WORK_TIME_MINUTES = ".$in_time_new.", MORNING_TIME_MINUTES = ".$b_time_new." WHERE (tURVData.id = ".$id.")";
-    mssql_query($query,$db);
-}
 foreach ($_REQUEST as $k => $v) $$k=$v;
-$d_sel="";$m_sel="";$y_sel="";
-for ($i=1;$i<32;$i++){
-	if ($i != $d) $d_sel.="<option value='".$i."'>".$i."</option>";
-    else $d_sel.="<option selected value='".$i."'>".$i."</option>";}
-$month=array( 0 => 0,
-	1 => "<option value='01'>Январь</option>",
-	2 => "<option value='02'>Февраль</option>",
-	3 => "<option value='03'>Март</option>",
-	4 => "<option value='04'>Апрель</option>",
-	5 => "<option value='05'>Май</option>",
-	6 => "<option value='06'>Июнь</option>",
-	7 => "<option value='07'>Июль</option>",
-	8 => "<option value='08'>Август</option>",
-	9 => "<option value='09'>Сентябрь</option>",
-	10 => "<option value='10'>Октябрь</option>",
-	11 => "<option value='11'>Ноябрь</option>",
-	12 => "<option value='12'>Декабрь</option>",
-    21 => "<option selected value='01'>Январь</option>",
-    22 => "<option selected value='02'>Февраль</option>",
-    23 => "<option selected value='03'>Март</option>",
-    24 => "<option selected value='04'>Апрель</option>",
-    25 => "<option selected value='05'>Май</option>",
-    26 => "<option selected value='06'>Июнь</option>",
-    27 => "<option selected value='07'>Июль</option>",
-    28 => "<option selected value='08'>Август</option>",
-    29 => "<option selected value='09'>Сентябрь</option>",
-    30 => "<option selected value='10'>Октябрь</option>",
-    31 => "<option selected value='11'>Ноябрь</option>",
-    32 => "<option selected value='12'>Декабрь</option>",);
-for ($i=1;$i<13;$i++){
-	if ($i != $m) $m_sel.=$month[$i];
-    else $m_sel.=$month[$i+20];}
-$year=array( 0 => "<option value='2010'>2010</option>",
-	1 => "<option value='2011'>2011</option>",
-	2 => "<option value='2012'>2012</option>",
-	3 => "<option value='2013'>2013</option>",
-	4 => "<option value='2014'>2014</option>",
-	5 => "<option value='2015'>2015</option>",
-    20 => "<option selected value='2010'>2010</option>",
-    21 => "<option selected value='2011'>2011</option>",
-    22 => "<option selected value='2012'>2012</option>",
-    23 => "<option selected value='2013'>2013</option>",
-    24 => "<option selected value='2014'>2014</option>",
-    25 => "<option selected value='2015'>2015</option>");
-for ($i=0;$i<6;$i++){
-	if (($i+2010) != $y) $y_sel.=$year[$i];
-    else $y_sel.=$year[$i+20];}
 
-if ($upd == 0 && $fio != "%"){
-	$query = "SELECT	tURVData.IN_WORK_DATE, 
+$query = "SELECT
+            tURVData.IN_WORK_DATE,
 			Workers.F_Worker, 
 			Workers.I_Worker, 
 			Posts.N_Post, 
@@ -134,85 +16,19 @@ if ($upd == 0 && $fio != "%"){
 			Workers.P_Worker,
 			Workers.ID_Worker,
 			tURVData.id
-	FROM         tURVData INNER JOIN
-                      Workers ON tURVData.ID_Worker = Workers.ID_Worker INNER JOIN
-                      Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel INNER JOIN
-                      Posts ON Workers.ID_Post = Posts.ID_Post
-	WHERE     (tURVData.IN_WORK_DATE = CONVERT(DATETIME, '".$y."-".$m."-".$d." 00:00:00', 102))
+	FROM    tURVData INNER JOIN Workers ON tURVData.ID_Worker = Workers.ID_Worker INNER JOIN Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel INNER JOIN Posts ON Workers.ID_Post = Posts.ID_Post
+	WHERE   (tURVData.IN_WORK_DATE = CONVERT(DATETIME, '".$Ymd." 00:00:00', 102))
 	ORDER BY Workers.F_Worker, Workers.I_Worker";
-}
-elseif ($upd == 1 && $id != "") {
-	$in_work=date("Y-m-d H:i:s",strtotime($_REQUEST['in_work']));
-	$out_work=date("Y-m-d H:i:s",strtotime($_REQUEST['out_work']));
-	$in_work_time=((strtotime($out_work) - strtotime($in_work)) / 60) - 60;
-	$morning_time="0";
-	$query = "
-		UPDATE    tURVData
-		SET     DAY_START = CONVERT(DATETIME, '".$in_work."', 102), 
-			DAY_END = CONVERT(DATETIME, '".$out_work."', 102), 
-			IN_WORK_TIME_MINUTES = ".$in_work_time.", 
-			MORNING_TIME_MINUTES = ".$morning_time."
-		FROM         tURVData INNER JOIN
-                      Workers ON tURVData.ID_Worker = Workers.ID_Worker INNER JOIN
-                      Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel INNER JOIN
-                      Posts ON Workers.ID_Post = Posts.ID_Post
-		WHERE     (tURVData.IN_WORK_DATE = CONVERT(DATETIME, '".$y."-".$m."-".$d." 00:00:00', 102)) 
-			AND (tURVData.ID_Worker = ".$id.");
-		SELECT	tURVData.IN_WORK_DATE, 
-			Workers.F_Worker, 
-			Workers.I_Worker, 
-			Posts.N_Post, 
-			Otdels.NB_Otdel,
-			tURVData.DAY_START, 
-			tURVData.DAY_END, 
-			tURVData.IN_WORK_TIME_MINUTES, 
-			tURVData.MORNING_TIME_MINUTES,
-			Workers.N_worker,
-			Workers.P_Worker,
-			Workers.ID_Worker,
-			tURVData.id
-		FROM         tURVData INNER JOIN
-                      Workers ON tURVData.ID_Worker = Workers.ID_Worker INNER JOIN
-                      Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel INNER JOIN
-                      Posts ON Workers.ID_Post = Posts.ID_Post
-		WHERE     (tURVData.IN_WORK_DATE = CONVERT(DATETIME, '".$y."-".$m."-".$d." 00:00:00', 102))
-			AND (tURVData.ID_Worker = ".$id.")
-		ORDER BY Workers.F_Worker, Workers.I_Worker";
-}
-else {
-    $query = "SELECT	tURVData.IN_WORK_DATE,
-			Workers.F_Worker, 
-			Workers.I_Worker, 
-			Posts.N_Post, 
-			Otdels.NB_Otdel,
-			tURVData.DAY_START, 
-			tURVData.DAY_END, 
-			tURVData.IN_WORK_TIME_MINUTES, 
-			tURVData.MORNING_TIME_MINUTES,
-			Workers.N_worker,
-			Workers.P_Worker,
-			Workers.ID_Worker,
-			tURVData.id
-	FROM         tURVData INNER JOIN
-                      Workers ON tURVData.ID_Worker = Workers.ID_Worker INNER JOIN
-                      Otdels ON Workers.ID_Otdel = Otdels.ID_Otdel INNER JOIN
-                      Posts ON Workers.ID_Post = Posts.ID_Post
-	WHERE     (tURVData.IN_WORK_DATE = CONVERT(DATETIME, '".$y."-".$m."-".$d." 00:00:00', 102))
-	ORDER BY Workers.F_Worker, Workers.I_Worker";
-}
-$header.="</td></tr><tr><td class='tab_bg_2'><form action='index.php' method='post' id='filt'><select name='d' onchange=\"document.getElementById('filt').submit();\">".$d_sel."</select>
-			<select name='m' onchange=\"document.getElementById('filt').submit();\">".$m_sel."</select>
-			<select name='y' onchange=\"document.getElementById('filt').submit();\">".$y_sel."</select>
+
+$header.="</td></tr><tr><td class='tab_bg_2'><form action='index.php' method='post' id='filt' name='filt'>
+			<input type='date' id='Ymd' name='Ymd' style='height:14px;' value='".(isset($Ymd)?$Ymd:date('Y-m-d'))."' onchange='filt.submit();' />
 			<input type='hidden' name='id' value='%id%' />
 			<input type='hidden' name='p' value='2' />
 			</form>";
+
 $body="<table class='tab_cadrehov'>
-
 	<tr class='tab_bg_2'>
-		<th>
-		    <a href='#'>Дата</a><br>
-
-	    </th>
+		<th><a href='#'>Дата</a><br></th>
 		<th><a href='#'>ФИО</a></th>
 		<th><a href='#'>Должность</a></th>
 		<th><a href='#'>Отдел</a></th>
@@ -220,28 +36,19 @@ $body="<table class='tab_cadrehov'>
 		<th><a href='#'>Последний выход</a></th>
 		<th><a href='#'>Находился в здании<br>минут</a></th>
 		<th><a href='#'>Утренняя переработка<br>минут</a></th>
-	</tr>
-	";
+	</tr>";
 
-if (isset($_REQUEST['l_id_del']) && strlen($_REQUEST['l_id_del'])>1) $base=get_by_id($_REQUEST['l_id_del'],$db);
-elseif ($_REQUEST['flag'] == 2) update_by_id($_REQUEST['id_new'],date("Y-m-d H:i:s",strtotime($_REQUEST['in_new'])),date("Y-m-d H:i:s",strtotime($_REQUEST['out_new'])),$_REQUEST['in_time_new'],$_REQUEST['b_time_new'],$db);
 $res=mssql_query($query);
-$body.="<form action='index.php' method='post' name='get' id='get'>
-            <input type='hidden' value='2' name='p' id='p'/>
-            <input type='hidden' name='l_id_del' id='l_id_del' value='1'>
-            <input type='hidden' value='".$d."' name='d' id='d'/>
-            <input type='hidden' value='".$m."' name='m' id='m'/>
-            <input type='hidden' value='".$y."' name='y' id='y'/>";
-while($row=mssql_fetch_row($res)) {
-	$body.= "<tr style='cursor:pointer;' class='tab_bg_1' onclick='document.getElementById(\"l_id_del\").value=\"".$row[12]."\";document.get.submit();'>
-		<td>".date('d.m.Y',strtotime($row[0]))."</td>
-		<td>".$row[1]." ".$row[2]."</td>
-		<td>".$row[3]."</td>
-		<td>".$row[4]."</td>
-		<td><abbr title='".date('d.m.Y H:i:s',strtotime($row[5]))."'>".date('H:i:s',strtotime($row[5]))."</abbr></td>
-		<td><abbr title='".date('d.m.Y H:i:s',strtotime($row[6]))."'>".date('H:i:s',strtotime($row[6]))."</abbr></td>
-		<td>".$row[7]."</td>
-		<td>".$row[8]."</td>";
+while($r=mssql_fetch_row($res)) {
+	$body.= "<tr style='cursor:pointer;' class='tab_bg_1'>
+		<td onclick='usrTIMEjs(".$r[12].",5);'>".date('d.m.Y',strtotime($r[0]))."</td>
+		<td><img src='../pics/aide.png' onclick='usrTIMEjs(".$r[11].",1,\"".$domain."\");wait_user.style.visibility=\"visible\";'> ".$r[1]." ".$r[2]."</td>
+		<td onclick='usrTIMEjs(".$r[12].",5);'>".$r[3]."</td>
+		<td onclick='usrTIMEjs(".$r[12].",5);'>".$r[4]."</td>
+		<td onclick='usrTIMEjs(".$r[12].",5);'><abbr title='".date('d.m.Y H:i:s',strtotime($r[5]))."'>".date('H:i:s',strtotime($r[5]))."</abbr></td>
+		<td onclick='usrTIMEjs(".$r[12].",5);'><abbr title='".date('d.m.Y H:i:s',strtotime($r[6]))."'>".date('H:i:s',strtotime($r[6]))."</abbr></td>
+		<td onclick='usrTIMEjs(".$r[12].",5);'>".$r[7]."</td>
+		<td onclick='usrTIMEjs(".$r[12].",5);'>".$r[8]."</td>";
 }
 $body.="</form></table>";
 $body=$body.$base;

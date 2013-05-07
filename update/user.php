@@ -127,7 +127,7 @@ $base.="<form action='index.php' method='post' name='get' id='get'>
 $i=0;
 while ($r=mssql_fetch_row($res)) {
     $i++;
-    $base.="<tr class='tab_bg_1' name='".$r[7]."' id='".$r[7]."' onclick='usrSKUDjs(".$r[7].",1,\"".$domain."\");'>". //fill_change(this);
+    $base.="<tr class='tab_bg_1' name='".$r[7]."' id='".$r[7]."' onclick='usrTIMEjs(".$r[7].",1,\"".$domain."\");'>". //fill_change(this);
             "<td style='text-align:center;'>".$i."</td>
 			<td>".$r[0]."</td>
 			<td>".$r[1]."</td>
@@ -138,7 +138,7 @@ while ($r=mssql_fetch_row($res)) {
 			<td>".(($r[8])?"<span style='font-size:9px;color:#c0272b;'>Уволен</span>":"<span style='font-size:9px;color:#008844;'>Работает</span>")."</td></tr>";
 }
 unset($i);
-$base.="<tr style='cursor: pointer;' class='tab_bg_1' onclick='document.getElementById(\"p_id_del\").value=\"0\";document.getElementById(\"showall\").value=\"".(($showall)?"0":"1")."\";document.get.submit();'>
+$base.="<tr style='cursor: pointer;' class='tab_bg_1' onclick='p_id_del.value=\"0\";showall.value=\"".(($showall)?"0":"1")."\";get.submit();'>
 			<td><span style='font-size:9px;color:#c0272b;'>...</span></td>
 			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>
 			<td><span style='font-size:9px;color:#c0272b;'>Уволенные</span></td>

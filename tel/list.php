@@ -43,7 +43,7 @@ $base.="<tr style='cursor: pointer;' class='tab_bg_1' onclick='showall.value=\""
 			<td><span style='font-size:9px;color:#008844;'>Рабочие</span></td>
 			<td><span style='font-size:9px;color:#008844;'>Рабочие</span></td></tr>";
 $base.="</form></table>";
-$body="<table style='cursor: pointer;' class='tab_cadrehov'>
+$body="<table style='cursor: pointer;' class='tab_cadrehov' id='main_table' name='main_table'>
 	<tr class='tab_bg_2'>
 	    <th>№</th>
 		<th>Номер</th>

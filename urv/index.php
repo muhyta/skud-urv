@@ -30,6 +30,7 @@ $html=str_ireplace("%centerbar%",$body,$html);
 $html=str_ireplace("%footer%",$footer,$html);
 $html=str_ireplace("%header%",$header,$html);
 $html=str_ireplace("%add%",$add,$html);
+$html=str_ireplace("%domain%","http://www.".$domain,$html);
 
 mssql_close($db);
 $vers = round(microtime(true) - $start,2)."s - " . $vers;

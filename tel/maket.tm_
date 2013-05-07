@@ -74,6 +74,11 @@
                 </tr>
                 <tr>
                     <td class='tab_bg_2'>
+                        <input type='button' value='Очистить' onclick='telNumjs(id.value,4);' style='width:150px;height:24px;'>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='tab_bg_2'>
                         <input type='button' value='Сохранить' onclick='telNumjs(id.value,2);' style='width:150px;height:24px;'>
                     </td>
                 </tr>

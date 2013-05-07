@@ -39,6 +39,7 @@ body {
    padding: 0;
 	background-image: url('/pics/fon.png');
    background-repeat:  repeat-x;
+    background-attachment: fixed;
 }
 
 ul, li, dt, dl, dd, form, img, input {
