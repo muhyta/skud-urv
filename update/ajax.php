@@ -5,7 +5,6 @@ function get_user($id,$db) {
     $query="SELECT Workers.F_Worker, Workers.N_Worker, Workers.P_Worker, Workers.Login, Workers.ID_Post, Workers.ID_Otdel, Workers.ID_Worker, Workers.Fl_Rel, Workers.I_Worker FROM Workers WHERE (Workers.ID_Worker='".$id."');";
     $res=mssql_query($query,$db);
     $r=mssql_fetch_row($res);
-    //       id | w_f_new | w_n_new | w_p_new | w_l_new | w_post_new | w_otdel_new | w_fired | w_i_new
     $tor=$r[6]."|".iconv('CP1251','UTF-8',$r[0])."|".iconv('CP1251','UTF-8',$r[1])."|".iconv('CP1251','UTF-8',$r[2])."|".$r[3]."|".$r[4]   ."|".$r[5]    ."|".$r[7]."|".iconv('CP1251','UTF-8',$r[8]);//iconv('CP1251','UTF-8',$r[3])."|".iconv('CP1251','UTF-8',$r[4])."|".$r[2];
     return $tor;}
 
