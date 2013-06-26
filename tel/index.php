@@ -4,6 +4,12 @@ $start = microtime(true);
 $html=file_get_contents("maket.tm_"); //---загрузка макета страницы
 include_once("../config.php");
 $vers="1v"; //---version
+$mainmenu="<a href='http://comm.".$domain."/'>Главная</a>
+    <a href='http://comm.".$domain."/update/index.php'>CКУД</a>
+    <a href='http://comm.".$domain."/urv/'>УРВ</a>
+    <a href='http://comm.".$domain."/tdms/'>ТДМС</a>
+    <a style='background-color:rgb(221,255,112);' href='http://comm.".$domain."/tel/'>Телефония</a>
+    <a href='http://comm.".$domain."/graphic/'>ОИТ</a>";
 $menu="<li id='menu1'><a href='/tel/?p=1' class='itemP' onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Список</a></li>
 	<li id='menu2'><a href='/tel/?p=2'  class='itemP' onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Ничего</a></li>";
 $add="";
@@ -24,6 +30,7 @@ if (substr_count($_SERVER['AUTH_USER'],$admin_u[0]) || substr_count($_SERVER['AU
 else $add = "Access denied!";
 
 $html=str_ireplace("%menu%",$menu,$html);
+$html=str_ireplace("%mainmenu%",$mainmenu,$html);
 $html=str_ireplace("%centerbar%",$body,$html);
 $html=str_ireplace("%footer%",$footer,$html);
 $html=str_ireplace("%domain%","http://www.".$domain,$html);

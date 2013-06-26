@@ -28,8 +28,8 @@ function add($id,$num_new,$user_new,$black_new,$organization_new,$comment_new,$d
     $num_new=str_ireplace(" ","",$num_new);
     $num_new=trim($num_new);
     if ((substr($num_new,0,1) != "7" || substr($num_new,0,1) != "8") && strlen($num_new) == 10) $num_new="7".$num_new;
-    if (!isset($user_new) || substr_count($user_new,"Пользователь") > 0) $user_new="";
-    if (!isset($comment_new) || $comment_new=="Коментарий") $comment_new=date('d-m-Y');
+    if (!isset($user_new) || substr_count($user_new,"Пользователь") > 0) $user_new="0";
+    if (!isset($comment_new) || $comment_new=="Комментарии") $comment_new=date('d-m-Y');
     if (!isset($organization_new) || $organization_new=="Организация") $organization_new=date('d-m-Y');
     if ($id == 0) $id = $num_new;
     $r=mssql_fetch_array(mssql_query("SELECT number FROM phones WHERE (number = ".$num_new.")",$db));

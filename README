@@ -10,6 +10,12 @@ INSTALL:
 - Rename file "config_.php" to "config.php";
 - Fill in all your credentials in "config.php".
 
+VERSION CHANGES (1.2.3):
+- изменение представления формы загрузки отчетов из системы СКУД (parskud/maket.tm_)
+- изменение функции добавление объекта в УРВ, переход на систему AJAX для удобного использования в среде TDMS (urv/ajax.php);
+- добавлена форма отображения времени по отделам в графическом виде (index.php?p=9):
+-- использована система Open Flash Chart (http://teethgrinder.co.uk/open-flash-chart/)
+
 VERSION CHANGES (1.2.2):
 - изменена форма редактирования пользователей, переход на систему AJAX (СКУД - Пользователи);
 - изменена форма редактирования телефонов, переход на систему AJAX (Телефония).

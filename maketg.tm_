@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<meta http-equiv="content-type" content="text/html; charset=windows-1251" />
+<link rel='stylesheet' type='text/css' href='style.css'>
+<link rel='stylesheet' type='text/css' href='style_from_glpi.css'>
+<script src="script.js" type="text/javascript"></script>
+<link href="/favicon.ico" type="images/x-icon" rel="shortcut icon">
+
+
+<head>
+	<title>
+		Статистика СКУД УРВ
+	</title>
+</head>
+<body class=" ext-gecko ext-gecko3">
+<div id='header'>
+    <?php
+        if (isset($_REQUEST['m'])) $m=$_REQUEST['m'];
+	    else $m=date('m');
+        if (isset($_REQUEST['y'])) $y=$_REQUEST['y'];
+	    else $y=date('Y')-1;
+	?>
+	<div id='c_logo'><a href='/'> </a></div>
+	<div id='c_preference'><a href='http://comm.gtptmn.gtp.transneft.ru/update/index.php'>СКУД</a> <a href='http://comm.gtptmn.gtp.transneft.ru/urv/'>УРВ</a> <a href='http://comm.gtptmn.gtp.transneft.ru/tel/'>Телефония</a> <a href='http://comm.gtptmn.gtp.transneft.ru/graphic/'>ОИТ</a></div>
+	<div id="c_recherche">
+		 
+		<div id="boutonRecherche"> </div>
+		<div id="champRecherche"> </div> 
+		<div class="sep"> </div>
+	</div>
+	<div id='c_menu'>
+		<ul id='menu'>
+            <li id='menu1'><a href='#' class='itemP' onclick="start();document.getElementById('p').value=1;document.getElementById('filt').submit();" onmouseover="this.style.backgroundColor='rgb(221,255,112)';" onmouseout="this.style.backgroundColor='transparent';">УРВ > СКУД</a></li>
+            <li id='menu2'><a href='#' class='itemP' onclick="start();document.getElementById('p').value=2;document.getElementById('filt').submit();" onmouseover="this.style.backgroundColor='rgb(221,255,112)';" onmouseout="this.style.backgroundColor='transparent';">УРВ > 0 и СКУД = 0</a></li>
+            <li id='menu3'><a href='#' class='itemP' onclick="start();document.getElementById('p').value=3;document.getElementById('filt').submit();" onmouseover="this.style.backgroundColor='rgb(221,255,112)';" onmouseout="this.style.backgroundColor='transparent';">УРВ = 0 и СКУД > 0</a></li>
+            <li id='menu4'><a href='#' class='itemP' onclick="start();document.getElementById('p').value=4;document.getElementById('filt').submit();" onmouseover="this.style.backgroundColor='rgb(221,255,112)';" onmouseout="this.style.backgroundColor='transparent';">СКУД > УРВ</a></li>
+            <li id='menu5'><a href='index.php?p=6' class='itemP' onclick="start();document.getElementById('p').value=6;document.getElementById('filt').submit();" onmouseover="this.style.backgroundColor='rgb(221,255,112)';" onmouseout="this.style.backgroundColor='transparent';">Средний трудодень(СКУД)</a></li>
+            <li id='menu6'><a href='index.php?p=7' class='itemP' onclick="start();document.getElementById('p').value=7;document.getElementById('filt').submit();" onmouseover="this.style.backgroundColor='rgb(221,255,112)';" onmouseout="this.style.backgroundColor='transparent';">Средний трудодень(УРВ)</a></li>
+            <li id='menu7'><a href='index.php?p=8' class='itemP' onclick="start();document.getElementById('p').value=8;document.getElementById('filt').submit();" onmouseover="this.style.backgroundColor='rgb(221,255,112)';" onmouseout="this.style.backgroundColor='transparent';">Отчет (УРВ)</a></li>
+		</ul>
+	</div>
+	<div id='c_ssmenu1'></div>
+</div>
+<div id='page'>
+	<table class='tab_cadre_pager'>
+		<tr>
+			<td class='tab_bg_2'>График среднего трудодня <br>(по СКУД)</td>
+		</tr>
+        <tr>
+            <td><form method='post' action='index.php' id='filt' name='filt'>
+                <input name='p' id='p' value='9' type='hidden'>
+                <select name="m" onchange="start();filt.submit();">
+                    <?php
+                    $month=array(0 => "<option value='0'>За год</option>",
+                    1 => "<option value='01'>Январь</option>",
+                    2 => "<option value='02'>Февраль</option>",
+                    3 => "<option value='03'>Март</option>",
+                    4 => "<option value='04'>Апрель</option>",
+                    5 => "<option value='05'>Май</option>",
+                    6 => "<option value='06'>Июнь</option>",
+                    7 => "<option value='07'>Июль</option>",
+                    8 => "<option value='08'>Август</option>",
+                    9 => "<option value='09'>Сентябрь</option>",
+                    10 => "<option value='10'>Октябрь</option>",
+                    11 => "<option value='11'>Ноябрь</option>",
+                    12 => "<option value='12'>Декабрь</option>",
+                    20 => "<option selected value='0'>За год</option>",
+                    21 => "<option selected value='01'>Январь</option>",
+                    22 => "<option selected value='02'>Февраль</option>",
+                    23 => "<option selected value='03'>Март</option>",
+                    24 => "<option selected value='04'>Апрель</option>",
+                    25 => "<option selected value='05'>Май</option>",
+                    26 => "<option selected value='06'>Июнь</option>",
+                    27 => "<option selected value='07'>Июль</option>",
+                    28 => "<option selected value='08'>Август</option>",
+                    29 => "<option selected value='09'>Сентябрь</option>",
+                    30 => "<option selected value='10'>Октябрь</option>",
+                    31 => "<option selected value='11'>Ноябрь</option>",
+                    32 => "<option selected value='12'>Декабрь</option>");
+
+                    for ($i=0;$i<13;$i++){
+                        if ($i != $m) $m_sel.=$month[$i];
+                    else $m_sel.=$month[$i+20];}
+                    echo $m_sel;
+                    ?>
+                </select>
+                <select name="y" onchange="start();filt.submit();">
+                <?php
+                    $year=array( 0 => "<option value='2010'>2010</option>",
+                        1 => "<option value='2011'>2011</option>",
+                        2 => "<option value='2012'>2012</option>",
+                        3 => "<option value='2013'>2013</option>",
+                        4 => "<option value='2014'>2014</option>",
+                        5 => "<option value='2015'>2015</option>",
+                        20 => "<option selected value='2010'>2010</option>",
+                        21 => "<option selected value='2011'>2011</option>",
+                        22 => "<option selected value='2012'>2012</option>",
+                        23 => "<option selected value='2013'>2013</option>",
+                        24 => "<option selected value='2014'>2014</option>",
+                        25 => "<option selected value='2015'>2015</option>");
+
+                    for ($i=0;$i<6;$i++){
+                        if (($i+2010) != $y) $y_sel.=$year[$i];
+                        else $y_sel.=$year[$i+20];
+                    }
+                    echo $y_sel;
+                ?>
+                </select>
+            </form></td>
+        </tr>
+	</table>	
+	<br>
+
+	<div class='center'>
+
+        <?php
+        if ($_REQUEST['p'] == 6 || $_REQUEST['p'] == 9) {
+            set_include_path(get_include_path() . PATH_SEPARATOR . '/ext');
+            include_once 'ext/php-ofc-library/open_flash_chart_object.php';
+            open_flash_chart_object( '100%', 600, 'http://'. $_SERVER['SERVER_NAME'] .'/9-graph.php?m='.$m.'&y='.$y, false );
+            }
+        ?>
+
+    </div>
+</div>
+<div id="footer">
+	<table width="100%">
+		<tr>
+			<td class="left"><span class="copyright">%version%</span></td>
+			<td class="right"><a href="%domain%"><span class="copyright">%footer%</span></a></td>
+		</tr>
+	</table>
+</div>
+<div id="wait_block" style="visibility:hidden;">
+
+<div id="wait" style="visibility:hidden;">
+<img src="/pics/wait.gif">
+</div>
+</div>
+</body>
+</html>

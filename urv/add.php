@@ -79,7 +79,7 @@ $base.="<form action='index.php' method='post' name='get' id='get'>
     <input type='hidden' name='p_id_del' id='p_id_del' value='1'>";
 while ($r=mssql_fetch_row($res)) {
     $base.="<tr  onclick='document.getElementById(\"p_id_del\").value=\"".$r[2]."\";document.get.submit();' class='tab_bg_1'>
-			<td>".((strlen($r[0])>32)?"<abbr title='".$r[0]."'>".substr($r[0],0,32)."...</abbr>":$r[0])."</td>
+			<td>".$r[0]."</td>
 			<td>".((strlen($r[1])>140)?"<abbr title='".$r[1]."'>".substr($r[1],0,140)."...</abbr>":$r[1])."</td>
 			<td>".$r[2]."</td></tr>";
 }

@@ -92,6 +92,9 @@ $menu="<li id='menu1'><a href='#' class='itemP' onclick=\"start();document.getEl
         case "8": $header=$m.".".$y.": Отчет работник - проект <br>(по УРВ)";
             $menu=str_ireplace("<li id='menu7'>","<li id='menu7' style='background-color:rgb(221,255,112);'>",$menu);
             include("8.php"); break;
+        case "9": set_include_path(get_include_path() . PATH_SEPARATOR . '/ext');
+            include ('maketg.tm_');
+            break;
 		default: $header=$m.".".$y.": Средний трудодень <br>(по СКУД)";
 			include("6.php");}
 ?>

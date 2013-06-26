@@ -77,5 +77,39 @@ html, body {
 	border:none;
 }
 
+/* ################--------------- Wait  ---------------#################### */
 
+.wait {
+    background: white;
+    opacity: 1; /* ?????????????? ??? */
+    filter: alpha(Opacity=100);
+    position: fixed;
+    z-index:100;
+    left: -5px;
+    /* right: 80%; */
+    width: 210px;
+    /* top:35%; */
+    margin: 50px 0px 50px 0px;
+    border:2px solid gray;
+}
+
+.wait_block {
+    background: white;
+    opacity: 0.3; /* ?????????????? ??? */
+    filter: alpha(Opacity=30);
+    position: absolute;
+    z-index:50;
+    left:0px;
+    top:0px;
+    width:90%;
+    height:100%;
+}
+
+#wait_user {
+    top:45%;
+}
+
+#wait_time {
+    top:25%;
+}
 

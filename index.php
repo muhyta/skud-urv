@@ -1,8 +1,13 @@
 <?php
 //error_reporting(E_ALL);ini_set("display_errors", 1);
 $start = microtime(true);
-$links="";
-$ads="";
+$links="";$ads="";$add="";
+$mainmenu="<a href='http://comm.".$domain."/update/index.php'>СКУД</a>
+    <a href='http://comm.".$domain."/urv/'>УРВ</a>
+    <a href='http://comm.".$domain."/tdms/'>ТДМС</a>
+    <a href='http://comm.".$domain."/tel/'>Телефония</a>
+    <a href='http://comm.".$domain."/graphic/'>ОИТ</a>";
+$title="Статистика СКУД УРВ";
 function getUserList() {
     $dbsql01=mssql_connect("SQL01-GTPTMN","command","jlv8ykxred");
     mssql_select_db("sspd_new",$dbsql01);
@@ -31,12 +36,18 @@ if (isset($_REQUEST['m'])) $m=$_REQUEST['m'];
 if (isset($_REQUEST['y'])) $y=$_REQUEST['y'];
 	else $y=date('Y');
 
-$vers="";
-$html=file_get_contents("maket.tm_");   //---загрузка макета страницы
 include_once('config.php');             //---конфигурация и аутентифицирующие данные
+
+$vers="";
+
+if ($_REQUEST['p'] != 9) $html=file_get_contents("maket.tm_"); //---загрузка макета страницы
+
 include_once('comm.php');               //---выборка по списку представлений
 
+$html=str_ireplace("%mainmenu%",$mainmenu,$html);
 $html=str_ireplace("%menu%",$menu,$html);
+$html=str_ireplace("%add%",$add,$html);
+$html=str_ireplace("%title%",$title,$html);
 $html=str_ireplace("%leftbar%",$links,$html);
 $html=str_ireplace("%rightbar%",$ads,$html);
 $html=str_ireplace("%centerbar%",$body,$html);
@@ -48,6 +59,5 @@ $vers = round(microtime(true) - $start,2)."s - " . $vers;
 $html=str_ireplace("%version%",$vers,$html);
 $users=getUserList();
 $info=$users[substr($_SERVER['AUTH_USER'],7)][0]."\n".$users[substr($_SERVER['AUTH_USER'],7)][1]."\n".$users[substr($_SERVER['AUTH_USER'],7)][2];
-//$html=str_ireplace("ОИТ","<abbr title='".$info."'>ОИТ</abbr>",$html);
 echo $html;                             //---отображение страницы
 ?>

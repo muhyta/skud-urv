@@ -4,17 +4,18 @@ $start = microtime(true);
 $html=file_get_contents("maket.tm_"); //---загрузка макета страницы
 include_once("../config.php");
 $vers="1v"; //---version
+$mainmenu="<a href='http://comm.".$domain."/'>Главная</a>
+            <a style='background-color:rgb(221,255,112);' href='http://comm.".$domain."/update/index.php'>CКУД</a>
+            <a href='http://comm.".$domain."/urv/'>УРВ</a>
+            <a href='http://comm.".$domain."/tdms/'>ТДМС</a>
+            <a href='http://comm.".$domain."/tel/'>Телефония</a>
+            <a href='http://comm.".$domain."/graphic/'>ОИТ</a>";
 $menu="<li id='menu1'><a href='/parskud/' class='itemP' onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Импорт</a></li>
-	<li id='menu2'><a href='/update/index.php?p=2'  class='itemP' onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Администрирование</a></li>
+	<li id='menu2'><a href='/update/index.php?p=2' class='itemP' onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Администрирование</a></li>
 	<li id='menu3'><a href='/update/index.php?p=1' class='itemP' onmouseover=\"this.style.backgroundColor='rgb(221,255,112)';\" onmouseout=\"this.style.backgroundColor='transparent';\">Пользователи</a></li>";
 $add="";
+$wait_user="hidden";
 
-if (isset($_REQUEST['m'])) $m=$_REQUEST['m'];
-	else $m=date('m');
-if (isset($_REQUEST['y'])) $y=$_REQUEST['y'];
-	else $y=date('Y');
-if (isset($_REQUEST['d'])) $d=$_REQUEST['d'];
-	else $d=date('d');
 
 if (substr_count($_SERVER['AUTH_USER'],$admin_u[0]) || substr_count($_SERVER['AUTH_USER'],$admin_u[1]) || substr_count($_SERVER['AUTH_USER'],$admin_u[2])) {
     if (isset($_REQUEST['p'])) $p=$_REQUEST['p']; else $p="2";
@@ -22,6 +23,7 @@ if (substr_count($_SERVER['AUTH_USER'],$admin_u[0]) || substr_count($_SERVER['AU
         case "1":
             $header="Пользователи<br><span style='font-size:11px;color:#c0272b;'>Для добавления пользователя заполните поля формы и нажмите \"Сохранить\"<br>Для редактирования пользователя, выберите его из списка.</span>";
             $menu=str_ireplace("<li id='menu3'>","<li id='menu3' style='background-color:rgb(221,255,112);'>",$menu);
+            $wait_user="visible";
             include("user.php"); break;
         case "2":
             $header="Администрирование<br><span style='font-size:11px;color:#c0272b;'>Для изменения времени в СКУД выберите дату и нажмите на необходимую запись в таблице</span>";
@@ -34,6 +36,7 @@ if (substr_count($_SERVER['AUTH_USER'],$admin_u[0]) || substr_count($_SERVER['AU
 else $add = "Access denied!";
 
 $html=str_ireplace("%menu%",$menu,$html);
+$html=str_ireplace("%mainmenu%",$mainmenu,$html);
 $html=str_ireplace("%centerbar%",$body,$html);
 $html=str_ireplace("%footer%",$footer,$html);
 $html=str_ireplace("%domain%","http://www.".$domain,$html);
@@ -44,6 +47,7 @@ $html=str_ireplace("%add%",$add,$html);
 $html=str_ireplace("%log%",$log,$html);
 $html=str_ireplace("%posts%",$post_sel,$html);
 $html=str_ireplace("%otdels%",$otd_sel,$html);
+$html=str_ireplace("%wait_user%",$wait_user,$html);
 //---2
 $html=str_ireplace("%fio_sel%",$fio_sel,$html);
 $html=str_ireplace("%dolz_sel%",$dolz_sel,$html);
